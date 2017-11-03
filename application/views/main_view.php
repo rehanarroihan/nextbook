@@ -44,11 +44,14 @@
                       <a href="#!name"><span class="white-text name"><?php echo $this->session->userdata('username'); ?></span></a>
                       <a href="#!email"><span class="white-text email"><?php echo $this->session->userdata('email');?></span></a>
                     </div></li>
-                    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-                    <li><a href="#!">Second Link</a></li>
+                    <li><a class="waves-effect" href="<?php echo base_url() ?>home"><i class="material-icons">dashboard</i>Home</a></li>
+                    <li><a class="waves-effect" href="#!"><i class="material-icons">schedule</i>Schedule</a></li>
+                    <li><a class="waves-effect" href="#!"><i class="material-icons">archive</i>Archive</a></li>
+                    <li><a class="waves-effect" href="#!"><i class="material-icons">share</i>Share</a></li>
+                    <li><a class="waves-effect" href="#!"><i class="material-icons">settings</i>Setting</a></li>
                     <li><div class="divider"></div></li>
-                    <li><a class="subheader">Subheader</a></li>
-                    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+                    <!-- <li><a class="subheader">Subheader</a></li> -->
+                    <li><a class="waves-effect" href="#!"><i class="material-icons">exit_to_app</i>Logout</a></li>
                 </ul>
                 <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
             </div>
@@ -59,8 +62,20 @@
             <div class="col s3 hide-on-med-and-down" style="margin-bottom:69px">
             <!-- SIDEBAR SECTION -->
                 <ul class="collapsible" data-collapsible="accordion">
+                    <?php if($this->uri->segment(1) != 'profile'): ?>
                     <li>
-                        <div onclick="location.href='<?php echo base_url() ?>home';" class="collapsible-header waves-effect"><i class="material-icons">dashboard</i>Home</div>
+                        <div class="collapsible-header waves-effect">
+                            <img src="<?php echo base_url() ?>assets/img/blue.jpg" style="height:70px;width:70px;border-radius:50px">
+                            <p><?php echo $this->session->userdata('dspname'); ?></p><br>
+                            <p><?php echo '@'.$this->session->userdata('username'); ?></p>
+                        </div>
+                    </li>
+                    <?php endif; ?>
+                    <li>
+                        <div onclick="location.href='<?php echo base_url() ?>home';" class="collapsible-header waves-effect"><i class="material-icons">home</i>Home</div>
+                    </li>
+                    <li>
+                        <div onclick="location.href='<?php echo base_url() ?>home';" class="collapsible-header waves-effect"><i class="material-icons">dashboard</i>Card</div>
                     </li>
                     <li>
                         <div class="collapsible-header waves-effect"><i class="material-icons">schedule</i>Schedule</div>
@@ -147,7 +162,7 @@
     <footer style="width:100%;bottom:0;" class="page-footer grey darken-1">
         <div class="footer-copyright">
             <div class="container">
-                Made by Arek Bonek
+                Made byebye fifer
             </div>
         </div>
     </footer>

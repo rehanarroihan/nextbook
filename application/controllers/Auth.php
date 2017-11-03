@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+include_once APPPATH."libraries/PHPMailer/PHPMailerAutoload.php";
 class Auth extends CI_Controller {
 
 	public function __construct(){
@@ -57,7 +58,6 @@ class Auth extends CI_Controller {
 	}
 
 	public function registers(){
-		include_once APPPATH."libraries/PHPMailer/PHPMailerAutoload.php";
 		if($this->input->post('registers')){
 			$this->form_validation->set_rules('fullname', 'Fullname', 'trim|required');
 			$this->form_validation->set_rules('username', 'User name', 'trim|required|min_length[4]');
@@ -155,10 +155,6 @@ class Auth extends CI_Controller {
 		}
 	}
 
-	public function recovery(){
-		echo 'coming soon';
-	}
-
 	public function fun(){
 		$this->load->view('auth/email');
 	}
@@ -170,56 +166,44 @@ class Auth extends CI_Controller {
 		$this->load->view('auth/forgot_view');
 	}
 
-	public function test(){
-		$characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    	$result = '';
-    	for ($i = 0; $i < 32; $i++){
-        	$result .= $characters[mt_rand(0, 61)];
-    	}
-    	echo $result;
-	}
-
 	public function forgots(){
+		$token = $this->Auth_model->generate32key();
 		if($this->input->post('forgot')){
 			$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-			if($this->form_validation->run() == true) {
-				if($this->Auth_model->emailCheck($this->input->post('email')) == false){
-					if($this->Auth_model->reqChangePass($this->input->post('email')) == true){
-						$lk1 = md5($this->input->post('username'));
-						$link = base_url().'auth/'.'reset/'.$this->input->post('username').'/'.$lk1;
-						$mail = new PHPMailer();
-							$mail->IsSMTP();
-        					$mail->SMTPAuth   = true;
-        					$mail->SMTPSecure = "ssl";
-					        $mail->Host       = "mail.nextbook.cf";
-					        $mail->Port       = 465;
-					        $mail->Username   = "noreply@nextbook.cf";
-					        $mail->Password   = "nextbook4321";
-					        $mail->SetFrom('noreply@nextbook.cf', 'Nextbook Support');     
-					        $mail->Subject    = "Password Reset - Nextbook";
-					        $ml['usern']	= $this->input->post('fullname');
-					        $ml['link']		= $link;
-					        $mail->Body      = $this->load->view('auth/email_forgot', $ml, true);
-					        $mail->IsHTML(true);
-					        $mail->addAddress($this->input->post('email'), $this->input->post('fullname'));
-							if($mail->Send()){
-								if($this->Auth_model->regVal() == true){
-									$bre = md5($this->input->post('email'));
-									redirect('auth/complete?mail='.$this->input->post('email').'&uname='.$this->input->post('username'));
-								}else{
-									$this->session->set_flashdata('announce', 'Something went wrong, please try again later 1');
-									redirect('auth/register');
-								}
-							}else{
-								//echo "Error: " . $mail->ErrorInfo;
-								//echo $this->email->print_debugger();
-								$this->session->set_flashdata('announce', 'Something went wrong, please try again later 2');
-								redirect('auth/register');
-							}
+			if($this->form_validation->run() == true){
+				$email = $this->input->post('email');
+				$dspname = $this->Auth_model->getDSPfromEmail($email);
+				if($this->Auth_model->emailCheck($email) == false){
+					$link = base_url().'auth/'.'reset/'.$token;
+					$mail = new PHPMailer();
+					$mail->IsSMTP();
+       				$mail->SMTPAuth   = true;
+       				$mail->SMTPSecure = "ssl";
+			        $mail->Host       = "mail.nextbook.cf";
+				    $mail->Port       = 465;
+				    $mail->Username   = "noreply@nextbook.cf";
+			        $mail->Password   = "nextbook4321";
+				    $mail->SetFrom('noreply@nextbook.cf', 'Nextbook Support');
+				    $mail->Subject    = "Password Reset - Nextbook";
+			        $ml['usern']	= $this->Auth_model->getUSRfromEmail($email);
+				    $ml['link']		= $link;
+				    $mail->Body      = $this->load->view('auth/email_forgot', $ml, true);
+				    $mail->IsHTML(true);
+				    $mail->addAddress($email, $dspname);
+					if($mail->Send()){
+						if($this->Auth_model->reqChangePass($email, $token) == true){
+							$this->session->set_flashdata('announce', 'Silahkan cek email anda, link sudah kami kirimkan');
+							redirect('auth/forgot');
+						}else{
+							$this->session->set_flashdata('announce', 'Something went wrong, please try again later');
+							redirect('auth/forgot');
+						}
 					}else{
+						//echo "Error: " . $mail->ErrorInfo;
+						//echo $this->email->print_debugger();
 						$this->session->set_flashdata('announce', 'Something went wrong, please try again later');
 						redirect('auth/forgot');
-					}
+					}					
 				}else{
 					$this->session->set_flashdata('announce', 'Email not registered');
 					redirect('auth/forgot');
@@ -228,6 +212,49 @@ class Auth extends CI_Controller {
 				$this->session->set_flashdata('announce', 'Please provide a valid email address');
 				redirect('auth/forgot');
 			}
+		}else{
+			redirect('auth');
+		}		
+	}
+
+	public function reset(){
+		$token = $this->uri->segment(3);
+		if($this->Auth_model->checkToken($token) == true){
+			if($this->Auth_model->checkPassStatus($token) == true){
+				$this->load->view('auth/reset_view');
+			}else{
+				$this->load->view('errors/404_view');
+			}
+		}else{
+			$this->load->view('errors/404_view');
+		}
+	}
+
+	public function resets(){
+		$empat = $this->input->post('token');
+		if($this->input->post('reset')){
+			$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]');
+			if ($this->form_validation->run() == true){
+				$pass = $this->input->post('password');
+				$cpass = $this->input->post('cpassword');
+				if($pass == $cpass){
+					if($this->Auth_model->goReset() == true){
+						$this->session->set_flashdata('announce', 'Reset password success');
+						redirect('auth/login');
+					}else{
+						$this->session->set_flashdata('announce', 'An error occurred, please try again later');
+						redirect('auth/reset/'.$empat);
+					}
+				}else{
+					$this->session->set_flashdata('announce', 'Password doesnt match');
+					redirect('auth/reset/'.$empat); 
+				}	
+			}else{
+				$this->session->set_flashdata('announce', validation_errors());
+				redirect('auth/reset/'.$empat);
+			}
+		}else{
+			redirect('auth');
 		}
 	}
 }

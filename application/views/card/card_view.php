@@ -1,3 +1,4 @@
+<link href="/components/formstone/dist/css/component.css" rel="stylesheet">
 <div class="col s12 m12 l12">
     <div class="card <?php echo $card->color ?> lighten-1">
         <div class="card-content white-text" style="padding-left:30px">
@@ -32,12 +33,12 @@
       </a>
       <ul>
           <li><a class="btn-floating red tooltipped modal-trigger" data-target="modal-add-link" data-position="left" data-delay="50" data-tooltip="Add link"><i class="material-icons">link</i></a></li>
-          <li><a class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="Upload file"><i class="material-icons">file_upload</i></a></li>
+          <li><a class="btn-floating blue tooltipped modal-trigger" data-target="modal-add-file" data-position="left" data-delay="50" data-tooltip="Upload file"><i class="material-icons">file_upload</i></a></li>
       </ul>
   </div>
 
    <!-- Modal : Add link into card -->
-  <div id="modal-add-link" class="modal">
+  <div id="modal-add-link" style="width:30%" class="modal">
       <div class="modal-content">
           <h4>Add Link</h4>
           <p style="margin-top:-15px">Add link into card</p><br><br>
@@ -51,12 +52,7 @@
                           <label>Link</label>
                       </div>
                   </div>
-                  <div class="row" style="margin-top:-45px">
-                      <div class="col m7"></div>
-                      <div class="col m5">
-                          <input type="submit" name="savelink" class="waves-effect waves-light btn pull-m2" value="Save">
-                      </div>
-                    </div>
+                  <input type="submit" style="margin-top:-20px" name="savelink" class="waves-effect waves-light btn right" value="Save">
               </form>
           </div>
       </div>
@@ -70,11 +66,10 @@
           <div class="row" style="margin-bottom:12px">
               <form method="post" action="<?php echo base_url() ?>card/uploads">
                   <div class="row" style="margin-top:-45px">
-                      <div class="input-field col s12">
-                          <i class="material-icons prefix">link</i>
-                          <input type="text" class="validate" name="link" required>
-                          <label>Link</label>
-                      </div>
+                      <form action="<?php echo base_url() ?>" method="post" enctype="multipart/form-data">
+                        <input type="file" name="files">
+                        <input type="submit">
+                    </form>
                   </div>
               </form>
           </div>
@@ -84,7 +79,6 @@
     </div>
   </div>
 </div>
-
 <script type="text/javascript">
   $(document).ready(function(){
     $('.tooltipped').tooltip({delay: 50});

@@ -11,29 +11,29 @@
 
 <body class="grey lighten-3">
     <div class="container">
-        <div class="row" style="margin-top:35px;text-align:center;">
+        <div class="row" style="margin-top:40px;text-align:center;">
             <div class="col s12 m7 l6 offset-l3  offset-m3">
                 <div class="row">
-                    <img src="<?php echo base_url() ?>assets/img/logo1.png" style="height:80px;margin-bottom:-10px">
+                    <img src="<?php echo base_url() ?>assets/img/logo1.png" style="height:80px">
                 </div>
                 <!-- FOR NOTIF -->
-                <?php $announce = $this->session->userdata('announce') ?>
-                <?php if(!empty($announce)): ?>
-                <div class="alert alert-danger lighten-4">
-                    <?php echo $announce; ?>
+                <?php //$announce = $this->session->userdata('announce') ?>
+                <?php //if(!empty($announce)): ?>
+                <!-- <div class="alert alert-danger lighten-4"> -->
+                    <?php //echo $announce; ?>
+                <!-- </div> -->
+                <?php //endif; ?>
+                <div class="alert alert-info lighten-4">
+                    Please login with registered email and password
                 </div>
-                <?php endif; ?>
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" style="margin-top:-30px">
             <div class="col s12 m7 l6 offset-l3 offset-m3">
                 <div class="card blue darken-1">
-                    <div class="" style="height:10px">
-                         <!--<h5 class="center">No Time to Game</h5>-->
-                    </div>
 
-                    <div id="pg" class="progress" style="margin:0px;display: none;margin-top:-5px">
+                    <div id="pg" class="progress" style="margin:0px;display: block;margin-top:-15px">
                         <div class="indeterminate"></div>
                     </div>
                     
@@ -60,6 +60,10 @@
                             </div>
                             </form>
                         </div>
+                    </div>
+
+                    <div class="" style="height:10px">
+                         <!--<h5 class="center">No Time to Game</h5>-->
                     </div>
                 </div>
             </div>

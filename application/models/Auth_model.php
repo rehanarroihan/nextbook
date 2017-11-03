@@ -27,8 +27,7 @@ class Auth_model extends CI_Model {
 	public function checkStatus($usr){
 		$query = $this->db->where('username', $usr)->get('user')->row()->status;
 		if($query == 'verified'){
-			return false;
-		}else{
+ 		}else{
 			return true;
 		}
 	}
@@ -108,13 +107,56 @@ class Auth_model extends CI_Model {
 		return $this->db->where('email', $email)->get('user')->row()->username;
 	}
 
-	public function reqChangePass($email){
+	public function getDSPfromEmail($email){
+		return $this->db->where('email', $email)->get('user')->row()->dspname;
+	}
+
+	public function generate32key(){
+		$characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    	$result = '';
+    	for ($i = 0; $i < 32; $i++){
+        	$result .= $characters[mt_rand(0, 61)];
+    	}
+    	return $result;
+	}
+
+	public function reqChangePass($email, $token){
 		$data = array(
 			'uid'		=> $this->getUIDfromEmail($email),
 			'dte_req'	=> date('Y-m-d'),
+			'token'		=> $token,
 			'status'	=> 'unmodified'
 		);
 		$this->db->insert('chngpassreq', $data);
+		if($this->db->affected_rows() > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function checkToken($token){
+		$query = $this->db->where('token', $token)->get('chngpassreq');
+		if($query->num_rows() > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function checkPassStatus($token){
+		$query = $this->db->where('token', $token)->get('chngpassreq')->row()->status;
+		if($query == 'unmodified'){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function goReset(){
+		$uid = $this->db->where('token', $this->input->post('token'))->get('chngpassreq')->row()->uid;
+		$this->db->set('password', $this->input->post('cpassword'))->where('uid', $uid)->update('user');
+		$this->db->set('status', 'modified')->where('token', $this->input->post('token'))->update('chngpassreq');
 		if($this->db->affected_rows() > 0){
 			return true;
 		}else{
