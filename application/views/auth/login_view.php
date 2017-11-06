@@ -23,7 +23,7 @@
                     <?php //echo $announce; ?>
                 <!-- </div> -->
                 <?php //endif; ?>
-                <div class="alert alert-info lighten-4">
+                <div class="alert alert-info lighten-4" id="alert">
                     Please login with registered email and password
                 </div>
             </div>
@@ -39,7 +39,7 @@
                     
                     <div class="card-content white">
                         <div id="test1">
-                            <form method="post" action="<?php echo base_url() ?>auth/logins">
+                            <form method="post" id="formLogin" action="#">
                             <div class="row">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">account_circle</i>
@@ -56,7 +56,8 @@
                                 </div>
                             </div>
                             <div class="row" style="margin-top:-20px;margin-bottom:-8px">
-                                <input value="Login" class="btn waves-effect waves-light right blue darken-1 col s12 m4 l4" type="submit" name="logins">
+                                <!-- <input value="Login" class="btn waves-effect waves-light right blue darken-1 col s12 m4 l4" type="submit" name="logins"> -->
+                                <input value="Login" class="btn-waves-effect waves-light right blue darken-1 col s12 m4 m14" type="submit" name="logins">
                             </div>
                             </form>
                         </div>
@@ -94,12 +95,57 @@
     <script src="<?php echo base_url() ?>assets/js/init.js"></script>
     <script type="text/javascript">
         function showpg(){
-            var username = document.getElementById('#username');
-            var pass = document.getElementById('#password');
             $('#pg').css('display','block');
-            if(username == ''){
-                $('#texts').text('asyu kososng cok');
-            }
+            $('#alert').removeClass("alert-info");
+            $('#alert').addClass("alert-success");
+            document.getElementById("alert").innerHTML='Processing ..';
+            //ajax
+        }
+
+        var form = document.getElementById('formLogin');
+        form.onsubmit = function(event) {
+
+            $('#pg').css('display','block');
+            $('#alert').removeClass("alert-info");
+            $('#alert').addClass("alert-success");
+            document.getElementById("alert").innerHTML='Processing ..';
+
+            var urls = "<?php echo base_url() ?>auth/loging";
+            var params = $('#formLogin').serialize();
+
+            $.ajax({
+                url : urls,
+                data : params,
+                method: 'post',
+                success : function(html) {
+                    if(html == '2'){
+                        
+                    }else if(html == '1'){
+                        $('#pg').css('display','none');
+                        $('#alert').removeClass("alert-success");
+                        $('#alert').addClass("alert-danger");
+                        document.getElementById('password').value = "";
+                        document.getElementById("alert").innerHTML='Please check your email for verification';
+                    }else if(html == '0'){
+                        $('#pg').css('display','none');
+                        $('#alert').removeClass("alert-success");
+                        $('#alert').addClass("alert-danger");
+                        document.getElementById('password').value = "";
+                        document.getElementById("alert").innerHTML='Invalid username or password';
+                    }else{
+
+                    }
+                },
+                error : function (argument) {
+                    $('#pg').css('display','none');
+                    $('#alert').removeClass("alert-success");
+                    $('#alert').addClass("alert-danger");
+                    document.getElementById('password').value = "";
+                    document.getElementById("alert").innerHTML='Somethink went wrong, please tr';
+                }
+            });
+            
+            event.preventDefault();
         }
     </script>
 </body>

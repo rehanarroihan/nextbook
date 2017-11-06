@@ -52,6 +52,18 @@ class Auth extends CI_Controller {
 		}
 	}
 
+	public function loging(){
+		if($this->Auth_model->loginVal() == true){
+			if($this->Auth_model->getStatus($this->input->post('login')) == true){
+				echo '2';
+			}else{
+				echo '1';
+			}
+		}else{
+			echo '0';
+		}
+	}
+
 	public function logout(){
 		$this->session->sess_destroy();
 		redirect('auth');

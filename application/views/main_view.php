@@ -171,6 +171,7 @@
     <script src="<?php echo base_url() ?>assets/vendors/jquery/dist/jquery-ui.js"></script>
     <script src="<?php echo base_url() ?>assets/js/materialize.js"></script>
     <script src="<?php echo base_url() ?>assets/js/init.js"></script>
+    <script src="<?php echo base_url() ?>assets/js/serialize-0.2.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
