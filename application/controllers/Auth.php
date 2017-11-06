@@ -81,7 +81,7 @@ class Auth extends CI_Controller {
 					        $mail->Port       = 465;
 					        $mail->Username   = "noreply@nextbook.cf";
 					        $mail->Password   = "nextbook4321";
-					        $mail->SetFrom('noreply@nextbook.cf', 'Nextbook Support');     
+					        $mail->SetFrom('noreply@nextbook.cf', 'Nextbook Team');     
 					        $mail->Subject    = "Account confirmation - Nextbook";
 					        $ml['usern']	= $this->input->post('fullname');
 					        $ml['link']		= $link;

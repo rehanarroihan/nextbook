@@ -33,7 +33,7 @@
             <div class="col s12 m7 l6 offset-l3 offset-m3">
                 <div class="card blue darken-1">
 
-                    <div id="pg" class="progress" style="margin:0px;display: block;margin-top:-15px">
+                    <div id="pg" class="progress" style="margin:0px;display: none;margin-top:-15px">
                         <div class="indeterminate"></div>
                     </div>
                     
