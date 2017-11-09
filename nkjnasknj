@@ -1,0 +1,114 @@
+[33mcommit 5d0ca87b05a232b99b6e86dfad3c74e35a49d7ae[m
+Author: setiawan1999 <setiawan1999.sw@gmail.com>
+Date:   Thu Nov 9 08:58:34 2017 +0700
+
+    fixing open signin google
+
+[1mdiff --git a/application/config/google.php b/application/config/google.php[m
+[1mindex 427f214..d140bf4 100644[m
+[1m--- a/application/config/google.php[m
+[1m+++ b/application/config/google.php[m
+[36m@@ -15,7 +15,7 @@[m [mrequire APPPATH .'third_party/vendor/autoload.php';[m
+ [m
+ $config['google']['client_id']        = '611372966580-0uj2g5sq009k13t3l2bojic9ee5bf8om.apps.googleusercontent.com';[m
+ $config['google']['client_secret']    = 'ZpJYH6Cipv46FgBvEYG73rLP';[m
+[31m-$config['google']['redirect_uri']     = 'http://localhost/nextboook/auth';[m
+[32m+[m[32m$config['google']['redirect_uri']     = 'http://localhost/nextbook/auth/login';[m
+ $config['google']['application_name'] = 'Nextbook';[m
+ $config['google']['api_key']          = '';[m
+[31m-$config['google']['scopes']           = array('https://www.googleapis.com/auth/plus.login');[m
+\ No newline at end of file[m
+[32m+[m[32m$config['google']['scopes']           = array('https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.me','https://www.googleapis.com/auth/userinfo.email','https://www.googleapis.com/auth/userinfo.profile');[m
+\ No newline at end of file[m
+[1mdiff --git a/application/controllers/Auth.php b/application/controllers/Auth.php[m
+[1mindex c82763f..dc273e1 100644[m
+[1m--- a/application/controllers/Auth.php[m
+[1m+++ b/application/controllers/Auth.php[m
+[36m@@ -28,22 +28,22 @@[m [mclass Auth extends CI_Controller {[m
+             //preparing data for database insertion[m
+             $userData['oauth_provider'] = 'google';[m
+             $userData['oauth_uid']      = $gpInfo['id'];[m
+[31m-            $userData['dspname'] 	    = $gpInfo['given_name'].$gpInfo['family_name'];[m
+[32m+[m[32m            $userData['firstname'] 	    = $gpInfo['given_name'];[m
+[32m+[m[32m            $userData['lastname'] 	    = $gpInfo['family_name'];[m
+             $userData['email']          = $gpInfo['email'];[m
+[32m+[m[32m            $userData['password']          = $gpInfo['password'];[m
+             $userData['gender']         = !empty($gpInfo['gender'])?$gpInfo['gender']:'';[m
+             $userData['locale']         = !empty($gpInfo['locale'])?$gpInfo['locale']:'';[m
+             $userData['profile_url']    = !empty($gpInfo['link'])?$gpInfo['link']:'';[m
+             $userData['picture_url']    = !empty($gpInfo['picture'])?$gpInfo['picture']:'';[m
+             [m
+[31m-            //insert or update user data to the database[m
+[31m-            $userID = $this->user->checkUser($userData);[m
+[31m-            [m
+[31m-            //store status & user info in session[m
+[31m-            $this->session->set_userdata('loggedIn', true);[m
+[31m-            $this->session->set_userdata('userData', $userData);[m
+[31m-            [m
+[31m-            //redirect to profile page[m
+[31m-            redirect('home?page=main');[m
+[32m+[m	[41m    [m	[32m//insert or update user data to the database[m
+[32m+[m	[32m        $userID = $this->Auth_model->checkUser($userData);[m
+[32m+[m	[32m        //store status & user info in session[m
+[32m+[m	[32m        $this->session->set_userdata('loggedIn', true);[m
+[32m+[m	[32m        $this->session->set_userdata('userData', $userData);[m
+[32m+[m	[32m        //redirect to profile page[m
+[32m+[m	[32m        redirect('home?page=main');[m
+         }[m
+ [m
+         $data['loginURL'] = $this->google->loginURL();[m
+[1mdiff --git a/application/models/Auth_model.php b/application/models/Auth_model.php[m
+[1mindex 13b20e1..d80f109 100644[m
+[1m--- a/application/models/Auth_model.php[m
+[1m+++ b/application/models/Auth_model.php[m
+[36m@@ -12,14 +12,43 @@[m [mclass Auth_model extends CI_Model {[m
+         [m
+         if($check > 0){[m
+             $result = $query->row_array();[m
+[31m-            $data['modified'] = date("Y-m-d H:i:s");[m
+[31m-            $update = $this->db->update($this->tableName,$data,array('id'=>$result['id']));[m
+[31m-            $userID = $result['id'];[m
+[32m+[m[32m            $usinfo = array([m
+[32m+[m				[32m'oauth_provider'	=> $data['oauth_provider'],[m
+[32m+[m				[32m'oauth_id'			=> $data['oauth_id'],[m
+[32m+[m				[32m'dspname'			=> $data['firstname'].$data['lastname'],[m
+[32m+[m				[32m'email'				=> $data['email'],[m
+[32m+[m				[32m'picture_url'		=> $data['picture_url'],[m
+[32m+[m				[32m'profile_url'		=> $data['profile_url'],[m
+[32m+[m				[32m'password'			=> $data['email'],[m
+[32m+[m				[32m'last_login'		=> date("Y-m-d H:i:s"),[m
+[32m+[m				[32m'status'			=> 'verified',[m
+[32m+[m				[32m'gender'			=> $data['gender'],[m
+[32m+[m				[32m'locale'			=> $data['locale'],[m
+[32m+[m				[32m'created'			=> date("Y-m-d H:i:s"),[m
+[32m+[m				[32m'modified'			=> date("Y-m-d H:i:s"),[m
+[32m+[m			[32m);[m
+[32m+[m[32m            $update = $this->db->update('user',$usinfo);[m
+[32m+[m[32m            $userID = $this->generateUID();[m
+         }else{[m
+[31m-            $data['created'] = date("Y-m-d H:i:s");[m
+[31m-            $data['modified']= date("Y-m-d H:i:s");[m
+[31m-            $insert = $this->db->insert($this->tableName,$data);[m
+[31m-            $userID = $this->db->insert_id();[m
+[32m+[m[32m            $usinfo = array([m
+[32m+[m				[32m'uid'				=> $this->generateUID(),[m
+[32m+[m				[32m'oauth_provider'	=> $data['oauth_provider'],[m
+[32m+[m				[32m'oauth_id'			=> $data['oauth_id'],[m
+[32m+[m				[32m'dspname'			=> $data['firstname'].$data['lastname'],[m
+[32m+[m				[32m'email'				=> $data['email'],[m
+[32m+[m				[32m'picture_url'		=> $data['picture_url'],[m
+[32m+[m				[32m'profile_url'		=> $data['profile_url'],[m
+[32m+[m				[32m'password'			=> $data['email'],[m
+[32m+[m				[32m'last_login'		=> date("Y-m-d H:i:s"),[m
+[32m+[m				[32m'status'			=> 'verified',[m
+[32m+[m				[32m'gender'			=> $data['gender'],[m
+[32m+[m				[32m'locale'			=> $data['locale'],[m
+[32m+[m				[32m'created'			=> date("Y-m-d H:i:s"),[m
+[32m+[m				[32m'modified'			=> date("Y-m-d H:i:s"),[m
+[32m+[m			[32m);[m
+[32m+[m
+[32m+[m[32m            $insert = $this->db->insert('user',$usinfo);[m
+[32m+[m[32m            $userID = $this->generateUID();[m
+         }[m
+ [m
+         return $userID?$userID:false;[m

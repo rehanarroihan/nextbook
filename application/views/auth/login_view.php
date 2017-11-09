@@ -75,9 +75,9 @@
                     <a href="<?php echo $loginURL; ?>" class="btn waves-effect col s12 m6 l6 waves-light right red" type="button" name="action">Login with google account
                         <i class="material-icons left">send</i>
                     </a>
-                    <button type="button" class="btn waves-effect col s12 m6 l6 waves-light right blue darken-3" name="action">Login with facebook account
+                    <a href="<?php echo $authUrl?>" class="btn waves-effect col s12 m6 l6 waves-light right blue darken-3" name="action">Login with facebook account
                         <i class="material-icons left">send</i>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

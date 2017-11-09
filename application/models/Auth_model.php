@@ -3,7 +3,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth_model extends CI_Model {
 
-	public function checkUser($data = array()){
+	public function checkUser_facebook($data = array()){
+        $this->db->select('uid');
+        $this->db->from('user');
+        $this->db->where(array('oauth_provider'=>$data['oauth_provider'],'oauth_uid'=>$data['oauth_uid']));
+        $prevQuery = $this->db->get();
+        $prevCheck = $prevQuery->num_rows();
+        
+        if($prevCheck > 0){
+            $prevResult = $prevQuery->row_array();
+            $data['modified'] = date("Y-m-d H:i:s");
+            $update = $this->db->update('user',$data,array('uid'=>$this->generateUID()));
+            $userID = $this->generateUID();
+        }else{
+            $data['created'] = date("Y-m-d H:i:s");
+            $data['modified'] = date("Y-m-d H:i:s");
+            $insert = $this->db->insert('user',$data,array('uid'=>$this->generateUID()));
+            $userID = $this->generateUID();
+        }
+
+        return $userID?$userID:FALSE;
+    }
+
+
+	public function checkUser_google($data = array()){
         $this->db->select('uid');
         $this->db->from('user');
         $this->db->where(array('oauth_provider'=>$data['oauth_provider'],'oauth_uid'=>$data['oauth_uid']));
