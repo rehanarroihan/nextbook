@@ -48,7 +48,7 @@ class Auth extends CI_Controller {
 
         $data['loginURL'] = $this->google->loginURL();
 
-		$this->load->view('auth/login_view');
+		$this->load->view('auth/login_view',$data);
 	}
 
 	public function register(){

@@ -25,6 +25,7 @@ class Google{
         
         require APPPATH .'third_party/vendor/google/apiclient/src/Google/Client.php';
         require APPPATH .'third_party/vendor/google/apiclient/src/Google/Service/Oauth2.php';
+        require APPPATH .'third_party/vendor/autoload.php';
         
         $this->client = new Google_Client();
         $this->client->setApplicationName($CI->config->item('application_name', 'google'));
@@ -33,9 +34,8 @@ class Google{
         $this->client->setRedirectUri($CI->config->item('redirect_uri', 'google'));
         $this->client->setDeveloperKey($CI->config->item('api_key', 'google'));
         $this->client->setScopes($CI->config->item('scopes', 'google'));
-        $this->client->setAccessType('online');
+        $this->client->setAccessType('offline');
         $this->client->setApprovalPrompt('auto');
-        $this->oauth2 = new Google_Oauth2Service($this->client);
     }
     
     public function loginURL() {
