@@ -33,7 +33,7 @@
             <div class="col s12 m7 l6 offset-l3 offset-m3">
                 <div class="card blue darken-1">
 
-                    <div id="pg" class="progress" style="margin:0px;display: none;margin-top:-15px">
+                    <div id="pg" class="progress" style="margin:0px;visibility:hidden;margin-top:-15px">
                         <div class="indeterminate"></div>
                     </div>
                     
@@ -56,8 +56,7 @@
                                 </div>
                             </div>
                             <div class="row" style="margin-top:-20px;margin-bottom:-8px">
-                                <!-- <input value="Login" class="btn waves-effect waves-light right blue darken-1 col s12 m4 l4" type="submit" name="logins"> -->
-                                <input value="Login" class="btn-waves-effect waves-light right blue darken-1 col s12 m4 m14" type="submit" name="logins">
+                                <input value="Login" class="btn waves-effect waves-light right blue darken-1 col s12 m4 l4" type="submit" name="logins">
                             </div>
                             </form>
                         </div>
@@ -105,7 +104,8 @@
         var form = document.getElementById('formLogin');
         form.onsubmit = function(event) {
 
-            $('#pg').css('display','block');
+            $('#pg').css('visibility','visible');
+            $('#alert').removeClass("alert-danger");
             $('#alert').removeClass("alert-info");
             $('#alert').addClass("alert-success");
             document.getElementById("alert").innerHTML='Processing ..';
@@ -119,32 +119,47 @@
                 method: 'post',
                 success : function(html) {
                     if(html == '2'){
-                        
+                        $('#pg').css('visibility','hidden');
+                        $('#alert').removeClass("alert-success");
+                        $('#alert').addClass("alert-info");
+                        document.getElementById("alert").innerHTML='Login successfull';
+                        setTimeout(function(){
+                            $('#alert').removeClass("alert-danger");
+                            $('#alert').removeClass("alert-info");
+                            $('#alert').addClass("alert-success");
+                            $('#pg').css('visibility','visible');
+                            document.getElementById("alert").innerHTML='Redirecting, please wait ..';
+                            window.location = "<?php echo base_url() ?>home";
+                        }, 500); 
                     }else if(html == '1'){
-                        $('#pg').css('display','none');
+                        $('#pg').css('visibility','hidden');
                         $('#alert').removeClass("alert-success");
                         $('#alert').addClass("alert-danger");
                         document.getElementById('password').value = "";
                         document.getElementById("alert").innerHTML='Please check your email for verification';
                     }else if(html == '0'){
-                        $('#pg').css('display','none');
+                        $('#pg').css('visibility','hidden');
                         $('#alert').removeClass("alert-success");
                         $('#alert').addClass("alert-danger");
                         document.getElementById('password').value = "";
                         document.getElementById("alert").innerHTML='Invalid username or password';
+                        document.getElementById("username").focus();
                     }else{
-
+                        $('#pg').css('visibility','hidden');
+                        $('#alert').removeClass("alert-success");
+                        $('#alert').addClass("alert-danger");
+                        document.getElementById('password').value = "";
+                        document.getElementById("alert").innerHTML='Something went wrong, please try again';
                     }
                 },
                 error : function (argument) {
-                    $('#pg').css('display','none');
+                    $('#pg').css('visibility','hidden');
                     $('#alert').removeClass("alert-success");
                     $('#alert').addClass("alert-danger");
                     document.getElementById('password').value = "";
-                    document.getElementById("alert").innerHTML='Somethink went wrong, please tr';
+                    document.getElementById("alert").innerHTML='Something went wrong, please try again';
                 }
             });
-            
             event.preventDefault();
         }
     </script>
