@@ -12,14 +12,43 @@ class Auth_model extends CI_Model {
         
         if($check > 0){
             $result = $query->row_array();
-            $data['modified'] = date("Y-m-d H:i:s");
-            $update = $this->db->update($this->tableName,$data,array('id'=>$result['id']));
-            $userID = $result['id'];
+            $usinfo = array(
+				'oauth_provider'	=> $data['oauth_provider'],
+				'oauth_id'			=> $data['oauth_id'],
+				'dspname'			=> $data['firstname'].$data['lastname'],
+				'email'				=> $data['email'],
+				'picture_url'		=> $data['picture_url'],
+				'profile_url'		=> $data['profile_url'],
+				'password'			=> $data['email'],
+				'last_login'		=> date("Y-m-d H:i:s"),
+				'status'			=> 'verified',
+				'gender'			=> $data['gender'],
+				'locale'			=> $data['locale'],
+				'created'			=> date("Y-m-d H:i:s"),
+				'modified'			=> date("Y-m-d H:i:s"),
+			);
+            $update = $this->db->update('user',$usinfo);
+            $userID = $this->generateUID();
         }else{
-            $data['created'] = date("Y-m-d H:i:s");
-            $data['modified']= date("Y-m-d H:i:s");
-            $insert = $this->db->insert($this->tableName,$data);
-            $userID = $this->db->insert_id();
+            $usinfo = array(
+				'uid'				=> $this->generateUID(),
+				'oauth_provider'	=> $data['oauth_provider'],
+				'oauth_id'			=> $data['oauth_id'],
+				'dspname'			=> $data['firstname'].$data['lastname'],
+				'email'				=> $data['email'],
+				'picture_url'		=> $data['picture_url'],
+				'profile_url'		=> $data['profile_url'],
+				'password'			=> $data['email'],
+				'last_login'		=> date("Y-m-d H:i:s"),
+				'status'			=> 'verified',
+				'gender'			=> $data['gender'],
+				'locale'			=> $data['locale'],
+				'created'			=> date("Y-m-d H:i:s"),
+				'modified'			=> date("Y-m-d H:i:s"),
+			);
+
+            $insert = $this->db->insert('user',$usinfo);
+            $userID = $this->generateUID();
         }
 
         return $userID?$userID:false;

@@ -28,22 +28,22 @@ class Auth extends CI_Controller {
             //preparing data for database insertion
             $userData['oauth_provider'] = 'google';
             $userData['oauth_uid']      = $gpInfo['id'];
-            $userData['dspname'] 	    = $gpInfo['given_name'].$gpInfo['family_name'];
+            $userData['firstname'] 	    = $gpInfo['given_name'];
+            $userData['lastname'] 	    = $gpInfo['family_name'];
             $userData['email']          = $gpInfo['email'];
+            $userData['password']          = $gpInfo['password'];
             $userData['gender']         = !empty($gpInfo['gender'])?$gpInfo['gender']:'';
             $userData['locale']         = !empty($gpInfo['locale'])?$gpInfo['locale']:'';
             $userData['profile_url']    = !empty($gpInfo['link'])?$gpInfo['link']:'';
             $userData['picture_url']    = !empty($gpInfo['picture'])?$gpInfo['picture']:'';
             
-            //insert or update user data to the database
-            $userID = $this->user->checkUser($userData);
-            
-            //store status & user info in session
-            $this->session->set_userdata('loggedIn', true);
-            $this->session->set_userdata('userData', $userData);
-            
-            //redirect to profile page
-            redirect('home?page=main');
+	    	//insert or update user data to the database
+	        $userID = $this->Auth_model->checkUser($userData);
+	        //store status & user info in session
+	        $this->session->set_userdata('loggedIn', true);
+	        $this->session->set_userdata('userData', $userData);
+	        //redirect to profile page
+	        redirect('home?page=main');
         }
 
         $data['loginURL'] = $this->google->loginURL();
