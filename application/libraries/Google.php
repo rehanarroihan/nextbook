@@ -25,7 +25,6 @@ class Google{
         
         require APPPATH .'third_party/vendor/google/apiclient/src/Google/Client.php';
         require APPPATH .'third_party/vendor/google/apiclient/src/Google/Service/Oauth2.php';
-        require APPPATH .'third_party/vendor/autoload.php';
         
         $this->client = new Google_Client();
         $this->client->setApplicationName($CI->config->item('application_name', 'google'));

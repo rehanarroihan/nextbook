@@ -18,67 +18,74 @@ class Auth extends CI_Controller {
 	public function login(){
 		if($this->session->userdata('auth') == true){
 			redirect('home?page=main');
+		}else{
+			if($this->input->get('code')){
+				$this->facebook->destroy_session();
+	            //authenticate user
+	            $this->client->Authenticate($this->input->get('code'));
+	            
+	            //get user info from google
+	            $gpInfo = $this->oauth2->getUserInfo();
+	            
+	            //preparing data for database insertion
+	            $userData['oauth_provider'] = 'google';
+	            $userData['oauth_uid']      = $gpInfo['id'];
+	            $userData['dspname'] 	    = $gpInfo['given_name']." ".$gpInfo['family_name'];
+	            $userData['email']          = $gpInfo['email'];
+	            $userData['status']			= 'virified';
+	            $userData['gender']         = $gpInfo['gender'];
+	            $userData['locale']         = $gpInfo['locale'];
+	            $userData['profile_url']    = $gpInfo['link'];
+	            $userData['picture_url']    = $gpInfo['picture'];
+	            
+		    	//insert or update user data to the database
+		        $userID = $this->Auth_model->checkUser_google($userData);
+		        //store status & user info in session
+		        	# code...
+	        	$data['userData'] = $userData;
+	        	$this->session->set_userdata('loggedIn', true);
+		        $this->session->set_userdata('userData', $userData);
+		        $this->session->set_userdata('auth') == true;
+		        //redirect to profile page
+
+	        }elseif($this->facebook->is_authenticated()){
+
+	            // Get user facebook profile details
+	            $userProfile = $this->facebook->request('get','/me?fields=id,first_name,last_name,email,gender,locale,picture');
+
+	            // Preparing data for database insertion
+	            $userData['oauth_provider'] = 'facebook';
+	            $userData['oauth_id'] 		= $userProfile['id'];
+	            $userData['dspname']	 	= $userProfile['first_name']." ".$userProfile['last_name'];
+	            if (!isset($userProfile['email'])) {
+	            	# code...
+	            	$userData['email'] 			= 'setiawan1999.sw@gmail.com';
+	            }else{
+	            	$userData['email'] 			= $userProfile['email'];
+	            }
+	            $userData['gender']			= $userProfile['gender'];
+	            $userData['locale'] 		= $userProfile['locale'];
+	            $userData['status']			= 'virified';
+	            $userData['profile_url'] 	= 'https://www.facebook.com/'.$userProfile['id'];
+	            $userData['picture_url'] 	= $userProfile['picture']['data']['url'];
+
+	            // Insert or update user data
+	            $userID = $this->Auth_model->checkUser_facebook($userData);
+
+	            // Check user data insert or update status
+	            $data['userData'] = $userData;
+	            $this->session->set_userdata('loggedIn', true);
+	            $this->session->set_userdata('userData',$userData);
+
+	            // Get logout URL
+	            $data['logoutUrl'] = $this->facebook->logout_url();
+	        }
+	        $data['authUrl'] =  $this->facebook->login_url();
+
+	        $data['loginURL'] = $this->google->loginURL();
+
+			$this->load->view('auth/login_view',$data);
 		}
-		if(isset($this->input->get['code'])){
-            //authenticate user
-            $this->google->getAuthenticate();
-            
-            //get user info from google
-            $gpInfo = $this->google->getUserInfo();
-            
-            //preparing data for database insertion
-            $userData['oauth_provider'] = 'google';
-            $userData['oauth_uid']      = $gpInfo['id'];
-            $userData['dspname'] 	    = $gpInfo['given_name']." ".$gpInfo['family_name'];
-            $userData['email']          = $gpInfo['email'];
-            $userData['password']       = $gpInfo['password'];
-            $userData['gender']         = $gpInfo['gender'];
-            $userData['locale']         = $gpInfo['locale'];
-            $userData['profile_url']    = $gpInfo['link'];
-            $userData['picture_url']    = $gpInfo['picture'];
-            
-	    	//insert or update user data to the database
-	        $userID = $this->Auth_model->checkUser_google($userData);
-
-	        //store status & user info in session
-        	$data['userData'] = $userData;
-        	$this->session->set_userdata('loggedIn', true);
-	        $this->session->set_userdata('userData', $userData);
-	        $this->session->set_userdata('auth') == true;
-	        //redirect to profile page
-	        $this->facebook->destroy_session();
-	        redirect('home?page=main');
-        }
-
-        if($this->facebook->is_authenticated()){
-            // Get user facebook profile details
-            $userProfile = $this->facebook->request('get','/me?fields=id,first_name,last_name,email,gender,locale,picture');
-
-            // Preparing data for database insertion
-            $userData['oauth_provider'] = 'facebook';
-            $userData['oauth_id'] 		= $userProfile['id'];
-            $userData['dspname']	 	= $userProfile['first_name']." ".$userProfile['last_name'];
-            $userData['email'] 			= $userProfile['email'];
-            $userData['gender']			= $userProfile['gender'];
-            $userData['locale'] 		= $userProfile['locale'];
-            $userData['profile_url'] 	= 'https://www.facebook.com/'.$userProfile['id'];
-            $userData['picture_url'] 	= $userProfile['picture']['data']['url'];
-
-            // Insert or update user data
-            $userID = $this->Auth_model->checkUser_facebook($userData);
-
-            // Check user data insert or update status
-            $data['userData'] = $userData;
-            $this->session->set_userdata('loggedIn', true);
-            $this->session->set_userdata('userData',$userData);
-
-            // Get logout URL
-            $data['logoutUrl'] = $this->facebook->logout_url();
-        }
-        
-        $data['authUrl'] =  $this->facebook->login_url();
-        $data['loginURL'] = $this->google->loginURL();
-		$this->load->view('auth/login_view',$data);
 	}
 
 	public function register(){

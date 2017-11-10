@@ -6,7 +6,8 @@ class Auth_model extends CI_Model {
 	public function checkUser_facebook($data = array()){
         $this->db->select('uid');
         $this->db->from('user');
-        $this->db->where(array('oauth_provider'=>$data['oauth_provider'],'oauth_id'=>$data['oauth_id']));
+        $this->db->where('oauth_provider',$data['oauth_provider']);
+        $this->db->where('oauth_id',$data['oauth_id']);
         $prevQuery = $this->db->get();
         $prevCheck = $prevQuery->num_rows();
         
@@ -14,9 +15,11 @@ class Auth_model extends CI_Model {
             $prevResult = $prevQuery->row_array();
             $data['modified'] = date("Y-m-d H:i:s");
             $data['last_login'] = date("Y-m-d H:i:s");
-            $this->db->update('user',$data);
+            $this->db->where('oauth_id',$data['oauth_id'])
+            		 ->update('user',$data);
             $userID = $this->generateUID();
             if ($this->db->affected_rows() > 0) {
+            	# code...
             	$this->session->set_userdata('auth') == true;
             }
         }else{
@@ -39,7 +42,8 @@ class Auth_model extends CI_Model {
 	public function checkUser_google($data = array()){
         $this->db->select('uid');
         $this->db->from('user');
-        $this->db->where(array('oauth_provider'=>$data['oauth_provider'],'oauth_uid'=>$data['oauth_uid']));
+        $this->db->where('oauth_provider',$data['oauth_provider']);
+        $this->db->where('oauth_provider',$data['oauth_provider']);
         $query = $this->db->get();
         $check = $query->num_rows();
         
@@ -47,9 +51,11 @@ class Auth_model extends CI_Model {
             $result = $query->row_array();
 			$data['modified'] = date("Y-m-d H:i:s");
 			$data['last_login'] = date("Y-m-d H:i:s");
-            $this->db->update('user',$usinfo);
+			$this->db->where('oauth_id',$data['oauth_id'])
+            		 ->update('user',$usinfo);
             $userID = $this->generateUID();
             if ($this->db->affected_rows() > 0) {
+            	# code...
             	$this->session->set_userdata('auth') == true;
             }
         }else{
@@ -64,6 +70,7 @@ class Auth_model extends CI_Model {
             	$this->session->set_userdata('auth') == true;
             }
         }
+
         return $userID?$userID:false;
     }
 
