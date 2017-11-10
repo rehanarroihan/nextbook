@@ -39,8 +39,8 @@ class Auth extends CI_Controller {
             
 	    	//insert or update user data to the database
 	        $userID = $this->Auth_model->checkUser_google($userData);
+
 	        //store status & user info in session
-	        	# code...
         	$data['userData'] = $userData;
         	$this->session->set_userdata('loggedIn', true);
 	        $this->session->set_userdata('userData', $userData);
@@ -75,10 +75,9 @@ class Auth extends CI_Controller {
             // Get logout URL
             $data['logoutUrl'] = $this->facebook->logout_url();
         }
+        
         $data['authUrl'] =  $this->facebook->login_url();
-
         $data['loginURL'] = $this->google->loginURL();
-
 		$this->load->view('auth/login_view',$data);
 	}
 

@@ -17,7 +17,6 @@ class Auth_model extends CI_Model {
             $this->db->update('user',$data);
             $userID = $this->generateUID();
             if ($this->db->affected_rows() > 0) {
-            	# code...
             	$this->session->set_userdata('auth') == true;
             }
         }else{
@@ -51,7 +50,6 @@ class Auth_model extends CI_Model {
             $this->db->update('user',$usinfo);
             $userID = $this->generateUID();
             if ($this->db->affected_rows() > 0) {
-            	# code...
             	$this->session->set_userdata('auth') == true;
             }
         }else{
@@ -66,7 +64,6 @@ class Auth_model extends CI_Model {
             	$this->session->set_userdata('auth') == true;
             }
         }
-
         return $userID?$userID:false;
     }
 
