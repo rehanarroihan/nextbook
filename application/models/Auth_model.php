@@ -6,20 +6,31 @@ class Auth_model extends CI_Model {
 	public function checkUser_facebook($data = array()){
         $this->db->select('uid');
         $this->db->from('user');
-        $this->db->where(array('oauth_provider'=>$data['oauth_provider'],'oauth_uid'=>$data['oauth_uid']));
+        $this->db->where(array('oauth_provider'=>$data['oauth_provider'],'oauth_id'=>$data['oauth_id']));
         $prevQuery = $this->db->get();
         $prevCheck = $prevQuery->num_rows();
         
         if($prevCheck > 0){
             $prevResult = $prevQuery->row_array();
             $data['modified'] = date("Y-m-d H:i:s");
-            $update = $this->db->update('user',$data,array('uid'=>$this->generateUID()));
+            $data['last_login'] = date("Y-m-d H:i:s");
+            $this->db->update('user',$data);
             $userID = $this->generateUID();
+            if ($this->db->affected_rows() > 0) {
+            	# code...
+            	$this->session->set_userdata('auth') == true;
+            }
         }else{
             $data['created'] = date("Y-m-d H:i:s");
             $data['modified'] = date("Y-m-d H:i:s");
-            $insert = $this->db->insert('user',$data,array('uid'=>$this->generateUID()));
+            $data['uid'] = $this->generateUID();
+            $data['last_login'] = date("Y-m-d H:i:s");
+            $this->db->insert('user',$data);
             $userID = $this->generateUID();
+            if ($this->db->affected_rows() > 0) {
+            	# code...
+            	$this->session->set_userdata('auth') == true;
+            }
         }
 
         return $userID?$userID:FALSE;
@@ -35,43 +46,25 @@ class Auth_model extends CI_Model {
         
         if($check > 0){
             $result = $query->row_array();
-            $usinfo = array(
-				'oauth_provider'	=> $data['oauth_provider'],
-				'oauth_id'			=> $data['oauth_id'],
-				'dspname'			=> $data['firstname'].$data['lastname'],
-				'email'				=> $data['email'],
-				'picture_url'		=> $data['picture_url'],
-				'profile_url'		=> $data['profile_url'],
-				'password'			=> $data['email'],
-				'last_login'		=> date("Y-m-d H:i:s"),
-				'status'			=> 'verified',
-				'gender'			=> $data['gender'],
-				'locale'			=> $data['locale'],
-				'created'			=> date("Y-m-d H:i:s"),
-				'modified'			=> date("Y-m-d H:i:s"),
-			);
-            $update = $this->db->update('user',$usinfo);
+			$data['modified'] = date("Y-m-d H:i:s");
+			$data['last_login'] = date("Y-m-d H:i:s");
+            $this->db->update('user',$usinfo);
             $userID = $this->generateUID();
+            if ($this->db->affected_rows() > 0) {
+            	# code...
+            	$this->session->set_userdata('auth') == true;
+            }
         }else{
-            $usinfo = array(
-				'uid'				=> $this->generateUID(),
-				'oauth_provider'	=> $data['oauth_provider'],
-				'oauth_id'			=> $data['oauth_id'],
-				'dspname'			=> $data['firstname'].$data['lastname'],
-				'email'				=> $data['email'],
-				'picture_url'		=> $data['picture_url'],
-				'profile_url'		=> $data['profile_url'],
-				'password'			=> $data['email'],
-				'last_login'		=> date("Y-m-d H:i:s"),
-				'status'			=> 'verified',
-				'gender'			=> $data['gender'],
-				'locale'			=> $data['locale'],
-				'created'			=> date("Y-m-d H:i:s"),
-				'modified'			=> date("Y-m-d H:i:s"),
-			);
-
-            $insert = $this->db->insert('user',$usinfo);
+        	$data['created'] = date("Y-m-d H:i:s");
+            $data['modified'] = date("Y-m-d H:i:s");
+            $data['last_login'] = date("Y-m-d H:i:s");
+            $data['uid'] = $this->generateUID();
+            $this->db->insert('user',$usinfo);
             $userID = $this->generateUID();
+            if ($this->db->affected_rows() > 0) {
+            	# code...
+            	$this->session->set_userdata('auth') == true;
+            }
         }
 
         return $userID?$userID:false;

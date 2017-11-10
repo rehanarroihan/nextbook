@@ -29,40 +29,35 @@ class Auth extends CI_Controller {
             //preparing data for database insertion
             $userData['oauth_provider'] = 'google';
             $userData['oauth_uid']      = $gpInfo['id'];
-            $userData['firstname'] 	    = $gpInfo['given_name'];
-            $userData['lastname'] 	    = $gpInfo['family_name'];
+            $userData['dspname'] 	    = $gpInfo['given_name']." ".$gpInfo['family_name'];
             $userData['email']          = $gpInfo['email'];
-            $userData['password']          = $gpInfo['password'];
-            $userData['gender']         = !empty($gpInfo['gender'])?$gpInfo['gender']:'';
-            $userData['locale']         = !empty($gpInfo['locale'])?$gpInfo['locale']:'';
-            $userData['profile_url']    = !empty($gpInfo['link'])?$gpInfo['link']:'';
-            $userData['picture_url']    = !empty($gpInfo['picture'])?$gpInfo['picture']:'';
+            $userData['password']       = $gpInfo['password'];
+            $userData['gender']         = $gpInfo['gender'];
+            $userData['locale']         = $gpInfo['locale'];
+            $userData['profile_url']    = $gpInfo['link'];
+            $userData['picture_url']    = $gpInfo['picture'];
             
 	    	//insert or update user data to the database
 	        $userID = $this->Auth_model->checkUser_google($userData);
 	        //store status & user info in session
-	        if (!empty($userID)) {
 	        	# code...
-	        	$data['userData'] = $userData;
-	        	$this->session->set_userdata('loggedIn', true);
-		        $this->session->set_userdata('userData', $userData);
-		        $this->session->set_userdata('auth') == true;
-	        }else{
-	        	$data['userData'] = array();
-	        }
+        	$data['userData'] = $userData;
+        	$this->session->set_userdata('loggedIn', true);
+	        $this->session->set_userdata('userData', $userData);
+	        $this->session->set_userdata('auth') == true;
 	        //redirect to profile page
+	        $this->facebook->destroy_session();
 	        redirect('home?page=main');
         }
 
         if($this->facebook->is_authenticated()){
             // Get user facebook profile details
-            $userProfile = $this->facebook->request('get', '/me?fields=id,first_name,last_name,email,gender,locale,picture');
+            $userProfile = $this->facebook->request('get','/me?fields=id,first_name,last_name,email,gender,locale,picture');
 
             // Preparing data for database insertion
             $userData['oauth_provider'] = 'facebook';
-            $userData['oauth_uid'] 		= $userProfile['id'];
-            $userData['first_name'] 	= $userProfile['first_name'];
-            $userData['last_name'] 		= $userProfile['last_name'];
+            $userData['oauth_id'] 		= $userProfile['id'];
+            $userData['dspname']	 	= $userProfile['first_name']." ".$userProfile['last_name'];
             $userData['email'] 			= $userProfile['email'];
             $userData['gender']			= $userProfile['gender'];
             $userData['locale'] 		= $userProfile['locale'];
@@ -70,25 +65,17 @@ class Auth extends CI_Controller {
             $userData['picture_url'] 	= $userProfile['picture']['data']['url'];
 
             // Insert or update user data
-            $userID = $this->user->checkUser_facebook($userData);
+            $userID = $this->Auth_model->checkUser_facebook($userData);
 
             // Check user data insert or update status
-            if(!empty($userID)){
-                $data['userData'] = $userData;
-                $this->session->set_userdata('userData',$userData);
-                $this->session->set_userdata('auth') == true;
-            }else{
-               $data['userData'] = array();
-            }
+            $data['userData'] = $userData;
+            $this->session->set_userdata('loggedIn', true);
+            $this->session->set_userdata('userData',$userData);
 
             // Get logout URL
             $data['logoutUrl'] = $this->facebook->logout_url();
-        }else{
-            $fbuser = '';
-
-            // Get login URL
-            $data['authUrl'] =  $this->facebook->login_url();
         }
+        $data['authUrl'] =  $this->facebook->login_url();
 
         $data['loginURL'] = $this->google->loginURL();
 
