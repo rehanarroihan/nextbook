@@ -15,26 +15,31 @@ class Auth_model extends CI_Model {
             $prevResult = $prevQuery->row_array();
             $data['modified'] = date("Y-m-d H:i:s");
             $data['last_login'] = date("Y-m-d H:i:s");
-            $this->db->where('oauth_id',$data['oauth_id'])
-            		 ->update('user',$data);
+            $this->db->where('oauth_id',$data['oauth_id'])->update('user',$data);
+            $q1 = $this->db->where('oauth_id', $data['oauth_id'])->get('user');
             $userID = $this->generateUID();
-            if ($this->db->affected_rows() > 0) {
-            	# code...
-            	$this->session->set_userdata('auth') == true;
+            if($this->db->affected_rows() > 0) {
+            	//$this->session->set_userdata('auth') == true;
+            	$user = array(
+					'uid' => $q1->row()->uid,
+					'dspname' => $q1->row()->dspname,
+					'username' => $q1->row()->username,
+					'email'	=> $q1->row()->email,
+					'auth' => true
+				);
+				$this->session->set_userdata($user);
             }
         }else{
             $data['created'] = date("Y-m-d H:i:s");
             $data['modified'] = date("Y-m-d H:i:s");
             $data['uid'] = $this->generateUID();
             $data['last_login'] = date("Y-m-d H:i:s");
-            $this->db->insert('user',$data);
+            $this->db->insert('user', $data);
             $userID = $this->generateUID();
             if ($this->db->affected_rows() > 0) {
-            	# code...
             	$this->session->set_userdata('auth') == true;
             }
         }
-
         return $userID?$userID:FALSE;
     }
 
@@ -43,7 +48,7 @@ class Auth_model extends CI_Model {
         $this->db->select('uid');
         $this->db->from('user');
         $this->db->where('oauth_provider',$data['oauth_provider']);
-        $this->db->where('oauth_provider',$data['oauth_provider']);
+        $this->db->where('oauth_id',$data['oauth_id']);
         $query = $this->db->get();
         $check = $query->num_rows();
         
@@ -51,26 +56,30 @@ class Auth_model extends CI_Model {
             $result = $query->row_array();
 			$data['modified'] = date("Y-m-d H:i:s");
 			$data['last_login'] = date("Y-m-d H:i:s");
-			$this->db->where('oauth_id',$data['oauth_id'])
-            		 ->update('user',$usinfo);
+			$this->db->where('oauth_id',$data['oauth_id'])->update('user',$usinfo);
+			$q1 = $this->db->where('oauth_id', $data['oauth_id'])->get('user');
             $userID = $this->generateUID();
             if ($this->db->affected_rows() > 0) {
-            	# code...
-            	$this->session->set_userdata('auth') == true;
+            	$user = array(
+					'uid' => $q1->row()->uid,
+					'dspname' => $q1->row()->dspname,
+					'username' => $q1->row()->username,
+					'email'	=> $q1->row()->email,
+					'auth' => true
+				);
+				$this->session->set_userdata($user);
             }
         }else{
         	$data['created'] = date("Y-m-d H:i:s");
             $data['modified'] = date("Y-m-d H:i:s");
             $data['last_login'] = date("Y-m-d H:i:s");
             $data['uid'] = $this->generateUID();
-            $this->db->insert('user',$usinfo);
+            $this->db->insert('user', $usinfo);
             $userID = $this->generateUID();
             if ($this->db->affected_rows() > 0) {
-            	# code...
             	$this->session->set_userdata('auth') == true;
             }
         }
-
         return $userID?$userID:false;
     }
 

@@ -69,13 +69,15 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" style="margin-top:-19px;padding-left:20px;padding-right:20px">
             <div class="col s12 m7 l6 offset-l3 offset-m3">
                 <div class="row">
-                    <a href="<?php echo $loginURL; ?>" class="btn waves-effect col s12 m6 l6 waves-light right red" type="button" name="action">Login with google account
+                    <a href="<?php echo $loginURL; ?>" class="btn waves-effect col s12 m12 l12 waves-light right red" type="button" name="action">Login with google account
                         <i class="material-icons left">send</i>
                     </a>
-                    <a href="<?php echo $authUrl?>" class="btn waves-effect col s12 m6 l6 waves-light right blue darken-3" name="action">Login with facebook account
+                </div>
+                <div class="row" style="margin-top:-14px">
+                    <a href="<?php echo $authUrl?>" class="btn waves-effect col s12 m12 l12 waves-light right blue darken-3" name="action">Login with facebook account
                         <i class="material-icons left">send</i>
                     </a>
                 </div>
@@ -83,7 +85,7 @@
         </div>
     </div>
 
-    <div style="text-align: center">
+    <div style="text-align: center;margin-top:-20px">
         <p style="" class="center">Forget password ? <a class="grey-text darken-1" href="<?php echo base_url() ?>auth/forgot">Reset Password</a>.</p>
         <p style="margin-top:-14px;" class="center">Don't Have Account ? <a class="grey-text darken-1" href="<?php echo base_url() ?>auth/register">Register</a>.</p>
     </div>

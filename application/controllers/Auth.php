@@ -21,18 +21,19 @@ class Auth extends CI_Controller {
 		}else{
 			if($this->input->get('code')){
 				$this->facebook->destroy_session();
+
 	            //authenticate user
-	            $this->client->Authenticate($this->input->get('code'));
+	            $this->google->getAuthenticate();
 	            
 	            //get user info from google
-	            $gpInfo = $this->oauth2->getUserInfo();
+	            $gpInfo = $this->google->getUserInfo();
 	            
 	            //preparing data for database insertion
 	            $userData['oauth_provider'] = 'google';
 	            $userData['oauth_uid']      = $gpInfo['id'];
 	            $userData['dspname'] 	    = $gpInfo['given_name']." ".$gpInfo['family_name'];
 	            $userData['email']          = $gpInfo['email'];
-	            $userData['status']			= 'virified';
+	            $userData['status']			= 'verified';
 	            $userData['gender']         = $gpInfo['gender'];
 	            $userData['locale']         = $gpInfo['locale'];
 	            $userData['profile_url']    = $gpInfo['link'];
@@ -40,16 +41,17 @@ class Auth extends CI_Controller {
 	            
 		    	//insert or update user data to the database
 		        $userID = $this->Auth_model->checkUser_google($userData);
+
 		        //store status & user info in session
-		        	# code...
 	        	$data['userData'] = $userData;
 	        	$this->session->set_userdata('loggedIn', true);
 		        $this->session->set_userdata('userData', $userData);
 		        $this->session->set_userdata('auth') == true;
+
 		        //redirect to profile page
-
+		        redirect('home');
 	        }elseif($this->facebook->is_authenticated()){
-
+	        	$this->facebook->destroy_session();
 	            // Get user facebook profile details
 	            $userProfile = $this->facebook->request('get','/me?fields=id,first_name,last_name,email,gender,locale,picture');
 
@@ -58,8 +60,7 @@ class Auth extends CI_Controller {
 	            $userData['oauth_id'] 		= $userProfile['id'];
 	            $userData['dspname']	 	= $userProfile['first_name']." ".$userProfile['last_name'];
 	            if (!isset($userProfile['email'])) {
-	            	# code...
-	            	$userData['email'] 			= 'setiawan1999.sw@gmail.com';
+	            	$userData['email'] 			= 'N/A';
 	            }else{
 	            	$userData['email'] 			= $userProfile['email'];
 	            }
@@ -79,11 +80,11 @@ class Auth extends CI_Controller {
 
 	            // Get logout URL
 	            $data['logoutUrl'] = $this->facebook->logout_url();
+	            redirect('home');
 	        }
+
 	        $data['authUrl'] =  $this->facebook->login_url();
-
 	        $data['loginURL'] = $this->google->loginURL();
-
 			$this->load->view('auth/login_view',$data);
 		}
 	}
