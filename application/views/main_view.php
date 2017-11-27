@@ -44,7 +44,7 @@
                       <a href="#!name"><span class="white-text name"><?php echo $this->session->userdata('username'); ?></span></a>
                       <a href="#!email"><span class="white-text email"><?php echo $this->session->userdata('email');?></span></a>
                     </div></li>
-                    <li><a class="waves-effect" href="<?php echo base_url() ?>home"><i class="material-icons">dashboard</i>Home</a></li>
+                    <li><a class="waves-effect" href="<?php echo base_url() ?>home"><i class="material-icons">dashboard</i>Class</a></li>
                     <li><a class="waves-effect" href="#!"><i class="material-icons">schedule</i>Schedule</a></li>
                     <li><a class="waves-effect" href="#!"><i class="material-icons">archive</i>Archive</a></li>
                     <li><a class="waves-effect" href="#!"><i class="material-icons">share</i>Share</a></li>
@@ -72,7 +72,7 @@
                     </li>
                     <?php endif; ?>
                     <li>
-                        <div onclick="location.href='<?php echo base_url() ?>home';" class="collapsible-header waves-effect"><i class="material-icons">home</i>Home</div>
+                        <div onclick="location.href='<?php echo base_url() ?>aclass';" class="collapsible-header waves-effect"><i class="material-icons">home</i>Class</div>
                     </li>
                     <li>
                         <div onclick="location.href='<?php echo base_url() ?>home';" class="collapsible-header waves-effect"><i class="material-icons">dashboard</i>Card</div>

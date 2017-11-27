@@ -131,7 +131,7 @@
                             $('#alert').addClass("alert-success");
                             $('#pg').css('visibility','visible');
                             document.getElementById("alert").innerHTML='Redirecting, please wait ..';
-                            window.location = "<?php echo base_url() ?>home";
+                            window.location = "<?php echo base_url() ?>aclass";
                         }, 500); 
                     }else if(html == '1'){
                         $('#pg').css('visibility','hidden');

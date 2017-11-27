@@ -17,7 +17,7 @@ class Auth extends CI_Controller {
 
 	public function login(){
 		if($this->session->userdata('auth') == true){
-			redirect('home?page=main');
+			redirect('aclass?page=main');
 		}else{
 			if($this->input->get('code')){
 				$this->facebook->destroy_session();
@@ -49,7 +49,7 @@ class Auth extends CI_Controller {
 		        $this->session->set_userdata('auth') == true;
 
 		        //redirect to profile page
-		        redirect('home');
+		        redirect('aclass');
 	        }elseif($this->facebook->is_authenticated()){
 	        	$this->facebook->destroy_session();
 	            // Get user facebook profile details
@@ -80,7 +80,7 @@ class Auth extends CI_Controller {
 
 	            // Get logout URL
 	            $data['logoutUrl'] = $this->facebook->logout_url();
-	            redirect('home');
+	            redirect('aclass');
 	        }
 
 	        $data['authUrl'] =  $this->facebook->login_url();
@@ -91,7 +91,7 @@ class Auth extends CI_Controller {
 
 	public function register(){
 		if($this->session->userdata('auth') == true){
-			redirect('home');
+			redirect('aclass');
 		}
 		$this->load->view('auth/register_view');
 	}
@@ -103,7 +103,7 @@ class Auth extends CI_Controller {
 			if ($this->form_validation->run() == true) {
 				if($this->Auth_model->loginVal() == true){
 					if($this->Auth_model->getStatus($this->input->post('login')) == true){
-						redirect('home');
+						redirect('aclass');
 					}else{
 						$this->session->set_flashdata('announce', 'Please check your email for verification');
 						redirect('auth/login');
@@ -243,7 +243,7 @@ class Auth extends CI_Controller {
 
 	public function forgot(){
 		if($this->session->userdata('auth') == true){
-			redirect('home?page=main');
+			redirect('aclass?page=main');
 		}
 		$this->load->view('auth/forgot_view');
 	}
