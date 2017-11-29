@@ -25,6 +25,7 @@
         "silex/silex": "1.0.*@dev",
         "twig/twig": ">=1.8,<2.0-dev",
         "guzzlehttp/guzzle": "5.2.*",
-	    "google/apiclient": "^2.0"
+	    "google/apiclient": "^2.0",
+		"endroid/qrcode": "^2.4"
     }
 }
