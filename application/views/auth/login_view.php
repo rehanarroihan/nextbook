@@ -95,14 +95,6 @@
     <script src="<?php echo base_url() ?>assets/js/materialize.js"></script>
     <script src="<?php echo base_url() ?>assets/js/init.js"></script>
     <script type="text/javascript">
-        function showpg(){
-            $('#pg').css('display','block');
-            $('#alert').removeClass("alert-info");
-            $('#alert').addClass("alert-success");
-            document.getElementById("alert").innerHTML='Processing ..';
-            //ajax
-        }
-
         var form = document.getElementById('formLogin');
         form.onsubmit = function(event) {
 

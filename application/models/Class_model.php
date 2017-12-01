@@ -49,6 +49,21 @@ class Class_model extends CI_Model {
 		}
 	}
 
+	public function getClassData(){
+		$classID = $this->db->where('uid', $this->session->userdata('uid'))
+								->get('user')->row()->classid;
+		return $this->db->where('classid', $classID)->get('class')->row();
+	}
+
+	public function join($code){
+		$this->db->where('uid', $this->session->userdata('uid'))->update('user',  array('classid' => $code));
+		if($this->db->affected_rows() > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }
 
 /* End of file Class_model.php */

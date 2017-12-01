@@ -17,6 +17,7 @@ class Aclass extends CI_Controller {
 	public function index(){
 		if($this->Class_model->isHave() == true){
 			$data['primary_view'] = 'class/class_view';
+			$data['classdata'] = $this->Class_model->getClassData();
 		}else{
 			$data['primary_view'] = 'class/no_class_view';
 		}
@@ -35,10 +36,29 @@ class Aclass extends CI_Controller {
 		}
 	}
 
+	public function checkcode(){
+		$code = $this->input->post('code');
+		if(!empty($code)){
+			$check = $this->db->where('classid', $code)->get('class');
+			if($check->num_rows() > 0){
+				//Iki nek berhasil
+				if($this->Class_model->join($code) == true){
+					echo "1";
+				}
+			}else{
+				echo "2";
+			}
+		}else{
+			$this->load->view('errors/404_view');
+		}
+	}
+
 	public function genqr(){
+		$classid = $this->uri->segment(3);
+		$size = $this->uri->segment(4);
 		header('Content-Type: image/png');
-		$qr = new QrCode('Ndas ku nguelu cokk asu tenan i'); 
-		$qr->setSize(300);
+		$qr = new QrCode($classid); 
+		$qr->setSize($size);
 		echo $qr->writeString();
 	}
 

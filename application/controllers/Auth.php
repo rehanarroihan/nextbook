@@ -123,14 +123,18 @@ class Auth extends CI_Controller {
 	}
 
 	public function loging(){
-		if($this->Auth_model->loginVal() == true){
-			if($this->Auth_model->getStatus($this->input->post('login')) == true){
-				echo '2';
+		if(!empty($this->input->post('login'))){
+			if($this->Auth_model->loginVal() == true){
+				if($this->Auth_model->getStatus($this->input->post('login')) == true){
+					echo '2';
+				}else{
+					echo '1';
+				}
 			}else{
-				echo '1';
+				echo '0';
 			}
 		}else{
-			echo '0';
+			$this->load->view('errors/404_view');
 		}
 	}
 

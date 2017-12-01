@@ -8,7 +8,7 @@
  		<i class="large material-icons">add</i>
     </a>
     <ul>
-        <li><a class="btn-floating green darken-1 tooltipped modal-trigger" data-target="modal-add-link" data-position="left" data-delay="50" data-tooltip="Join Class"><i class="material-icons">swap_horiz</i></a></li>
+        <li><a class="btn-floating green darken-1 modal-trigger tooltipped" data-target="modal-join-class" id="join" data-position="left" data-delay="50" data-tooltip="Join Class"><i class="material-icons">swap_horiz</i></a></li>
         <li><a class="btn-floating blue tooltipped modal-trigger" data-target="modal-create-class" data-position="left" data-delay="50" data-tooltip="Create Class"><i class="material-icons">create_new_folder</i></a></li>
     </ul>
 </div>
@@ -50,8 +50,69 @@
         </div>
     </div>
 
+    <!-- Modal : Join class -->
+  <div id="modal-join-class" class="modal">
+      <div class="modal-content" class="col l3 m6 s12">
+          <h4>Join Class</h4>
+          <p style="margin-top:-15px">Enter class code</p><br><br>
+          <div class="row" style="margin-top:-50px;margin-bottom:38px">
+            <div class="alert alert-info" id="alerts">Enter 7-digit class code to join</div>
+          </div>
+          <!-- <div class="row" style="margin-top:-50px;margin-bottom:38px">
+            <div class="alert alert-info">
+                <p id="cname">Class Name</p>
+                <p id="cdesc">Class Descript</p>
+                <p id="cmemb">34 Member</p>
+            </div>
+          </div> -->
+          <div class="row">
+              <form method="post" action="#" id="formjoin">                <!-- FORM E RUET -->
+                  <div class="row" style="margin-top:-45px">
+                      <div class="input-field col s12">
+                          <i class="material-icons prefix">code</i>
+                          <input type="text" class="validate" name="code" required maxlength="7">
+                          <label>Class Code</label>
+                      </div>
+                  </div>
+                  <input value="Join" style="margin-top:-20px" class="btn waves-effect waves-light right blue darken-1 col s12 m4 l4" type="submit" name="join">
+              </form>
+          </div>
+      </div>
+  </div>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="<?php echo base_url() ?>assets/js/init.js"></script>
 <script type="text/javascript">
-  $(document).ready(function(){
-    $('.tooltipped').tooltip({delay: 50});
-  });
+$("#formjoin").submit(function(event) {
+    $("#alerts").html("Checking code ..");
+    $('#alerts').removeClass("alert-danger");
+    $('#alerts').removeClass("alert-info");
+    $('#alerts').addClass("alert-success");
+    var params = $('#formjoin').serialize();
+    $.ajax({
+        url: '<?php echo base_url() ?>aclass/checkcode',
+        data: params,
+        method: 'post',
+        success: function(html) {
+            if (html == '2') {
+                $("#alerts").html("Invalid code");
+                $('#alerts').removeClass("alert-success");
+                $('#alerts').removeClass("alert-info");
+                $('#alerts').addClass("alert-danger");
+            } else if (html == '1') {
+                $("#alerts").html("Joining class ...");
+                $('#alerts').removeClass("alert-success");
+                $('#alerts').removeClass("alert-info");
+                $('#alerts').addClass("alert-success");
+                location.reload()
+            }
+        },
+        error: function(argument) {
+            $("#alerts").html("Something went wrong");
+            $('#alerts').removeClass("alert-success");
+            $('#alerts').removeClass("alert-info");
+            $('#alerts').addClass("alert-danger");
+        }
+    });
+    event.preventDefault();
+});
 </script>
