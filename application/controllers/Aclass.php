@@ -16,7 +16,7 @@ class Aclass extends CI_Controller {
 
 	public function index(){
 		if($this->Class_model->isHave() == true){
-			$data['primary_view'] = 'class/class_view';
+			$data['primary_view'] = 'class/noklas';
 			$data['classdata'] = $this->Class_model->getClassData();
 		}else{
 			$data['primary_view'] = 'class/no_class_view';

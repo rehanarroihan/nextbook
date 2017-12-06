@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
+	<link rel="icon" type="image/png" href="<?php echo base_url() ?>assets/2.0/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 	<title><?php if(!empty($title)){echo $title.' | ';} ?>Nextbook</title>
@@ -10,19 +10,9 @@
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
-
     <!-- Bootstrap core CSS     -->
     <link href="<?php echo base_url() ?>assets/2.0/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet" /> 
-
-    <!-- Button Icon -->
-    <link rel="icon" href="http://propeller.in/assets/images/favicon.ico" type="image/x-icon">
-    <link href="http://propeller.in/components/floating-action-button/css/floating-action-button.css" type="text/css" rel="stylesheet" /> 
-    <link href="http://propeller.in/components/button/css/button.css" type="text/css" rel="stylesheet" /> 
-    <link href="http://propeller.in/components/card/css/card.css" type="text/css" rel="stylesheet" />
-    <link href="http://propeller.in/docs/css/example-docs.css" type="text/css" rel="stylesheet" />
-    <link href="http://propeller.in/components/typography/css/typography.css" type="text/css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Animation library for notifications   -->
     <link href="<?php echo base_url() ?>assets/2.0/css/animate.min.css" rel="stylesheet"/>
@@ -43,11 +33,8 @@
 <body>
 
 <div class="wrapper">
-    <div class="sidebar" data-color="#3498db" data-image="assets/img/sidebar-5.jpg">
-
+    <div class="sidebar" data-color="blue" data-image="<?php echo base_url() ?>assets/2.0/img/sidebar-4.jpg">
     <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
-
-
     	<div class="logo">
             <a href="#" class="simple-text logo-mini">
                 NB
@@ -59,30 +46,32 @@
         </div>
         
         <div class="sidebar-wrapper">
-            <div class="user">
+            <div class="user"> 
 				<div class="info">
 					<div class="photo">
-	                    <img src="" />
+	                    <img src="<?php echo base_url() ?>assets/2.0/img/default-avatar.png" />
 	                </div>
 
 					<a data-toggle="collapse" href="#collapseExample" class="collapsed">
 						<span>
-							user
-	                        <b class="caret"></b>
+							<?php echo $this->session->userdata('dspname'); ?>
+	                        <!-- <b class="caret"></b> -->
 						</span>
                     </a>
 
-					<div class="collapse" id="collapseExample">
+					<div class="" id="collapseExample">
 						<ul class="nav">
 							<li>
 								<a href="#pablo">
-									<span class="sidebar-normal">My Profile</span>
+                                    <span class="sidebar-mini"><i class="pe-7s-mail"></i></span>
+									<span class="sidebar-normal"><?php echo $this->session->userdata('email'); ?></span>
 								</a>
 							</li>
 
 							<li>
-								<a href="#pablo">
-									<span class="sidebar-normal">Settings</span>
+								<a href="<?php echo base_url() ?>auth/logout">
+                                    <span class="sidebar-mini"><i class="pe-7s-prev"></i></span>
+									<span class="sidebar-normal">Logout</span>
 								</a>
 							</li>
 						</ul>
@@ -131,7 +120,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">User</a>
+                    <!-- <a class="navbar-brand" href="#">User</a> -->
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
@@ -165,7 +154,7 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
+                        <!-- <li>
                            <a href="">
                                <p>...</p>
                             </a>
@@ -174,7 +163,7 @@
                             <a href="#">
                                 <p>Log out</p>
                             </a>
-                        </li>
+                        </li> -->
 						<li class="separator hidden-lg hidden-md"></li>
                     </ul>
                 </div>

@@ -9123,10 +9123,6 @@ star {
     border-radius: 4px;
 }
 
-.card-user .image {
-    height: 110px;
-}
-
 .card-user .image-plain {
     height: 0;
     margin-top: 110px;
@@ -9155,7 +9151,7 @@ star {
 }
 
 .card-user .content {
-    min-height: 240px;
+    min-height: 9px;
 }
 
 .card-user .footer,

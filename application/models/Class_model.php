@@ -52,7 +52,7 @@ class Class_model extends CI_Model {
 	public function getClassData(){
 		$classID = $this->db->where('uid', $this->session->userdata('uid'))
 								->get('user')->row()->classid;
-		return $this->db->where('classid', $classID)->get('class')->row();
+		return $this->db->where('class.classid', $classID)->join('user', 'user.uid = class.created_by', 'left')->get('class')->row();
 	}
 
 	public function join($code){
