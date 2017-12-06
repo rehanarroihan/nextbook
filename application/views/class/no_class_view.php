@@ -3,15 +3,28 @@
 	<img src="<?php echo base_url() ?>assets/img/noclass_mobile.png" class="hide-on-med-and-up show-on-medium-and-down" style="height:550px;pointer-events: none;">
 </div>
 
-<div class="fixed-action-btn">
-    <a class="btn-floating btn-large red">
- 		<i class="large material-icons">add</i>
-    </a>
-    <ul>
-        <li><a class="btn-floating green darken-1 modal-trigger tooltipped" data-target="modal-join-class" id="join" data-position="left" data-delay="50" data-tooltip="Join Class"><i class="material-icons">swap_horiz</i></a></li>
-        <li><a class="btn-floating blue tooltipped modal-trigger" data-target="modal-create-class" data-position="left" data-delay="50" data-tooltip="Create Class"><i class="material-icons">create_new_folder</i></a></li>
-    </ul>
-</div>
+ <div class="menu pmd-floating-action" role="navigation"> 
+        <a href="javascript:void(0);" class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-default" data-title="Supervisor Account"> 
+            <span class="pmd-floating-hidden">Supervisor Account</span>
+            <i class="material-icons">supervisor_account</i> 
+        </a> 
+        <a href="javascript:void(0);" class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-default" data-title="Cloud Queue"> 
+            <span class="pmd-floating-hidden">Cloud Queue</span> 
+            <i class="material-icons">cloud_queue</i> 
+        </a> 
+        <a href="javascript:void(0);" class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-default" data-title="Headset"> 
+            <span class="pmd-floating-hidden">Headset</span> 
+            <i class="material-icons">headset</i> 
+        </a> 
+        <a href="javascript:void(0);" class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-default" data-title="Dialpad"> 
+            <span class="pmd-floating-hidden">Dialpad</span> 
+            <i class="material-icons">dialpad</i> 
+        </a> 
+        <a href="javascript:void(0);" class="pmd-floating-action-btn btn pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-primary" data-title="Add"> 
+            <span class="pmd-floating-hidden">Primary</span>
+            <i class="material-icons pmd-sm">add</i> 
+        </a> 
+    </div>
 
 <!-- Modal : Create class -->
   <div id="modal-create-class" class="modal">

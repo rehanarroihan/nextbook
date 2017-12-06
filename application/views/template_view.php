@@ -13,6 +13,16 @@
 
     <!-- Bootstrap core CSS     -->
     <link href="<?php echo base_url() ?>assets/2.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet" /> 
+
+    <!-- Button Icon -->
+    <link rel="icon" href="http://propeller.in/assets/images/favicon.ico" type="image/x-icon">
+    <link href="http://propeller.in/components/floating-action-button/css/floating-action-button.css" type="text/css" rel="stylesheet" /> 
+    <link href="http://propeller.in/components/button/css/button.css" type="text/css" rel="stylesheet" /> 
+    <link href="http://propeller.in/components/card/css/card.css" type="text/css" rel="stylesheet" />
+    <link href="http://propeller.in/docs/css/example-docs.css" type="text/css" rel="stylesheet" />
+    <link href="http://propeller.in/components/typography/css/typography.css" type="text/css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Animation library for notifications   -->
     <link href="<?php echo base_url() ?>assets/2.0/css/animate.min.css" rel="stylesheet"/>
@@ -33,7 +43,7 @@
 <body>
 
 <div class="wrapper">
-    <div class="sidebar" data-color="orange" data-image="assets/img/sidebar-5.jpg">
+    <div class="sidebar" data-color="#3498db" data-image="assets/img/sidebar-5.jpg">
 
     <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
 
