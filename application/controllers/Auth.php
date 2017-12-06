@@ -60,7 +60,7 @@ class Auth extends CI_Controller {
 	            $userData['oauth_provider'] = 'facebook';
 	            $userData['oauth_id'] 		= $userProfile['id'];
 	            $userData['dspname']	 	= $userProfile['first_name']." ".$userProfile['last_name'];
-	            if (!isset($userProfile['email'])) {
+	            if(!isset($userProfile['email'])) {
 	            	$userData['email'] 			= 'N/A';
 	            }else{
 	            	$userData['email'] 			= $userProfile['email'];

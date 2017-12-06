@@ -21,7 +21,7 @@ class Aclass extends CI_Controller {
 		}else{
 			$data['primary_view'] = 'class/no_class_view';
 		}
-		$this->load->view('main_view', $data);
+		$this->load->view('template_view', $data);
 	}
 
 	public function createclass(){

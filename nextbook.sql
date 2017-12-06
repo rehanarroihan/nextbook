@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2017 at 03:23 AM
+-- Generation Time: Dec 06, 2017 at 02:17 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -41,11 +41,8 @@ CREATE TABLE `card` (
 --
 
 INSERT INTO `card` (`card_id`, `uid`, `card_name`, `card_desc`, `color`, `card_dt`, `status`) VALUES
-('crd001', 'usr00317111', 'Iki Kartu', 'Hehehe', 'green', '2017-11-20', 'active'),
-('crd002', 'usr00317111', 'Iki sisan', 'hehe', 'blue', '2017-11-20', 'active'),
-('crd003', 'usr00317111', 'Purple', 'y', 'purple', '2017-11-20', 'active'),
-('crd004', 'usr00317111', 'Abang', 'i', 'red', '2017-11-20', 'active'),
-('crd005', 'usr00317111', 'Gre', 'y', 'blue-grey', '2017-11-20', 'active');
+('crd001', 'usr00317111', 'Class', '19.50 at hall C', 'green', '2017-11-27', 'active'),
+('crd002', 'usr00417112', 'k', 'q', 'red', '2017-11-30', 'active');
 
 -- --------------------------------------------------------
 
@@ -61,12 +58,27 @@ CREATE TABLE `chngpassreq` (
   `status` enum('unmodified','modified') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `chngpassreq`
+-- Table structure for table `class`
 --
 
-INSERT INTO `chngpassreq` (`changeid`, `uid`, `dte_req`, `token`, `status`) VALUES
-(5, 'usr00217082', '2017-10-06', 'fmL2VYVg0TRtppkxIyjKxz9qZqcRNAVv', 'modified');
+CREATE TABLE `class` (
+  `classid` varchar(7) NOT NULL,
+  `created_by` varchar(15) NOT NULL,
+  `name` varchar(225) NOT NULL,
+  `descript` varchar(225) NOT NULL,
+  `member` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `class`
+--
+
+INSERT INTO `class` (`classid`, `created_by`, `name`, `descript`, `member`) VALUES
+('D0fdtTo', 'usr00317111', 'SIRA', 'Kurang gati', 'usr00317111'),
+('Ioj20xc', 'usr00417112', 'Kelasku Rek', 'Pokok e kelasku', 'usr00417112');
 
 -- --------------------------------------------------------
 
@@ -81,6 +93,13 @@ CREATE TABLE `file` (
   `filetype` enum('img','pdf','docx','pptx','txt','link') NOT NULL,
   `dte_added` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `file`
+--
+
+INSERT INTO `file` (`file_id`, `card_id`, `file_name`, `filetype`, `dte_added`) VALUES
+('fle001', 'crd001', 'https://www.msn.com/id-id/?ocid=wispr&pc=u477', 'link', '2017-11-27');
 
 -- --------------------------------------------------------
 
@@ -98,6 +117,22 @@ CREATE TABLE `frnd` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `schedule`
+--
+
+CREATE TABLE `schedule` (
+  `scheduleid` varchar(10) NOT NULL,
+  `classid` varchar(7) NOT NULL,
+  `lesson` varchar(225) NOT NULL,
+  `day` int(1) NOT NULL,
+  `start` time NOT NULL,
+  `end` time NOT NULL,
+  `teacher` varchar(225) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -108,6 +143,7 @@ CREATE TABLE `user` (
   `dspname` varchar(128) NOT NULL,
   `username` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL,
+  `classid` varchar(7) DEFAULT NULL,
   `picture_url` varchar(255) NOT NULL,
   `profile_url` varchar(255) NOT NULL,
   `password` varchar(128) NOT NULL,
@@ -123,10 +159,11 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`uid`, `oauth_provider`, `oauth_id`, `dspname`, `username`, `email`, `picture_url`, `profile_url`, `password`, `last_login`, `status`, `gender`, `locale`, `created`, `modified`) VALUES
-('usr00117111', 'facebook', '1440510312685448', 'Rehan Arroihan', '', 'rehanarroihan@ymail.com', 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13882146_1017086031694547_1916002235493349133_n.jpg?_nc_eui2=v1%3AAeGhij6piqVI3RyPEfZDWxgM75V4zQMD6dF2qTL9HesaXpf0R8irQo4xSQiFHTeV3biMD3oCoqcPsl-UDyuIDM4y&oh=733ceba01138275ec1841e7795e1f588&oe=5A6670DC', 'https://www.facebook.com/1440510312685448', '', '2017-11-13 12:32:32', 'virified', 'male', 'en_US', '2017-11-10 18:55:14', '2017-11-13 12:32:32'),
-('usr00217111', 'facebook', '1980913935482603', 'Setiawan Dwi Prasetiyo', '', 'N/A', 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/12524197_1694557744118225_6384740092753644236_n.jpg?_nc_eui2=v1%3AAeE19-0ERsGMHcH1yLRXMXtTqLMa-ZIj8TAlHIy2bW3ZbljLW0-vIJ8Mn-gJUm8GOKNp971K-Sl29dVRksj17TRC&oh=f672e84e239abd1a69521c4924e421de&oe=5AABF0D9', 'https://www.facebook.com/1980913935482603', '', '2017-11-13 12:33:48', 'virified', 'male', 'id_ID', '2017-11-13 12:26:09', '2017-11-13 12:33:48'),
-('usr00317111', 'email', '', 'Rehan Arroihan', 'rehan', 'third2014project@gmail.com', '', '', 'rehans', '2017/11/19 23:48:50', 'verified', '', '', '2017-11-17 05:01:57', '0000-00-00 00:00:00');
+INSERT INTO `user` (`uid`, `oauth_provider`, `oauth_id`, `dspname`, `username`, `email`, `classid`, `picture_url`, `profile_url`, `password`, `last_login`, `status`, `gender`, `locale`, `created`, `modified`) VALUES
+('usr00117111', 'facebook', '1440510312685448', 'Rehan Arroihan', '', 'rehanarroihan@ymail.com', 'D0fdtTo', 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/23561819_1445678905501922_1151820693594942317_n.jpg?oh=407ad8e8048ce956aa740b9d2cd63da6&oe=5A8FDBEB', 'https://www.facebook.com/1440510312685448', '', '2017-12-01 12:00:17', 'virified', 'male', 'en_US', '2017-11-10 18:55:14', '2017-12-01 12:00:17'),
+('usr00217111', 'facebook', '1980913935482603', 'Setiawan Dwi Prasetiyo', '', 'N/A', NULL, 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/12524197_1694557744118225_6384740092753644236_n.jpg?_nc_eui2=v1%3AAeE19-0ERsGMHcH1yLRXMXtTqLMa-ZIj8TAlHIy2bW3ZbljLW0-vIJ8Mn-gJUm8GOKNp971K-Sl29dVRksj17TRC&oh=f672e84e239abd1a69521c4924e421de&oe=5AABF0D9', 'https://www.facebook.com/1980913935482603', '', '2017-11-13 12:33:48', 'virified', 'male', 'id_ID', '2017-11-13 12:26:09', '2017-11-13 12:33:48'),
+('usr00317111', 'email', '', 'Rehan Arroihan', 'rehan', 'third2014project@gmail.com', 'D0fdtTo', '', '', 'rehans', '2017/12/06 17:23:02', 'verified', '', '', '2017-11-17 05:01:57', '0000-00-00 00:00:00'),
+('usr00417112', '', '', 'Hanhan', 'hanhan', 'multazamgsd@gmail.com', NULL, '', '', 'menjadikan', '2017/11/30 10:03:56', 'verified', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
@@ -143,7 +180,15 @@ ALTER TABLE `card`
 -- Indexes for table `chngpassreq`
 --
 ALTER TABLE `chngpassreq`
-  ADD PRIMARY KEY (`changeid`);
+  ADD PRIMARY KEY (`changeid`),
+  ADD KEY `FK_USER_REQ_PASS` (`uid`);
+
+--
+-- Indexes for table `class`
+--
+ALTER TABLE `class`
+  ADD PRIMARY KEY (`classid`),
+  ADD KEY `FK_USER_CREATE_CLASS` (`created_by`);
 
 --
 -- Indexes for table `file`
@@ -161,20 +206,17 @@ ALTER TABLE `frnd`
   ADD KEY `FK_USER_PNYTEMAN` (`dgdia`);
 
 --
+-- Indexes for table `schedule`
+--
+ALTER TABLE `schedule`
+  ADD PRIMARY KEY (`scheduleid`),
+  ADD KEY `FK_CLASS_HAVE_SCHEDULE` (`classid`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`uid`);
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `card`
---
-ALTER TABLE `card`
-  ADD CONSTRAINT `FK_USER_CREATE_CARD` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
