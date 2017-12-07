@@ -11,7 +11,8 @@ class Class_model extends CI_Model {
 			'created_by'	=> $uid,
 			'name'			=> $this->input->post('name'),
 			'descript'		=> $this->input->post('descript'),
-			'member'		=> $uid
+			'dt_created'	=> date("Y-m-d"),
+			'photo'			=> 'group.png'
 		);
 		$this->db->insert('class', $object);
 		$this->db->where('uid', $uid)->update('user',  array('classid' => $code));
@@ -57,6 +58,15 @@ class Class_model extends CI_Model {
 
 	public function join($code){
 		$this->db->where('uid', $this->session->userdata('uid'))->update('user',  array('classid' => $code));
+		if($this->db->affected_rows() > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function unenroll(){
+		$this->db->where('uid', $this->session->userdata('uid'))->update('user',  array('classid' => NULL));
 		if($this->db->affected_rows() > 0){
 			return true;
 		}else{
