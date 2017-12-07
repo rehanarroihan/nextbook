@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<link rel="icon" type="image/png" href="<?php echo base_url() ?>assets/2.0/img/favicon.ico">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="<?php echo base_url() ?>assets/2.0/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title><?php if(!empty($title)){echo $title.' | ';} ?>Nextbook</title>
+    <title><?php if(!empty($title)){echo $title.' | ';} ?>Nextbook</title>
 
-	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
     <!-- Bootstrap core CSS     -->
@@ -29,89 +29,93 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="<?php echo base_url() ?>assets/2.0/css/pe-icon-7-stroke.css" rel="stylesheet" />
+
+    <!-- Sweet Alert -->
+    <script src="<?php echo base_url() ?>assets/vendors/swal/sweetalert-dev.js"></script>
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/swal/sweetalert.css">
 </head>
 <body>
 
 <div class="wrapper">
-    <div class="sidebar" data-color="blue" data-image="<?php echo base_url() ?>assets/2.0/img/sidebar-4.jpg">
+    <div class="sidebar" data-color="azure" data-image="<?php echo base_url() ?>assets/2.0/img/sidebar-5.jpg">
     <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
-    	<div class="logo">
+        <div class="logo">
             <a href="#" class="simple-text logo-mini">
-                NB
+
             </a>
 
-			<a href="<?php echo base_url();?>" class="simple-text logo-normal">
-				NextBook
-			</a>
+            <a href="#" class="simple-text logo-normal">
+                <img src="<?php echo base_url() ?>assets/img/logo1.png" style="width:120px">
+            </a>
         </div>
         
         <div class="sidebar-wrapper">
             <div class="user"> 
-				<div class="info">
-					<div class="photo">
-	                    <img src="<?php echo base_url() ?>assets/2.0/img/default-avatar.png" />
-	                </div>
+                <div class="info">
+                    <div class="photo">
+                        <img src="<?php echo base_url() ?>assets/2.0/img/default-avatar.png" />
+                    </div>
 
-					<a data-toggle="collapse" href="#collapseExample" class="collapsed">
-						<span>
-							<?php echo $this->session->userdata('dspname'); ?>
-	                        <!-- <b class="caret"></b> -->
-						</span>
+                    <a data-toggle="collapse" href="#collapseExample" class="collapsed">
+                        <span>
+                            <?php echo $this->session->userdata('dspname'); ?>
+                            <!-- <b class="caret"></b> -->
+                        </span>
                     </a>
 
-					<div class="" id="collapseExample">
-						<ul class="nav">
-							<li>
-								<a href="#pablo">
+                    <div class="" id="collapseExample">
+                        <ul class="nav">
+                            <li>
+                                <a href="#pablo">
                                     <span class="sidebar-mini"><i class="pe-7s-mail"></i></span>
-									<span class="sidebar-normal"><?php echo $this->session->userdata('email'); ?></span>
-								</a>
-							</li>
+                                    <span class="sidebar-normal"><?php echo $this->session->userdata('email'); ?></span>
+                                </a>
+                            </li>
 
-							<li>
-								<a href="<?php echo base_url() ?>auth/logout">
+                            <li>
+                                <a href="<?php echo base_url() ?>auth/logout">
                                     <span class="sidebar-mini"><i class="pe-7s-prev"></i></span>
-									<span class="sidebar-normal">Logout</span>
-								</a>
-							</li>
-						</ul>
+                                    <span class="sidebar-normal">Logout</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-				</div>
+                </div>
             </div>
             
             
 
             <ul class="nav">
                 <li>
-                    <a href="<?php echo base_url();?>Aclass">
+                    <a href="<?php echo base_url() ?>aclass">
                         <i class="pe-7s-graph"></i>
                         <p>Class</p>
                     </a>
                 </li>
-                <li>
-                    <a href="<?php echo base_url();?>Card">
+                <li class="">
+                    <a href="<?php echo base_url() ?>card">
                         <i class="pe-7s-user"></i>
                         <p>Card</p>
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo base_url();?>Profile">
+                    <a href="<?php echo base_url() ?>profile">
                         <i class="pe-7s-note2"></i>
                         <p>Profile</p>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?php echo base_url() ?>setting">
                         <i class="pe-7s-news-paper"></i>
                         <p>Setting</p>
                     </a>
                 </li>
             </ul>
-    	</div>
+        </div>
     </div>
 
     <div class="main-panel">
-		<nav class="navbar navbar-default navbar-fixed">
+        <nav class="navbar navbar-default navbar-fixed">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
@@ -129,10 +133,10 @@
                                     <i class="fa fa-globe"></i>
                                     <b class="caret hidden-sm hidden-xs"></b>
                                     <span class="notification hidden-sm hidden-xs">5</span>
-									<p class="hidden-lg hidden-md">
-										5 Notifications
-										<b class="caret"></b>
-									</p>
+                                    <p class="hidden-lg hidden-md">
+                                        5 Notifications
+                                        <b class="caret"></b>
+                                    </p>
                               </a>
                               <ul class="dropdown-menu">
                                 <li><a href="#">Notification 1</a></li>
@@ -147,7 +151,7 @@
                            <form class="navbar-form navbar-left navbar-search-form" role="search">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                    <input type="text" value="" class="form-control" placeholder="Search...">
+                                    <input type="text" value="" class="form-control" placeholder="Search user">
                                 </div>
                             </form>
                         </li>
@@ -164,7 +168,7 @@
                                 <p>Log out</p>
                             </a>
                         </li> -->
-						<li class="separator hidden-lg hidden-md"></li>
+                        <li class="separator hidden-lg hidden-md"></li>
                     </ul>
                 </div>
             </div>
@@ -220,10 +224,10 @@
 
     <!--   Core JS Files   -->
     <script src="<?php echo base_url() ?>assets/2.0/js/jquery.3.2.1.min.js" type="text/javascript"></script>
-	<script src="<?php echo base_url() ?>assets/2.0/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url() ?>assets/2.0/js/bootstrap.min.js" type="text/javascript"></script>
 
-	<!--  Charts Plugin -->
-	<script src="<?php echo base_url() ?>assets/2.0/js/chartist.min.js"></script>
+    <!--  Charts Plugin -->
+    <script src="<?php echo base_url() ?>assets/2.0/js/chartist.min.js"></script>
 
     <!--  Notifications Plugin    -->
     <script src="<?php echo base_url() ?>assets/2.0/js/bootstrap-notify.js"></script>
@@ -232,9 +236,21 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 
     <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-	<script src="<?php echo base_url() ?>assets/2.0/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
+    <script src="<?php echo base_url() ?>assets/2.0/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
 
-	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-	<script src="<?php echo base_url() ?>assets/2.0/js/demo.js"></script>
+    <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
+    <script src="<?php echo base_url() ?>assets/2.0/js/demo.js"></script>
+    <script type="text/javascript">
+        <?php $announce = $this->session->flashdata('announce'); ?>
+        <?php if(!empty($announce)): ?>
+            $.notify({
+                icon: 'pe-7s-bell',
+                message: "<b>Notification</b><br><?php echo $announce; ?>"
+            },{
+                type: 'info',
+                timer: 2000
+            });            
+        <?php endif; ?>
+    </script>
 
 </html>

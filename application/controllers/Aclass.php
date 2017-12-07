@@ -1,11 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 use Endroid\QrCode\QrCode;
 require APPPATH .'libraries/vendor/autoload.php';
-
 class Aclass extends CI_Controller {
-
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Class_model');
@@ -13,17 +10,15 @@ class Aclass extends CI_Controller {
 			redirect('auth');
 		}
 	}
-
 	public function index(){
 		if($this->Class_model->isHave() == true){
-			$data['primary_view'] = 'class/noklas';
+			$data['primary_view'] = 'class/class_view';
 			$data['classdata'] = $this->Class_model->getClassData();
 		}else{
 			$data['primary_view'] = 'class/no_class_view';
 		}
 		$this->load->view('template_view', $data);
 	}
-
 	public function createclass(){
 		if($this->input->post('class')){
 			if($this->Class_model->insert()  == true){
@@ -35,7 +30,19 @@ class Aclass extends CI_Controller {
 			}
 		}
 	}
-
+	public function unenroll(){
+		if($this->Class_model->isHave() == true){
+			if($this->Class_model->unenroll() == true){
+				$this->session->set_flashdata('announce', 'You unenroll a class');
+				redirect('aclass');
+			}else{
+				$this->session->set_flashdata('announce', 'Error');
+				redirect('aclass');
+			}
+		}else{
+			
+		}
+	}
 	public function checkcode(){
 		$code = $this->input->post('code');
 		if(!empty($code)){
@@ -52,7 +59,6 @@ class Aclass extends CI_Controller {
 			$this->load->view('errors/404_view');
 		}
 	}
-
 	public function genqr(){
 		$classid = $this->uri->segment(3);
 		$size = $this->uri->segment(4);
@@ -61,8 +67,6 @@ class Aclass extends CI_Controller {
 		$qr->setSize($size);
 		echo $qr->writeString();
 	}
-
 }
-
 /* End of file Aclass.php */
 /* Location: ./application/controllers/Aclass.php */
