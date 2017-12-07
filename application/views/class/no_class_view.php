@@ -6,39 +6,43 @@
 
 <!-- Floating Action Button like Google Material -->
 <button class="btn btn-default btn-fill btn-wd" data-toggle="modal" data-target="#modal-join-class">Join Class</button>
-<button class="btn btn-primary btn-fill btn-wd" data-toggle="modal" data-target="#modal-create-class">Create Class</button>
+<button class="btn btn-primary btn-fill btn-wd">Primary</button>
 
 <!-- Modal : Create class -->
-<div class="modal fade" id="modal-create-class" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+  <div id="modal-create-class" class="modal">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Create Class</h5>
-          </div>
-          <div class="modal-body">
+            <h4>Create Class</h4>
+            <p style="margin-top:-15px">Create new class</p>
             <div class="row">
-            <div class="col-md-6">
-                <img src="<?php echo base_url() ?>assets/img/astro.png" class="hide-on-small-only" style="height:300px">
+                <div class="col m5">
+                    <img src="<?php echo base_url() ?>assets/img/astro.png" class="hide-on-small-only" style="height:300px">
+                </div>
+                <div class="col m7">
+                    <form class="col s12" method="post" action="<?php echo base_url() ?>aclass/createclass" style="margin-top:60px">
+                        <div class="row"  style="margin-top:-45px">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">folder_open</i>
+                                <input placeholder="ex: Epic Class" type="text" class="validate" name="name" required maxlength="17">
+                                <label>Class Name</label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:-50px">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">format_align_right</i>
+                                <textarea placeholder="ex: XII RPL 4 SMK Telkom Malang 2017/2018" id="descript" name="descript" class="materialize-textarea"></textarea>
+                                <label>Description</label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:-45px">
+                            <div class="col m7"></div>
+                            <div class="col m5">
+                              <input type="submit" name="class" class="waves-effect waves-light btn pull-m2" value="Create">
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="col-md-6">
-                <form method="post" action="<?php echo base_url() ?>aclass/createclass">
-                  <div class="form-group">
-                    <label class="form-control-label">Class Name</label>
-                    <input type="text" name="name" class="form-control" placeholder="ex: Epic Class" required maxlength="17">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-control-label">Class Description</label>
-                    <textarea rows="5" type="text" name="descript" class="form-control" placeholder="ex: XII RPL 4 SMK Telkom Malang 2017/2018" required></textarea>
-                  </div>
-                  <input type="submit" name="class" class="btn btn-fill btn-success pull-right" value="Create Class">
-                </form>
-            </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-          </div>
         </div>
-      </div>
     </div>
 
     <!-- Modal : Join class -->

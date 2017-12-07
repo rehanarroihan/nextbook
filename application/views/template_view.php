@@ -29,10 +29,6 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="<?php echo base_url() ?>assets/2.0/css/pe-icon-7-stroke.css" rel="stylesheet" />
-
-    <!-- Sweet Alert -->
-    <script src="<?php echo base_url() ?>assets/vendors/swal/sweetalert-dev.js"></script>
-    <link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/swal/sweetalert.css">
 </head>
 <body>
 
@@ -151,7 +147,7 @@
                            <form class="navbar-form navbar-left navbar-search-form" role="search">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                    <input type="text" value="" class="form-control" placeholder="Search user">
+                                    <input type="text" value="" class="form-control" placeholder="Search...">
                                 </div>
                             </form>
                         </li>
@@ -240,17 +236,5 @@
 
 	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
 	<script src="<?php echo base_url() ?>assets/2.0/js/demo.js"></script>
-    <script type="text/javascript">
-        <?php $announce = $this->session->flashdata('announce'); ?>
-        <?php if(!empty($announce)): ?>
-            $.notify({
-                icon: 'pe-7s-bell',
-                message: "<b>Notification</b><br><?php echo $announce; ?>"
-            },{
-                type: 'info',
-                timer: 2000
-            });            
-        <?php endif; ?>
-    </script>
 
 </html>
