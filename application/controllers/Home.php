@@ -19,7 +19,7 @@ class Home extends CI_Controller {
 		}else{
 			$data['primary_view'] = 'card/no_card_view';
 		}
-		$this->load->view('main_view', $data);
+		$this->load->view('template_view', $data);
 	}
 
 	public function createcard(){

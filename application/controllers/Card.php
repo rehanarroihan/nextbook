@@ -35,7 +35,7 @@ class Card extends CI_Controller {
 		}else{
 			$data['primary_view'] = 'errors/404_partial_view';
 		}
-		$this->load->view('main_view', $data);
+		$this->load->view('template_view', $data);
 	}
 
 	public function edit(){
@@ -63,7 +63,7 @@ class Card extends CI_Controller {
 		}else{
 			$data['primary_view'] = 'errors/404_partial_view';
 		}
-		$this->load->view('main_view', $data);
+		$this->load->view('template_view', $data);
 	}
 
 	public function uploads(){

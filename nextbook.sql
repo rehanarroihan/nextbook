@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2017 at 02:17 PM
+-- Generation Time: Dec 07, 2017 at 12:52 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -69,16 +69,17 @@ CREATE TABLE `class` (
   `created_by` varchar(15) NOT NULL,
   `name` varchar(225) NOT NULL,
   `descript` varchar(225) NOT NULL,
-  `member` text NOT NULL
+  `dt_created` date NOT NULL,
+  `photo` varchar(255) NOT NULL DEFAULT 'group.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `class`
 --
 
-INSERT INTO `class` (`classid`, `created_by`, `name`, `descript`, `member`) VALUES
-('D0fdtTo', 'usr00317111', 'SIRA', 'Kurang gati', 'usr00317111'),
-('Ioj20xc', 'usr00417112', 'Kelasku Rek', 'Pokok e kelasku', 'usr00417112');
+INSERT INTO `class` (`classid`, `created_by`, `name`, `descript`, `dt_created`, `photo`) VALUES
+('D0fdtTo', 'usr00317111', 'XIIRPL4 - SIRA', 'SMK Telkom Malang 2017/2018', '2017-12-13', 'group.png'),
+('Ioj20xc', 'usr00417112', 'Kelasku Rek', 'Pokok e kelasku', '2017-12-09', 'group.png');
 
 -- --------------------------------------------------------
 
@@ -162,8 +163,8 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`uid`, `oauth_provider`, `oauth_id`, `dspname`, `username`, `email`, `classid`, `picture_url`, `profile_url`, `password`, `last_login`, `status`, `gender`, `locale`, `created`, `modified`) VALUES
 ('usr00117111', 'facebook', '1440510312685448', 'Rehan Arroihan', '', 'rehanarroihan@ymail.com', 'D0fdtTo', 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/23561819_1445678905501922_1151820693594942317_n.jpg?oh=407ad8e8048ce956aa740b9d2cd63da6&oe=5A8FDBEB', 'https://www.facebook.com/1440510312685448', '', '2017-12-01 12:00:17', 'virified', 'male', 'en_US', '2017-11-10 18:55:14', '2017-12-01 12:00:17'),
 ('usr00217111', 'facebook', '1980913935482603', 'Setiawan Dwi Prasetiyo', '', 'N/A', NULL, 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/12524197_1694557744118225_6384740092753644236_n.jpg?_nc_eui2=v1%3AAeE19-0ERsGMHcH1yLRXMXtTqLMa-ZIj8TAlHIy2bW3ZbljLW0-vIJ8Mn-gJUm8GOKNp971K-Sl29dVRksj17TRC&oh=f672e84e239abd1a69521c4924e421de&oe=5AABF0D9', 'https://www.facebook.com/1980913935482603', '', '2017-11-13 12:33:48', 'virified', 'male', 'id_ID', '2017-11-13 12:26:09', '2017-11-13 12:33:48'),
-('usr00317111', 'email', '', 'Rehan Arroihan', 'rehan', 'third2014project@gmail.com', 'D0fdtTo', '', '', 'rehans', '2017/12/06 17:23:02', 'verified', '', '', '2017-11-17 05:01:57', '0000-00-00 00:00:00'),
-('usr00417112', '', '', 'Hanhan', 'hanhan', 'multazamgsd@gmail.com', NULL, '', '', 'menjadikan', '2017/11/30 10:03:56', 'verified', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+('usr00317111', 'email', '', 'Rehan Arroihan', 'rehan', 'third2014project@gmail.com', 'D0fdtTo', '', '', 'rehans', '2017/12/07 06:51:25', 'verified', '', '', '2017-11-17 05:01:57', '0000-00-00 00:00:00'),
+('usr00417112', '', '', 'Hanhan', 'hanhan', 'multazamgsd@gmail.com', NULL, '', '', 'menjadikan', '2017/12/07 00:24:33', 'verified', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
