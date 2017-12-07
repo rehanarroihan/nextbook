@@ -44,7 +44,7 @@
                 NB
             </a>
 
-			<a href="#" class="simple-text logo-normal">
+			<a href="<?php echo base_url();?>" class="simple-text logo-normal">
 				NextBook
 			</a>
         </div>
@@ -87,25 +87,25 @@
 
             <ul class="nav">
                 <li>
-                    <a href="dashboard.html">
+                    <a href="<?php echo base_url();?>Aclass">
                         <i class="pe-7s-graph"></i>
                         <p>Class</p>
                     </a>
                 </li>
-                <li class="active">
-                    <a href="user.html">
+                <li>
+                    <a href="<?php echo base_url();?>Card">
                         <i class="pe-7s-user"></i>
                         <p>Card</p>
                     </a>
                 </li>
                 <li>
-                    <a href="table.html">
+                    <a href="<?php echo base_url();?>Profile">
                         <i class="pe-7s-note2"></i>
                         <p>Profile</p>
                     </a>
                 </li>
                 <li>
-                    <a href="typography.html">
+                    <a href="#">
                         <i class="pe-7s-news-paper"></i>
                         <p>Setting</p>
                     </a>
