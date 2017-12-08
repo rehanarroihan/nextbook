@@ -88,6 +88,7 @@ class Aclass extends CI_Controller {
 	public function schedule(){
 		$data['primary_view'] = 'class/class_view';
 		$data['partial'] = 'class/schedule_view';
+		$data['interface'] = $this->Setting_model->get_interface();
 		$data['classdata'] = $this->Class_model->getClassData();
 		$this->load->view('template_view', $data);
 	}

@@ -47,7 +47,7 @@
                             <img style="margin-right: 5%" height="150px" width="10%" src="<?php echo base_url();?>assets/2.0/img/sidebar-5.jpg">
                         </div>
 
-                        <input type="submit" name="submit" class="btn btn-default btn-fill btn-wd" value="Submit">
+                        <input type="submit" name="submit" class="btn btn-info btn-fill btn-wd pull-right" value="Save Change">
                     </div>
                 </form>
             </div>
