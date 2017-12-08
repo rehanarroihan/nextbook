@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Class_model extends CI_Model {
+
 	public function insert(){
 		$uid = $this->session->userdata('uid');
 		$code = $this->generateCode();
@@ -20,6 +21,7 @@ class Class_model extends CI_Model {
 			return false;
 		}
 	}
+
 	public function generateCode(){
 		$done = 0;
 		do{
@@ -37,6 +39,7 @@ class Class_model extends CI_Model {
 		}while($done != 1);
 		return $code;
 	}
+
 	public function isHave(){
 		$ehe = $this->db->where('uid', $this->session->userdata('uid'))->get('user');
 		if($ehe->row()->classid != NULL){
@@ -45,11 +48,15 @@ class Class_model extends CI_Model {
 			return false;
 		}
 	}
+
 	public function getClassData(){
 		$classID = $this->db->where('uid', $this->session->userdata('uid'))
 								->get('user')->row()->classid;
-		return $this->db->where('class.classid', $classID)->join('user', 'user.uid = class.created_by', 'left')->get('class')->row();
+		return $this->db->where('class.classid', $classID)
+						->join('user', 'user.uid = class.created_by', 'left')
+						->get('class')->row();
 	}
+
 	public function join($code){
 		$this->db->where('uid', $this->session->userdata('uid'))->update('user',  array('classid' => $code));
 		if($this->db->affected_rows() > 0){
@@ -58,6 +65,7 @@ class Class_model extends CI_Model {
 			return false;
 		}
 	}
+	
 	public function unenroll(){
 		$this->db->where('uid', $this->session->userdata('uid'))->update('user',  array('classid' => NULL));
 		if($this->db->affected_rows() > 0){
@@ -65,6 +73,11 @@ class Class_model extends CI_Model {
 		}else{
 			return false;
 		}
+	}
+
+	public function memberList(){
+		$classid = $this->getClassData()->classid;
+		return $this->db->where('classid', $classid)->get('user')->result();
 	}
 }
 /* End of file Class_model.php */

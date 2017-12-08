@@ -37,7 +37,7 @@
 <body>
 
 <div class="wrapper">
-    <div class="sidebar" data-color="azure" data-image="<?php echo base_url() ?>assets/2.0/img/sidebar-5.jpg">
+    <div class="sidebar" data-color="orange" data-image="<?php echo base_url() ?>assets/2.0/img/sidebar-5.jpg">
     <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
         <div class="logo">
             <a href="#" class="simple-text logo-mini">
