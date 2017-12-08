@@ -30,11 +30,20 @@ class Auth_model extends CI_Model {
 				$this->session->set_userdata($user);
             }
         }else{
+        	$uid = $this->generateUID();
             $data['created'] = date("Y-m-d H:i:s");
             $data['modified'] = date("Y-m-d H:i:s");
-            $data['uid'] = $this->generateUID();
+            $data['uid'] = $uid;
             $data['last_login'] = date("Y-m-d H:i:s");
             $this->db->insert('user', $data);
+
+            $object = array(
+				'uid' => $uid,
+				'color' => 'azure',
+				'image' => 'sidebar-5.jpg'
+					);
+            $this->db->insert('setting', $object);
+
             $userID = $this->generateUID();
             if ($this->db->affected_rows() > 0) {
             	$this->session->set_userdata('auth') == true;
@@ -70,12 +79,21 @@ class Auth_model extends CI_Model {
 				$this->session->set_userdata($user);
             }
         }else{
+            $userID = $this->generateUID();
+            $uid = $this->generateUID();
         	$data['created'] = date("Y-m-d H:i:s");
             $data['modified'] = date("Y-m-d H:i:s");
             $data['last_login'] = date("Y-m-d H:i:s");
-            $data['uid'] = $this->generateUID();
+            $data['uid'] = $uid;
             $this->db->insert('user', $usinfo);
-            $userID = $this->generateUID();
+
+            $object = array(
+				'uid' => $uid,
+				'color' => 'azure',
+				'image' => 'sidebar-5.jpg'
+					);
+            $this->db->insert('setting', $object);
+
             if ($this->db->affected_rows() > 0) {
             	$this->session->set_userdata('auth') == true;
             }
@@ -118,6 +136,17 @@ class Auth_model extends CI_Model {
 		$query = $this->db->where('username', $login)
 							->where('password', $password)
 							->get('user');
+
+		$setting = $this->db->where('uid', $query->row()->uid)->get('setting');
+
+		if ($setting->num_rows() <= 0) {
+			$object = array(
+				'uid' => $query->row()->uid,
+				'color' => 'azure',
+				'image' => 'sidebar-5.jpg'
+					);
+            return $this->db->insert('setting', $object);
+		}
 		if($query->num_rows() > 0){
 			return true;
 		}else{
@@ -152,8 +181,9 @@ class Auth_model extends CI_Model {
 	}
 
 	public function regVal(){
+		$uid = $this->generateUID();
 		$usinfo = array(
-			'uid'		=> $this->generateUID(),
+			'uid'		=> $uid,
 			'dspname'	=> $this->input->post('fullname'),
 			'username'	=> $this->input->post('username'),
 			'email'		=> $this->input->post('email'),
@@ -163,6 +193,14 @@ class Auth_model extends CI_Model {
 		);
 
 		$this->db->insert('user', $usinfo);
+
+		$object = array(
+				'uid' => $uid,
+				'color' => 'azure',
+				'image' => 'sidebar-5.jpg'
+					);
+        $this->db->insert('setting', $object);
+
 		if($this->db->affected_rows() > 0){
 			return true;
 		}else{
