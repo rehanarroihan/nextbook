@@ -6,6 +6,7 @@ class Aclass extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Class_model');
+		$this->load->model('Setting_model');
 		if($this->session->userdata('auth') == false){
 			redirect('auth');
 		}
@@ -17,6 +18,7 @@ class Aclass extends CI_Controller {
 		}else{
 			$data['primary_view'] = 'class/no_class_view';
 		}
+		$data['interface'] = $this->Setting_model->get_interface();
 		$this->load->view('template_view', $data);
 	}
 	public function createclass(){

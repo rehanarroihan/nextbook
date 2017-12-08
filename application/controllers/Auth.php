@@ -8,6 +8,7 @@ class Auth extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Auth_model');
+		$this->load->model('Setting_model');
 		$this->load->library('google');
 		$this->load->library('facebook');
 	}
