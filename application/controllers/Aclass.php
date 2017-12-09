@@ -8,6 +8,7 @@ class Aclass extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Class_model');
+		$this->load->model('Profile_model');
 		$this->load->model('Setting_model');
 		if($this->session->userdata('auth') == false){
 			redirect('auth');
@@ -24,6 +25,7 @@ class Aclass extends CI_Controller {
 			$data['primary_view'] = 'class/no_class_view';
 		}
 		$data['interface'] = $this->Setting_model->get_interface();
+		$data['detail'] = $this->Profile_model->getProfileDetail();
 		$this->load->view('template_view', $data);
 	}
 
@@ -81,16 +83,32 @@ class Aclass extends CI_Controller {
 
 	//Jangan di akses
 	public function member(){
-		$member = $this->Class_model->memberList();
-
+		if($this->input->post('estehplastikan')){
+			$data['memberlist'] = $this->Class_model->memberList();
+			$data['classdata'] = $this->Class_model->getClassData();
+			$this->load->view('class/member_view', $data);
+		}else{
+			$this->load->view('errors/404_view');
+		}
 	}
 
 	public function schedule(){
+<<<<<<< HEAD
+		if($this->input->post('sempolcrispy')){
+			$data['memberlist'] = $this->Class_model->memberList();
+			$data['classdata'] = $this->Class_model->getClassData();
+			$this->load->view('class/schedule_view', $data);
+		}else{
+			$this->load->view('errors/404_view');
+		}
+=======
 		$data['primary_view'] = 'class/class_view';
 		$data['partial'] = 'class/schedule_view';
 		$data['interface'] = $this->Setting_model->get_interface();
 		$data['classdata'] = $this->Class_model->getClassData();
+		$data['detail'] = $this->Profile_model->getProfileDetail();
 		$this->load->view('template_view', $data);
+>>>>>>> d3f831eda83853faee9297dd4477982a2625f7cb
 	}
 }
 /* End of file Aclass.php */
