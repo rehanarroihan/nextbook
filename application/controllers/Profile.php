@@ -32,6 +32,11 @@ class Profile extends CI_Controller {
 			# code...
 			$profile = '';
 			if($this->Profile_model->editProfile($profile) == TRUE){
+				$object = array(
+					'dspname' => $this->Profile_model->getProfileDetail()->dspname, 
+					'email' => $this->Profile_model->getProfileDetail()->email
+				);
+				$this->session->set_userdata( $object );
 				$this->session->set_flashdata('announce', 'Profile Success to Update');
 				redirect('Profile/edit');
 			}else{
@@ -47,6 +52,11 @@ class Profile extends CI_Controller {
 				if ($this->upload->do_upload('profilepict')){
 					$ident = '';
 					if($this->Profile_model->editProfile($this->upload->data(),$ident) == TRUE){
+						$object = array(
+							'dspname' => $this->Profile_model->getProfileDetail()->dspname, 
+							'email' => $this->Profile_model->getProfileDetail()->email
+						);
+						$this->session->set_userdata( $object );
 						$this->session->set_flashdata('announce', 'Profile Success to Update');
 						redirect('Profile/edit');
 					}else{
@@ -57,6 +67,11 @@ class Profile extends CI_Controller {
 					$profile = '';
 					$ident = $this->Profile_model->getProfileDetail()->profilepict;
 					if($this->Profile_model->editProfile($profile,$ident) == TRUE){
+						$object = array(
+							'dspname' => $this->Profile_model->getProfileDetail()->dspname, 
+							'email' => $this->Profile_model->getProfileDetail()->email
+						);
+						$this->session->set_userdata( $object );
 						$this->session->set_flashdata('announce', 'Profile Success to Update');
 						redirect('Profile/edit');
 					}else{
