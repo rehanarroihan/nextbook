@@ -31,7 +31,8 @@ class Profile extends CI_Controller {
 		if ($this->session->userdata('oauth_provider') == 'facebook') {
 			# code...
 			$profile = '';
-			if($this->Profile_model->editProfile($profile) == TRUE){
+			$ident = '';
+			if($this->Profile_model->editProfile($profile,$ident = '') == TRUE){
 				$object = array(
 					'dspname' => $this->Profile_model->getProfileDetail()->dspname, 
 					'email' => $this->Profile_model->getProfileDetail()->email
