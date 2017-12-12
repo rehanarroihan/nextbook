@@ -7,7 +7,6 @@ class Setting extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Setting_model');
-		$this->load->model('Profile_model');
 		if($this->session->userdata('auth') == false){
 			redirect('auth');
 		}
@@ -19,7 +18,6 @@ class Setting extends CI_Controller {
 		$data['primary_view'] = 'setting/setting_view';
 		$data['iface'] = $this->Setting_model->get_interface();
 		$data['interface'] = $this->Setting_model->get_interface();
-		$data['detail'] = $this->Profile_model->getProfileDetail();
 		$this->load->view('template_view', $data);
 	}
 

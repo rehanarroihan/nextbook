@@ -8,7 +8,6 @@ class Auth extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Auth_model');
-		$this->load->model('Profile_model');
 		$this->load->model('Setting_model');
 		$this->load->library('google');
 		$this->load->library('facebook');
@@ -20,7 +19,7 @@ class Auth extends CI_Controller {
 
 	public function login(){
 		if($this->session->userdata('auth') == true){
-			redirect('aclass');
+			redirect('aclass?page=main');
 		}else{
 			if($this->input->get('code')){
 				$this->facebook->destroy_session();

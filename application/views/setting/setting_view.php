@@ -56,3 +56,20 @@
 </div>
 <script src="<?php echo base_url() ?>assets/vendors/jquery/dist/jquery.min.js"></script>
 <script src="<?php echo base_url() ?>assets/vendors/jquery/dist/jquery-ui.js"></script>
+<script type="text/javascript">
+    $(".unrl").click(function(){
+        var classid = $(this).attr("id");
+        swal({
+            title: "Are you sure want to unenroll this class ?",
+            text: "This action can't be undone",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Unenroll",
+            closeOnConfirm: false
+        },
+        function() {
+            window.location.href = "<?php echo base_url() ?>aclass/unenroll";
+        });
+    });
+</script>

@@ -6,7 +6,6 @@ class Home extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Home_model');
-		$this->load->model('Profile_model');
 		$this->load->model('Setting_model');
 		if($this->session->userdata('auth') == false){
 			redirect('auth');
@@ -22,7 +21,6 @@ class Home extends CI_Controller {
 			$data['primary_view'] = 'card/no_card_view';
 		}
 		$data['interface'] = $this->Setting_model->get_interface();
-		$data['detail'] = $this->Profile_model->getProfileDetail();
 		$this->load->view('template_view', $data);
 	}
 

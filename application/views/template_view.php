@@ -9,8 +9,6 @@
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
-    <!-- Font Awesome-->
-    <link href="<?php echo base_url() ?>assets/2.0/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
 
     <!-- Bootstrap core CSS     -->
     <link href="<?php echo base_url() ?>assets/2.0/css/bootstrap.min.css" rel="stylesheet" />
@@ -55,23 +53,7 @@
             <div class="user"> 
                 <div class="info">
                     <div class="photo">
-                        <?php
-                            if ($this->session->userdata('oauth_provider') == 'facebook') {
-                                ?>
-                                <img src="https://graph.facebook.com/<?php echo $this->session->userdata('oauth_id');?>/picture">
-                                <?php
-                            }else{
-                                if ($detail->profilepict == '') {
-                                    ?>
-                                    <img src="<?php echo base_url() ?>assets/2.0/img/user/user.png" />
-                                    <?php
-                                }else{
-                                ?>
-                                    <img src="<?php echo base_url() ?>assets/2.0/img/user/<?php echo $detail->profilepict?>" />
-                                <?php
-                                }
-                            }
-                        ?>
+                        <img src="<?php echo base_url() ?>assets/2.0/img/default-avatar.png" />
                     </div>
 
                     <a data-toggle="collapse" href="#collapseExample" class="collapsed">

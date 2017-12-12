@@ -1,5 +1,3 @@
-    //Class view main
-    var url = "http://localhost/nextbook/";
     $(".unrl").click(function(){
         var classid = $(this).attr("id");
         swal({
@@ -12,57 +10,23 @@
             closeOnConfirm: false
         },
         function() {
-            window.location.href = url + "aclass/unenroll";
+            window.location.href = "<?php echo base_url() ?>aclass/unenroll";
         });
     });
 
     $(".classnav").click(function(){
         var now = $(this).attr("id");
         noblu();
-        $("#masok").empty();
         $("#load").css('display','block');
         if(now == 'navhome'){
             $('#' + now).addClass("btn-fill");
             $("#title").html("Home");
         }else if(now == 'navsche'){
             $('#' + now).addClass("btn-fill");
-            $.ajax({
-                url: url + "aclass/schedule",
-                type: "POST",
-                cache: false,
-                data: "sempolcrispy="+"truuu",
-                timeout: 9000,
-                error: function(jqXHR, textStatus, errorThrown){
-                    // if(textStatus==="timeout") {  
-                    //     alert("Call has timed out"); 
-                    // } else {
-                    //     alert("Another error was returned");
-                    // }
-                    $("#load").css('display','none');
-                    $('#masok').html("An error occured, try again later");
-                },
-                success: function(data){
-                    $("#load").css('display','none');
-                    $('#masok').html(data);
-                }                
-            })
+            $("#title").html("Schedule");
         }else if(now == 'navmember'){
             $('#' + now).addClass("btn-fill");
-            $.ajax({
-                url: url + "aclass/member",
-                type: "POST",
-                cache: false,
-                data: "estehplastikan="+"truuu",
-                timeout: 9000,
-                error: function(jqXHR, textStatus, errorThrown){
-                    $("#load").css('display','none');
-                    $('#masok').html("An error occured, try again later");
-                },
-                success: function(data){
-                    $("#load").css('display','none');
-                    $('#masok').html(data);
-                }   
-            })
+            $("#title").html("Member");
         }else if(now == 'navadmin'){
             $('#' + now).addClass("btn-fill");
             $("#title").html("Group Setting");

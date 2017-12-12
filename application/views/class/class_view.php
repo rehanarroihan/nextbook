@@ -27,7 +27,18 @@
             </div>
         </div>
 
-        <div id="masok"></div>
+        <?php if(!empty($partial)){$this->load->view($partial);} ?>
+
+        <!-- <div class="card" id="cardmain" style="margin-top:-10px">
+            <div class="header">
+                <span id="title">Home</span>
+            </div>
+            <div class="content" id="page">
+                <?php //foreach($memberlist as $member): ?>
+                    <p><?php //echo $member->dspname ?></p>
+                <?php //endforeach; ?>
+            </div>
+        </div> -->
 
         <img src="<?php echo base_url() ?>assets/2.0/img/load2.gif" id="load" style="height:200px;opacity: 0.2;display:none" class="center-block">
     </div>

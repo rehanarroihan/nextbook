@@ -13,24 +13,15 @@ class Auth_model extends CI_Model {
         
         if($prevCheck > 0){
             $prevResult = $prevQuery->row_array();
-            /*$data['modified'] = date("Y-m-d H:i:s");
-            $data['last_login'] = date("Y-m-d H:i:s");*/
-            $object = array(
-            	'modified' => date("Y-m-d H:i:s"), 
-            	'last_login' => date("Y-m-d H:i:s"),
-            	'locale' => $userData['locale'],
-            	'profile_url' => $userData['profile_url'],
-            	'picture_url' => $userData['picture_url']
-            		);
-            $this->db->where('oauth_id',$data['oauth_id'])->update('user',$object);
+            $data['modified'] = date("Y-m-d H:i:s");
+            $data['last_login'] = date("Y-m-d H:i:s");
+            $this->db->where('oauth_id',$data['oauth_id'])->update('user',$data);
             $q1 = $this->db->where('oauth_id', $data['oauth_id'])->get('user');
             $userID = $this->generateUID();
             if($this->db->affected_rows() > 0) {
             	//$this->session->set_userdata('auth') == true;
             	$user = array(
 					'uid' => $q1->row()->uid,
-					'oauth_id' => $q1->row()->oauth_id,
-					'oauth_provider' => $q1->row()->oauth_provider,
 					'dspname' => $q1->row()->dspname,
 					'username' => $q1->row()->username,
 					'email'	=> $q1->row()->email,
@@ -80,8 +71,6 @@ class Auth_model extends CI_Model {
             if ($this->db->affected_rows() > 0) {
             	$user = array(
 					'uid' => $q1->row()->uid,
-					'oauth_id' => $ql->row()->oauth_id,
-					'oauth_provider' => $ql->row()->oauth_provider,
 					'dspname' => $q1->row()->dspname,
 					'username' => $q1->row()->username,
 					'email'	=> $q1->row()->email,
@@ -121,7 +110,6 @@ class Auth_model extends CI_Model {
 				'dspname' => $q1->row()->dspname,
 				'username' => $q1->row()->username,
 				'email'	=> $q1->row()->email,
-				'profilepict' => $q1->row()->profilepict,
 				'auth' => true
 			);
 			$this->session->set_userdata($user);
