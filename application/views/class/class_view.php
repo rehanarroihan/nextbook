@@ -27,18 +27,7 @@
             </div>
         </div>
 
-        <?php if(!empty($partial)){$this->load->view($partial);} ?>
-
-        <!-- <div class="card" id="cardmain" style="margin-top:-10px">
-            <div class="header">
-                <span id="title">Home</span>
-            </div>
-            <div class="content" id="page">
-                <?php //foreach($memberlist as $member): ?>
-                    <p><?php //echo $member->dspname ?></p>
-                <?php //endforeach; ?>
-            </div>
-        </div> -->
+        <div id="masok"></div>
 
         <img src="<?php echo base_url() ?>assets/2.0/img/load2.gif" id="load" style="height:200px;opacity: 0.2;display:none" class="center-block">
     </div>
@@ -89,4 +78,96 @@
 </div>
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="<?php echo base_url() ?>assets/vendors/jquery/dist/jquery-ui.js"></script>
-<script type="text/javascript" src="<?php echo base_url() ?>assets/2.0/js/nganu.js"></script>
+<script type="text/javascript">
+        //Class view main
+
+    //dfinisi url
+    var url = "<?php echo base_url() ?>";
+
+    //Fungsi unenroll
+    $(".unrl").click(function(){
+        var classid = $(this).attr("id");
+        swal({
+            title: "Are you sure want to unenroll this class ?",
+            text: "This action can't be undone",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Unenroll",
+            closeOnConfirm: false
+        },
+        function() {
+            window.location.href = url + "aclass/unenroll";
+        });
+    });
+
+    //onClickListener navigasi kelas
+    $(".classnav").click(function(){
+        <?php if($this->session->userdata('auth') == true): ?>
+        var now = $(this).attr("id");
+        noblu();
+        $("#masok").empty();
+        $("#load").css('display','block');
+        if(now == 'navhome'){
+            $('#' + now).addClass("btn-fill");
+            $("#title").html("Home");
+        }else if(now == 'navsche'){
+            $('#' + now).addClass("btn-fill");
+            $.ajax({
+                url: url + "aclass/schedule",
+                type: "POST",
+                cache: false,
+                data: "sempolcrispy="+"truuu",
+                timeout: 9000,
+                error: function(jqXHR, textStatus, errorThrown){
+                    // if(textStatus==="timeout") {  
+                    //     alert("Call has timed out"); 
+                    // } else {
+                    //     alert("Another error was returned");
+                    // }
+                    $("#load").css('display','none');
+                    $('#masok').html("An error occured, try again later");
+                },
+                success: function(data){
+                    $("#load").css('display','none');
+                    $('#masok').html(data);
+                }                
+            })
+        }else if(now == 'navmember'){
+            $('#' + now).addClass("btn-fill");
+            $.ajax({
+                url: url + "aclass/member",
+                type: "POST",
+                cache: false,
+                data: "estehplastikan="+"truuu",
+                timeout: 9000,
+                error: function(jqXHR, textStatus, errorThrown){
+                    $("#load").css('display','none');
+                    $('#masok').html("An error occured, try again later");
+                },
+                success: function(data){
+                    $("#load").css('display','none');
+                    $('#masok').html(data);
+                }   
+            })
+        }else if(now == 'navadmin'){
+            $('#' + now).addClass("btn-fill");
+            $("#title").html("Group Setting");
+        }
+        <?php else: ?>
+        window.location.href = url + "auth/login";
+        <?php endif; ?>
+    });
+
+    //Ngilangi biru biru
+    function noblu(){
+        $("#navhome").removeClass("btn-fill");
+        $("#navsche").removeClass("btn-fill");
+        $("#navmember").removeClass("btn-fill");
+        $("#navadmin").removeClass("btn-fill");
+    }
+
+    function showload(){
+        $("#load").css('visibility','visible');
+    }
+</script>

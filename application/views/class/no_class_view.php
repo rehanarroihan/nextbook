@@ -58,7 +58,7 @@
               </div>
               <input type="submit" class="btn btn-fill btn-success pull-right" value="Join" name="join">
             </form>
-          </div>
+            </div><br><br>
           <div class="modal-footer">
           </div>
         </div>

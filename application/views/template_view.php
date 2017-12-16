@@ -10,6 +10,9 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
+    <!-- Font Awesome-->
+    <link href="<?php echo base_url() ?>assets/2.0/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+
     <!-- Bootstrap core CSS     -->
     <link href="<?php echo base_url() ?>assets/2.0/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet" /> 
@@ -24,7 +27,6 @@
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="<?php echo base_url() ?>assets/2.0/css/demo.css" rel="stylesheet" />
 
-
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
@@ -33,6 +35,9 @@
     <!-- Sweet Alert -->
     <script src="<?php echo base_url() ?>assets/vendors/swal/sweetalert-dev.js"></script>
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/swal/sweetalert.css">
+
+    <!-- Time Picker -->
+    <link href="<?php echo base_url() ?>assets/2.0/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 </head>
 <body>
 
@@ -53,7 +58,23 @@
             <div class="user"> 
                 <div class="info">
                     <div class="photo">
-                        <img src="<?php echo base_url() ?>assets/2.0/img/default-avatar.png" />
+                        <?php
+                            if ($this->session->userdata('oauth_provider') == 'facebook') {
+                                ?>
+                                <img src="https://graph.facebook.com/<?php echo $this->session->userdata('oauth_id');?>/picture">
+                                <?php
+                            }else{
+                                if ($detail->profilepict == '') {
+                                    ?>
+                                    <img src="<?php echo base_url() ?>assets/2.0/img/user/user.png" />
+                                    <?php
+                                }else{
+                                ?>
+                                    <img src="<?php echo base_url() ?>assets/2.0/img/user/<?php echo $detail->profilepict;?>" />
+                                <?php
+                                }
+                            }
+                        ?>
                     </div>
 
                     <a data-toggle="collapse" href="#collapseExample" class="collapsed">
@@ -226,14 +247,14 @@
     <script src="<?php echo base_url() ?>assets/2.0/js/jquery.3.2.1.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets/2.0/js/bootstrap.min.js" type="text/javascript"></script>
 
+    <script type="text/javascript" src="<?php echo base_url() ?>assets/2.0/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="<?php echo base_url() ?>assets/2.0/js/locales/bootstrap-datetimepicker.id.js" charset="UTF-8"></script>
+
     <!--  Charts Plugin -->
     <script src="<?php echo base_url() ?>assets/2.0/js/chartist.min.js"></script>
 
-    <!--  Notifications Plugin    -->
+    <!--  Notifications Plugin  -->
     <script src="<?php echo base_url() ?>assets/2.0/js/bootstrap-notify.js"></script>
-
-    <!--  Google Maps Plugin    -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 
     <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
     <script src="<?php echo base_url() ?>assets/2.0/js/light-bootstrap-dashboard.js?v=1.4.0"></script>

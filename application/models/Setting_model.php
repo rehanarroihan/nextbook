@@ -18,7 +18,7 @@ class Setting_model extends CI_Model {
 				'color' => $this->input->post('color'),
 				'image' => $this->input->post('image')
 					);
-			$this->db->update('setting', $data);
+			$this->db->where('uid',$this->session->userdata('uid'))->update('setting', $data);
 		}else{
 			$data = array(
 				'uid' => $this->session->userdata('uid'),
