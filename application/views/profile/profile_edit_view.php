@@ -5,7 +5,7 @@
                 <h3 class="title">Edit Profile</h3>
             </div>
             <div class="content">
-                <form method="post" id="edit_pofile" action="<?php echo base_url();?>Profile/executeedit" enctype="multipart/form_data">
+                <form method="post" id="edit_pofile" action="<?php echo base_url();?>Profile/executeedit" enctype="multipart/form-data">
                     <div class="input-group col-lg-12 col-md-12">
                         <div class="col-md-4">
                             <img style="margin-bottom: 3%;margin-left: 10%"

@@ -79,6 +79,33 @@ class Class_model extends CI_Model {
 		$classid = $this->getClassData()->classid;
 		return $this->db->where('classid', $classid)->get('user')->result();
 	}
+
+	public function setting($foto,$ident)
+	{
+		if ($foto == '') {
+			$object = array(
+				'name' => $this->input->post('name'), 
+				'descript' => $this->input->post('descript'),
+				'photo' => $ident
+			);
+
+			$this->db->where('classid', $this->input->post('classid'))->update('class',$object);
+		} else {
+			$object = array(
+				'name' => $this->input->post('name'), 
+				'descript' => $this->input->post('descript'),
+				'photo' => $foto['file_name']
+			);
+
+			$this->db->where('classid', $this->input->post('classid'))->update('class',$object);
+		}
+
+		if ($this->db->affected_rows()) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
 }
 /* End of file Class_model.php */
 /* Location: ./application/models/Class_model.php */

@@ -81,6 +81,36 @@ class Aclass extends CI_Controller {
 		echo $qr->writeString();
 	}
 
+	public function executesetting()
+	{
+		$config['upload_path'] = './assets/2.0/img/group/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['max_size']  = 2000;
+		
+		$this->load->library('upload', $config);
+		
+		if ($this->upload->do_upload('classpict')){
+			$ident = '';
+			if ($this->Class_model->setting($this->upload->data(),$ident) == TRUE) {
+				$this->session->set_flashdata('announce', 'Group Setting Success to Update');
+				redirect('aclass');
+			} else {
+				$this->session->set_flashdata('announce', 'Group Setting Failed to Update');
+				redirect('aclass');
+			}
+		} else {
+			$foto = '';
+			$ident = $this->Class_model->getClassData()->photo;
+			if ($this->Class_model->setting($foto,$ident)) {
+				$this->session->set_flashdata('announce', 'Group Setting Success to Update');
+				redirect('aclass');
+			} else {
+				$this->session->set_flashdata('announce', $this->upload->display_errors());
+				redirect('aclass');
+			}
+		}
+	}
+
 	//Jangan di akses
 	public function member(){
 		if($this->input->post('estehplastikan')){
@@ -111,8 +141,9 @@ class Aclass extends CI_Controller {
 	}
 
 	public function setting(){
+		$data['classdata'] = $this->Class_model->getClassData();
 		if($this->input->post('sempolcrispy')){
-			$this->load->view('class/setting_view');
+			$this->load->view('class/setting_view',$data);
 		}else{
 			$this->load->view('errors/404_view');
 		}

@@ -48,9 +48,9 @@ class Profile extends CI_Controller {
 		} else {
 			$config['upload_path'] = './assets/2.0/img/user/';
 			$config['allowed_types'] = 'gif|jpg|png';
-			$config['max_size']  = '2000';
+			$config['max_size']  = 2000;
 			
-			$this->upload->initialize($config);
+			$this->load->library('upload',$config);
 			
 			if ($this->upload->do_upload('profilepict')){
 				$ident = '';
@@ -64,7 +64,7 @@ class Profile extends CI_Controller {
 					$this->session->set_flashdata('announce', 'Profile Success to Update');
 					redirect('Profile/edit');
 				} else {
-					$this->session->set_flashdata('announce', 'Profile Failed to Update');
+					$this->session->set_flashdata('announce', $this->upload->display_errors());
 					redirect('Profile/edit');
 				}
 			} else {
