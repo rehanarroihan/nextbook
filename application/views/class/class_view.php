@@ -35,7 +35,7 @@
     <div class="col-md-4">
         <div class="card card-user">
             <div class="image">
-                <img class="img-overlay" src="<?php echo base_url() ?>assets/2.0/img/<?php echo $classdata->photo ?>"/>
+                <img class="img-overlay" src="<?php echo base_url() ?>assets/2.0/img/group/<?php echo $classdata->photo ?>"/>
             </div>
             <div class="content" style="margin-top:70px">
                 <div class="author">
@@ -152,7 +152,26 @@
             })
         }else if(now == 'navadmin'){
             $('#' + now).addClass("btn-fill");
-            $("#title").html("Group Setting");
+            $.ajax({
+                url: url + "aclass/setting",
+                type: "POST",
+                cache: false,
+                data: "sempolcrispy="+"truuu",
+                timeout: 9000,
+                error: function(jqXHR, textStatus, errorThrown){
+                    // if(textStatus==="timeout") {  
+                    //     alert("Call has timed out"); 
+                    // } else {
+                    //     alert("Another error was returned");
+                    // }
+                    $("#load").css('display','none');
+                    $('#masok').html("An error occured, try again later");
+                },
+                success: function(data){
+                    $("#load").css('display','none');
+                    $('#masok').html(data);
+                }                
+            })
         }
         <?php else: ?>
         window.location.href = url + "auth/login";

@@ -109,6 +109,14 @@ class Aclass extends CI_Controller {
 			$this->load->view('errors/404_view');
 		}
 	}
+
+	public function setting(){
+		if($this->input->post('sempolcrispy')){
+			$this->load->view('class/setting_view');
+		}else{
+			$this->load->view('errors/404_view');
+		}
+	}
 }
 /* End of file Aclass.php */
 /* Location: ./application/controllers/Aclass.php */
