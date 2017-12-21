@@ -130,8 +130,20 @@ class Aclass extends CI_Controller {
 	//Dimensi lain
 	public function home(){
 		if($this->input->post('fckisrael')){
-			$this->load->view('class/home_view');
+			if (count($this->Class_model->getLessonNow()) > 0) {
+				$data['lesson'] = $this->Class_model->getLessonNow()->lesson;
+			}else{
+				$data['lesson'] = 'Tidak Ada';
+			}
+
+			$this->load->view('class/home_view',$data);
 		}else{
+			if (count($this->Class_model->getLessonNow()) > 0) {
+				$data['lesson'] = $this->Class_model->getLessonNow()->lesson;
+			}else{
+				$data['lesson'] = 'Tidak Ada';
+			}
+
 			if($this->Class_model->isHave() == true){
 				$data['primary_view'] = 'class/class_view';
 				$data['classdata'] = $this->Class_model->getClassData();
@@ -140,6 +152,7 @@ class Aclass extends CI_Controller {
 			}else{
 				$data['primary_view'] = 'class/no_class_view';
 			}
+
 			$data['interface'] = $this->Setting_model->get_interface();
 			$data['detail'] = $this->Profile_model->getProfileDetail();
 			$this->load->view('template_view', $data);
@@ -255,6 +268,10 @@ class Aclass extends CI_Controller {
 		if ($date1 < $date3){
 		   echo 'here';
 		}
+	}
+
+	public function nyoba()
+	{
 	}
 }
 /* End of file Aclass.php */

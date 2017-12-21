@@ -166,6 +166,16 @@ class Class_model extends CI_Model {
 			return false;
 		}
 	}
+
+	public function getLessonNow()
+	{
+		$now = date('H:i');
+		return $this->db->where('start <=',$now)
+				 		->where('end >',$now)
+				 		->join('lesson', 'lesson.lessonid = schedule.lessonid')
+				 		->get('schedule')
+				 		->row();
+	}
 }
 /* End of file Class_model.php */
 /* Location: ./application/models/Class_model.php */

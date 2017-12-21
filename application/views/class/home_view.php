@@ -3,6 +3,9 @@
         <span id="title">Write a post</span>
     </div>
     <div class="content" id="page">
+        <div class="alert alert-info">
+            Lesson Now : <?php echo $lesson;?>
+        </div>
         <form>
             <div class="form-group">
             	
