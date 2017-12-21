@@ -2,7 +2,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="content text-center">
-                <button type="button" id="navhome" class="btn btn-info btn-fill btn-wd classnav">
+                <button type="button" id="navhome" class="btn btn-info btn-wd classnav">
                     <span class="btn-label">
                         <i class="fa fa-home"></i>
                     </span>Home
@@ -29,13 +29,19 @@
 
         <div id="masok"></div>
 
+        <?php if(!empty($third_view)): ?>
+            <div id="uem">
+            <?php $this->load->view($third_view)?>
+            </div>
+        <?php endif; ?>
+
         <img src="<?php echo base_url() ?>assets/2.0/img/load2.gif" id="load" style="height:200px;opacity: 0.2;display:none" class="center-block">
     </div>
     
     <div class="col-md-4">
         <div class="card card-user">
             <div class="image">
-                <img class="img-overlay" src="<?php echo base_url() ?>assets/2.0/img/group/<?php echo $classdata->photo ?>"/>
+                <img class="img-overlay" style="object-fit:cover;" src="<?php echo base_url() ?>assets/2.0/img/group/<?php echo $classdata->photo ?>"/>
             </div>
             <div class="content" style="margin-top:70px">
                 <div class="author">
@@ -110,7 +116,27 @@
         $("#load").css('display','block');
         if(now == 'navhome'){
             $('#' + now).addClass("btn-fill");
-            $("#title").html("Home");
+            $.ajax({
+                url: url + "aclass/home",
+                type: "POST",
+                cache: false,
+                data: "fckisrael="+"truuu",
+                timeout: 9000,
+                error: function(jqXHR, textStatus, errorThrown){
+                    // if(textStatus==="timeout") {  
+                    //     alert("Call has timed out"); 
+                    // } else {
+                    //     alert("Another error was returned");
+                    // }
+                    $("#load").css('display','none');
+                    $('#masok').html(textStatus);
+                },
+                success: function(data){
+                    $("#load").css('display','none');
+                    $('#masok').html(data);
+                    window.history.pushState("", "", "<?php echo base_url(); ?>aclass/home");
+                }                
+            })
         }else if(now == 'navsche'){
             $('#' + now).addClass("btn-fill");
             $.ajax({
@@ -126,11 +152,12 @@
                     //     alert("Another error was returned");
                     // }
                     $("#load").css('display','none');
-                    $('#masok').html("An error occured, try again later");
+                    $('#masok').html(textStatus);
                 },
                 success: function(data){
                     $("#load").css('display','none');
                     $('#masok').html(data);
+                    window.history.pushState("", "", "<?php echo base_url(); ?>aclass/schedule");
                 }                
             })
         }else if(now == 'navmember'){
@@ -148,6 +175,7 @@
                 success: function(data){
                     $("#load").css('display','none');
                     $('#masok').html(data);
+                    window.history.pushState("", "", "<?php echo base_url(); ?>aclass/member");
                 }   
             })
         }else if(now == 'navadmin'){
@@ -170,6 +198,7 @@
                 success: function(data){
                     $("#load").css('display','none');
                     $('#masok').html(data);
+                    window.history.pushState("", "", "<?php echo base_url(); ?>aclass/setting");
                 }                
             })
         }
@@ -184,6 +213,7 @@
         $("#navsche").removeClass("btn-fill");
         $("#navmember").removeClass("btn-fill");
         $("#navadmin").removeClass("btn-fill");
+        $("#uem").css('display','none');
     }
 
     function showload(){

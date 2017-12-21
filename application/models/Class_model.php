@@ -57,6 +57,11 @@ class Class_model extends CI_Model {
 						->get('class')->row();
 	}
 
+	public function getClassID(){
+		return $this->db->where('uid', $this->session->userdata('uid'))
+								->get('user')->row()->classid;
+	}
+
 	public function join($code){
 		$this->db->where('uid', $this->session->userdata('uid'))->update('user',  array('classid' => $code));
 		if($this->db->affected_rows() > 0){
@@ -104,6 +109,61 @@ class Class_model extends CI_Model {
 			return TRUE;
 		} else {
 			return FALSE;
+		}
+	}
+
+	public function getDayList($day){
+		$classID = $this->getClassID();
+		return $this->db->join('lesson', 'lesson.lessonid = schedule.lessonid', 'left')
+		 					->where('schedule.classid', $classID)
+							->where('schedule.day', $day)->order_by('schedule.start', 'asc')
+							->get('schedule')->result();
+	}
+
+	public function getDayCount($day){
+		$classID = $this->getClassID();
+		return $this->db->where('classid', $classID)->where('day', $day)->count_all_results('schedule');
+	}
+
+	public function getLessonCount(){
+		$classID = $this->getClassID();
+		return $this->db->where('classid', $classID)->count_all_results('lesson');
+	}
+
+	public function getLessonList(){
+		$classID = $this->getClassID();
+		return $this->db->where('classid', $classID)->get('lesson')->result();
+	}
+
+	public function saveLesson(){
+		$object = array(
+			'lessonid'	=> null,
+			'classid'	=> $this->getClassID(),
+			'lesson'	=> $this->input->post('lesson'),
+			'teacher'	=> $this->input->post('teacher') 
+		);
+		$this->db->insert('lesson', $object);
+		if($this->db->affected_rows() > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function saveSchedule(){
+		$object = array(
+			'scheduleid'	=> NULL,
+			'classid'		=> $this->getClassID(),
+			'lessonid'		=> $this->input->post('lessonid'),
+			'day'			=> $this->input->post('day'),
+			'start'			=> date("H:i", strtotime($this->input->post('start'))),
+			'end'			=> date("H:i", strtotime($this->input->post('end')))
+		);
+		$this->db->insert('schedule', $object);
+		if($this->db->affected_rows() > 0){
+			return true;
+		}else{
+			return false;
 		}
 	}
 }

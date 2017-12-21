@@ -4,7 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use Endroid\QrCode\QrCode;
 require APPPATH .'libraries/vendor/autoload.php';
 
-class Aclass extends CI_Controller {
+class Aclass extends CI_Controller {	
+
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Class_model');
@@ -16,17 +17,18 @@ class Aclass extends CI_Controller {
 	}
 
 	public function index(){
-		if($this->Class_model->isHave() == true){
-			$data['primary_view'] = 'class/class_view';
-			//$data['isadmin'] = $this->Class_model->isAdmin();
-			$data['classdata'] = $this->Class_model->getClassData();
-			$data['memberlist'] = $this->Class_model->memberList();
-		}else{
-			$data['primary_view'] = 'class/no_class_view';
-		}
-		$data['interface'] = $this->Setting_model->get_interface();
-		$data['detail'] = $this->Profile_model->getProfileDetail();
-		$this->load->view('template_view', $data);
+		// if($this->Class_model->isHave() == true){
+		// 	$data['primary_view'] = 'class/class_view';
+		// 	//$data['isadmin'] = $this->Class_model->isAdmin();
+		// 	$data['classdata'] = $this->Class_model->getClassData();
+		// 	$data['memberlist'] = $this->Class_model->memberList();
+		// }else{
+		// 	$data['primary_view'] = 'class/no_class_view';
+		// }
+		// $data['interface'] = $this->Setting_model->get_interface();
+		// $data['detail'] = $this->Profile_model->getProfileDetail();
+		// $this->load->view('template_view', $data);
+		redirect('aclass/home');
 	}
 
 	public function createclass(){
@@ -93,48 +95,133 @@ class Aclass extends CI_Controller {
 			$ident = '';
 			if ($this->Class_model->setting($this->upload->data(),$ident) == TRUE) {
 				$this->session->set_flashdata('announce', 'Group Setting Success to Update');
-				redirect('aclass');
+				redirect('aclas/setting');
 			} else {
 				$this->session->set_flashdata('announce', 'Group Setting Failed to Update');
-				redirect('aclass');
+				redirect('aclass/setting');
 			}
 		} else {
 			$foto = '';
 			$ident = $this->Class_model->getClassData()->photo;
 			if ($this->Class_model->setting($foto,$ident)) {
 				$this->session->set_flashdata('announce', 'Group Setting Success to Update');
-				redirect('aclass');
+				redirect('aclass/setting');
 			} else {
 				$this->session->set_flashdata('announce', $this->upload->display_errors());
-				redirect('aclass');
+				redirect('aclass/setting');
 			}
 		}
 	}
 
-	//Jangan di akses
+	public function savelesson(){
+		if($this->input->post('save')){
+			if($this->Class_model->saveLesson()){
+				$this->session->set_flashdata('announce', 'Berhasil menyimpan');
+				redirect('aclass/schedule');
+			}else{
+				$this->session->set_flashdata('announce', 'an error ocurred');
+				redirect('aclass/schedule');
+			}
+		}else{
+			$this->load->view('errors/404_view');
+		}
+	}
+
+	//Dimensi lain
+	public function home(){
+		if($this->input->post('fckisrael')){
+			$this->load->view('class/home_view');
+		}else{
+			if($this->Class_model->isHave() == true){
+				$data['primary_view'] = 'class/class_view';
+				$data['classdata'] = $this->Class_model->getClassData();
+				$data['third_view'] = 'class/home_view';
+				$data['memberlist'] = $this->Class_model->memberList();
+			}else{
+				$data['primary_view'] = 'class/no_class_view';
+			}
+			$data['interface'] = $this->Setting_model->get_interface();
+			$data['detail'] = $this->Profile_model->getProfileDetail();
+			$this->load->view('template_view', $data);
+		}
+	}
+
 	public function member(){
 		if($this->input->post('estehplastikan')){
 			$data['memberlist'] = $this->Class_model->memberList();
 			$data['classdata'] = $this->Class_model->getClassData();
 			$this->load->view('class/member_view', $data);
 		}else{
-			$this->load->view('errors/404_view');
+			if($this->Class_model->isHave() == true){
+				$data['primary_view'] = 'class/class_view';
+				$data['classdata'] = $this->Class_model->getClassData();
+				$data['third_view'] = 'class/member_view';
+				$data['memberlist'] = $this->Class_model->memberList();
+			}else{
+				$data['primary_view'] = 'class/no_class_view';
+			}
+			$data['interface'] = $this->Setting_model->get_interface();
+			$data['detail'] = $this->Profile_model->getProfileDetail();
+			$this->load->view('template_view', $data);
 		}
 	}
 
 	public function schedule(){
+		$data = array(
+				'memberlist'	=> $this->Class_model->memberList(),
+				'classdata'		=> $this->Class_model->getClassData(),
+				'seninList'		=> $this->Class_model->getDayList('senin'),
+				'seninCount'	=> $this->Class_model->getDayCount('senin'),
+				'selasaList'	=> $this->Class_model->getDayList('selasa'),
+				'selasaCount'	=> $this->Class_model->getDayCount('selasa'),
+				'rabuList'		=> $this->Class_model->getDayList('rabu'),
+				'rabuCount'		=> $this->Class_model->getDayCount('rabu'),
+				'kamisList'		=> $this->Class_model->getDayList('kamis'),
+				'kamisCount'	=> $this->Class_model->getDayCount('kamis'),
+				'jumatList'		=> $this->Class_model->getDayList('jumat'),
+				'jumatCount'	=> $this->Class_model->getDayCount('jumat'),
+				'sabtuList'		=> $this->Class_model->getDayList('sabtu'),
+				'sabtuCount'	=> $this->Class_model->getDayCount('sabtu'),
+				'mingguList'	=> $this->Class_model->getDayList('minggu'),
+				'mingguCount'	=> $this->Class_model->getDayCount('minggu'),
+				'lessonCount'	=> $this->Class_model->getLessonCount(),
+				'lessonList'	=> $this->Class_model->getLessonList()
+			);
 		if($this->input->post('sempolcrispy')){
-			$data['memberlist'] = $this->Class_model->memberList();
-			$data['classdata'] = $this->Class_model->getClassData();
 			$this->load->view('class/schedule_view', $data);
 		}else{
-			$this->load->view('errors/404_view');
+			if($this->Class_model->isHave() == true){
+				$data['primary_view'] = 'class/class_view';
+				$data['third_view'] = 'class/schedule_view';
+				$data['classdata'] = $this->Class_model->getClassData();
+				$data['memberlist'] = $this->Class_model->memberList();
+			}else{
+				$data['primary_view'] = 'class/no_class_view';
+			}
+			$data['interface'] = $this->Setting_model->get_interface();
+			$data['detail'] = $this->Profile_model->getProfileDetail();
+			$this->load->view('template_view', $data);
 		}
 	}
 
 	public function editschedule(){
 		if($this->input->post('day')){
-			$this->load->view('class/edit_schedule_view');
+			$data['lessonList'] = $this->Class_model->getLessonList();
+			$this->load->view('class/edit_schedule_view', $data);
+		}else{
+			$this->load->view('errors/404_view');
+		}
+	}
+
+	public function saveschedule(){
+		if($this->input->post('lesson')){
+			if($this->Class_model->saveSchedule()){
+				$this->session->set_flashdata('announce', 'Berhasil menyimpan data');
+				redirect('aclass/schedule');
+			}else{
+				$this->session->set_flashdata('announce', 'Gagal menyimpan data');
+				redirect('aclass/schedule');
+			}
 		}else{
 			$this->load->view('errors/404_view');
 		}
@@ -145,7 +232,28 @@ class Aclass extends CI_Controller {
 		if($this->input->post('sempolcrispy')){
 			$this->load->view('class/setting_view',$data);
 		}else{
-			$this->load->view('errors/404_view');
+			if($this->Class_model->isHave() == true){
+				$data['primary_view'] = 'class/class_view';
+				$data['third_view'] = 'class/setting_view';
+				$data['classdata'] = $this->Class_model->getClassData();
+			}else{
+				$data['primary_view'] = 'class/no_class_view';
+			}
+			$data['interface'] = $this->Setting_model->get_interface();
+	 		$data['detail'] = $this->Profile_model->getProfileDetail();
+			$this->load->view('template_view', $data);
+		}
+	}
+
+	public function hey(){
+		$sunrise = "5:42 am";
+		$sunset = "6:26 pm";
+		$date1 = DateTime::createFromFormat('H:i a', date("H:i a"));
+		$date2 = DateTime::createFromFormat('H:i a', $sunrise);
+		$date3 = DateTime::createFromFormat('H:i a', $sunset);
+		//echo 'Jam sekarang : '.date("H:i").'<br>';
+		if ($date1 < $date3){
+		   echo 'here';
 		}
 	}
 }
