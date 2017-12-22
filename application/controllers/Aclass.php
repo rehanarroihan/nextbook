@@ -217,10 +217,50 @@ class Aclass extends CI_Controller {
 		}
 	}
 
-	public function editschedule(){
+	public function addchedule(){
 		if($this->input->post('day')){
 			$data['lessonList'] = $this->Class_model->getLessonList();
+			$this->load->view('class/add_schedule_view', $data);
+		}else{
+			$this->load->view('errors/404_view');
+		}
+	}
+
+	public function editchedule(){
+		$scheid = $this->input->post('scheid');
+		if(!empty($scheid)){
+			$data['lessonList'] = $this->Class_model->getLessonList();
+			$data['row'] = $this->Class_model->getScheduleRow($scheid);
 			$this->load->view('class/edit_schedule_view', $data);
+		}else{
+			$this->load->view('errors/404_view');
+		}
+	}
+
+	public function goeditsche(){
+		if($this->input->post('goedit')){
+			if($this->Class_model->goEditSchedule()){
+				$this->session->set_flashdata('announce', 'Berhasil memperbarui data');
+				redirect('aclass/schedule');
+			}else{
+				$this->session->set_flashdata('announce', 'Gagal memperbarui data');
+				redirect('aclass/schedule');
+			}
+		}else{
+			$this->load->view('errors/404_view');
+		}
+	}
+
+	public function deletesche(){
+		if($this->input->get('scheid')){
+			$this->db->where('scheduleid', $this->input->get('scheid'))->delete('schedule');
+			if($this->db->affected_rows() > 0){
+				$this->session->set_flashdata('announce', 'Berhasil menghapus data');
+				redirect('aclass/schedule');
+			}else{
+				$this->session->set_flashdata('announce', 'Gagal menghapus data');
+				redirect('aclass/schedule');
+			}
 		}else{
 			$this->load->view('errors/404_view');
 		}

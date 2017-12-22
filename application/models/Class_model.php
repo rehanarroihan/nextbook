@@ -135,6 +135,13 @@ class Class_model extends CI_Model {
 		return $this->db->where('classid', $classID)->get('lesson')->result();
 	}
 
+	public function getScheduleRow($scheid){
+		$classID = $this->getClassID();
+		return $this->db->join('lesson', 'lesson.lessonid = schedule.lessonid', 'left')
+		 					->where('schedule.scheduleid', $scheid)
+							->get('schedule')->row();
+	}
+
 	public function saveLesson(){
 		$object = array(
 			'lessonid'	=> null,
@@ -166,6 +173,21 @@ class Class_model extends CI_Model {
 			return false;
 		}
 	}
+
+	public function goEditSchedule(){
+		$object = array(
+			'lessonid'		=> $this->input->post('lessonid'),
+			'start'			=> date("H:i", strtotime($this->input->post('start'))),
+			'end'			=> date("H:i", strtotime($this->input->post('end')))
+		);
+		$this->db->where('scheduleid', $this->input->post('scheid'))->update('schedule', $object);
+		if($this->db->affected_rows() > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 
 	public function getLessonNow()
 	{
