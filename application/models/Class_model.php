@@ -169,9 +169,27 @@ class Class_model extends CI_Model {
 
 	public function getLessonNow()
 	{
-		$now = date('H:i');
-		return $this->db->where('start <=',$now)
-				 		->where('end >',$now)
+		$timenow = date('H:i');
+		$daynow = date('l');
+		$day = null;
+		if ($daynow == 'Sunday') {
+			$day = 'ahad';
+		} elseif ($daynow == 'Monday') {
+			$day = 'senin';
+		} elseif ($daynow == 'Tuesday') {
+			$day = 'selasa';
+		} elseif ($daynow == 'Wednesday') {
+			$day = 'rabu';
+		} elseif ($daynow == 'Thursday') {
+			$day = 'kamis';
+		} elseif ($daynow == 'Friday') {
+			$day = 'jumat';
+		} elseif ($daynow == 'Saturday') {
+			$day = 'sabtu';
+		}
+		return $this->db->where('day',$day)
+						->where('start <=',$timenow)
+				 		->where('end >',$timenow)
 				 		->join('lesson', 'lesson.lessonid = schedule.lessonid')
 				 		->get('schedule')
 				 		->row();
