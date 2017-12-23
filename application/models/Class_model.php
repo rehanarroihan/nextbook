@@ -85,6 +85,24 @@ class Class_model extends CI_Model {
 		return $this->db->where('classid', $classid)->get('user')->result();
 	}
 
+	public function kickMember($uid){
+		$this->db->where('uid', $uid)->update('user',  array('classid' => NULL));
+		if($this->db->affected_rows() > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function makeAdmin($uid, $classid){
+		$this->db->where('classid', $classid)->update('class',  array('created_by' => $uid));
+		if($this->db->affected_rows() > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	public function setting($foto,$ident)
 	{
 		if ($foto == '') {

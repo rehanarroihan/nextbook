@@ -138,8 +138,10 @@ class Aclass extends CI_Controller {
 
 			if (count($this->Class_model->getNextLesson()) > 0) {
 				$data['nextlesson'] = $this->Class_model->getNextLesson()->lesson;
+				$data['nextlessonTime'] = $this->Class_model->getNextLesson()->start;
 			}else{
 				$data['nextlesson'] = 'Tidak Ada';
+				$data['nextlessonTime'] = "adsf";
 			}
 
 			$this->load->view('class/home_view',$data);
@@ -188,6 +190,37 @@ class Aclass extends CI_Controller {
 			$data['interface'] = $this->Setting_model->get_interface();
 			$data['detail'] = $this->Profile_model->getProfileDetail();
 			$this->load->view('template_view', $data);
+		}
+	}
+
+	public function kickmember(){
+		$uid = $this->input->get('uid');
+		if(!empty($uid)){
+			if($this->Class_model->kickMember($uid)){
+				$this->session->set_flashdata('announce', 'Berhasil mengeluarkan anggota');
+				redirect('aclass/member');
+			}else{
+				$this->session->set_flashdata('announce', 'Gagal melakukan operasi pengeluaran');
+				redirect('aclass/member');
+			}
+		}else{
+			$this->load->view('errors/404_view');
+		}
+	}
+
+	public function makeadmin(){
+		$uid = $this->input->get('uid');
+		$classid = $this->input->get('classid');
+		if(!empty($uid)){
+			if($this->Class_model->makeAdmin($uid, $classid)){
+				$this->session->set_flashdata('announce', 'Berhasil memberikan admin');
+				redirect('aclass/member');
+			}else{
+				$this->session->set_flashdata('announce', 'Gagal menjalankan perintah');
+				redirect('aclass/member');
+			}
+		}else{
+			$this->load->view('errors/404_view');
 		}
 	}
 
