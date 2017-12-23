@@ -136,12 +136,24 @@ class Aclass extends CI_Controller {
 				$data['lesson'] = 'Tidak Ada';
 			}
 
+			if (count($this->Class_model->getNextLesson()) > 0) {
+				$data['nextlesson'] = $this->Class_model->getNextLesson()->lesson;
+			}else{
+				$data['nextlesson'] = 'Tidak Ada';
+			}
+
 			$this->load->view('class/home_view',$data);
 		}else{
 			if (count($this->Class_model->getLessonNow()) > 0) {
 				$data['lesson'] = $this->Class_model->getLessonNow()->lesson;
 			}else{
 				$data['lesson'] = 'Tidak Ada';
+			}
+
+			if (count($this->Class_model->getNextLesson()) > 0) {
+				$data['nextlesson'] = $this->Class_model->getNextLesson()->lesson;
+			}else{
+				$data['nextlesson'] = 'Tidak Ada';
 			}
 
 			if($this->Class_model->isHave() == true){

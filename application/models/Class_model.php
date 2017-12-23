@@ -216,6 +216,33 @@ class Class_model extends CI_Model {
 				 		->get('schedule')
 				 		->row();
 	}
+
+	public function getNextLesson($value='')
+	{
+		$timenow = date('H:i');
+		$daynow = date('l');
+		$day = null;
+		if ($daynow == 'Sunday') {
+			$day = 'ahad';
+		} elseif ($daynow == 'Monday') {
+			$day = 'senin';
+		} elseif ($daynow == 'Tuesday') {
+			$day = 'selasa';
+		} elseif ($daynow == 'Wednesday') {
+			$day = 'rabu';
+		} elseif ($daynow == 'Thursday') {
+			$day = 'kamis';
+		} elseif ($daynow == 'Friday') {
+			$day = 'jumat';
+		} elseif ($daynow == 'Saturday') {
+			$day = 'sabtu';
+		}
+		return $this->db->where('day',$day)
+						->where('start >=',$timenow)
+				 		->join('lesson', 'lesson.lessonid = schedule.lessonid')
+				 		->get('schedule')
+				 		->row();
+	}
 }
 /* End of file Class_model.php */
 /* Location: ./application/models/Class_model.php */
