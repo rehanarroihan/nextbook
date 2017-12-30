@@ -198,9 +198,11 @@ class Auth_model extends CI_Model {
 		$uid = $this->generateUID();
 		$usinfo = array(
 			'uid'		=> $uid,
+			'oauth_provider' => "email",
 			'dspname'	=> $this->input->post('fullname'),
 			'username'	=> $this->input->post('username'),
 			'email'		=> $this->input->post('email'),
+			'profilepict' => "user.png",
 			'password'	=> $this->input->post('password'),
 			'last_login'	=> '',
 			'status'	=> 'unverified'

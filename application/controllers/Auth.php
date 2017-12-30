@@ -69,7 +69,7 @@ class Auth extends CI_Controller {
 	            }
 	            $userData['gender']			= $userProfile['gender'];
 	            $userData['locale'] 		= $userProfile['locale'];
-	            $userData['status']			= 'virified';
+	            $userData['status']			= 'verified';
 	            $userData['profile_url'] 	= 'https://www.facebook.com/'.$userProfile['id'];
 	            $userData['picture_url'] 	= $userProfile['picture']['data']['url'];
 
@@ -177,7 +177,7 @@ class Auth extends CI_Controller {
 					        $mail->Body      = $this->load->view('auth/email_verification', $ml, true);
 					        $mail->IsHTML(true);
 					        $mail->addAddress($this->input->post('email'), $this->input->post('fullname'));
-							if($mail->Send()){
+							if($this->input->post('username')){//$mail->Send()
 								if($this->Auth_model->regVal() == true){
 									$bre = md5($this->input->post('email'));
 									redirect('auth/complete?mail='.$this->input->post('email').'&uname='.$this->input->post('username'));

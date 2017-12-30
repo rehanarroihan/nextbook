@@ -26,8 +26,8 @@
                     <input type="hidden" name="classid" value="<?php echo $classdata->classid;?>">
                 </div>
                 <div class="col-md-12">
-                    <!-- <input type="submit" name="submit" class="btn btn-info btn-fill btn-wd pull-right" id="submit" value="Save Change"> -->
-                    <button type="button" class="btn btn-info btn-fill btn-wd pull-right" id="submit" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing Order">Submit Order</button>
+                    <input type="submit" name="submit" class="btn btn-info btn-fill btn-wd pull-right" id="submit" value="Save Change">
+                    <!-- <button type="button" class="btn btn-info btn-fill btn-wd pull-right" id="submit" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Processing Order">Submit Order</button> -->
                 </div>
             </div>
         </form>

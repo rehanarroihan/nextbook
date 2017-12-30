@@ -95,7 +95,7 @@ class Aclass extends CI_Controller {
 			$ident = '';
 			if ($this->Class_model->setting($this->upload->data(),$ident) == TRUE) {
 				$this->session->set_flashdata('announce', 'Group Setting Success to Update');
-				redirect('aclas/setting');
+				redirect('aclass/setting');
 			} else {
 				$this->session->set_flashdata('announce', 'Group Setting Failed to Update');
 				redirect('aclass/setting');

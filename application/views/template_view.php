@@ -113,14 +113,14 @@
                         <p>Class</p>
                     </a>
                 </li>
-                <li class="">
+               <!--  <li class="">
                     <a href="<?php echo base_url() ?>card">
                         <i class="pe-7s-user"></i>
                         <p>Card</p>
                     </a>
-                </li>
+                </li> -->
                 <li>
-                    <a href="<?php echo base_url() ?>profile">
+                    <a href="<?php echo base_url() ?>profile/edit">
                         <i class="pe-7s-note2"></i>
                         <p>Profile</p>
                     </a>
