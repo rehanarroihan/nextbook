@@ -10,6 +10,9 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
+    <!-- File Upload -->
+    <link href="<?php echo base_url() ?>assets/2.0/font-awesome/css/fileupload.css" rel="stylesheet"/>
+
     <!-- Font Awesome-->
     <link href="<?php echo base_url() ?>assets/2.0/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
 
@@ -249,6 +252,9 @@
 
     <script type="text/javascript" src="<?php echo base_url() ?>assets/2.0/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/2.0/js/locales/bootstrap-datetimepicker.id.js" charset="UTF-8"></script>
+
+    <!-- File Upload -->
+    <script src="<?php echo base_url() ?>assets/2.0/js/fileupload.js"></script>
 
     <!--  Charts Plugin -->
     <script src="<?php echo base_url() ?>assets/2.0/js/chartist.min.js"></script>

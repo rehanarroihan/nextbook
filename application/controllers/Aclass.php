@@ -325,6 +325,11 @@ class Aclass extends CI_Controller {
 		}
 	}
 
+	public function saveposting()
+	{
+		
+	}
+
 	public function setting(){
 		$data['classdata'] = $this->Class_model->getClassData();
 		if($this->input->post('sempolcrispy')){
@@ -353,10 +358,6 @@ class Aclass extends CI_Controller {
 		if ($date1 < $date3){
 		   echo 'here';
 		}
-	}
-
-	public function nyoba()
-	{
 	}
 }
 /* End of file Aclass.php */
