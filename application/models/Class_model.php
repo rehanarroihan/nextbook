@@ -265,6 +265,59 @@ class Class_model extends CI_Model {
 				 		->get('schedule')
 				 		->row();
 	}
+
+	public function posting($image,$document)
+	{
+		$classid = $this->getClassData()->classid;
+		$lesson = $this->getLessonNow()->lessonid;
+
+		if ($lesson == NULL) {
+			$object = array(
+					'classid' => $classid,
+					'userid' => $this->session->userdata('uid'),
+					'created' => date('Y-m-d'),
+					'content' => $this->input->post('content'),
+					'img' => $image['file_name'],
+					'doc' => $document['file_name']
+				);
+			$this->db->insert('userpost', $object);
+		} else {
+			$object = array(
+					'classid' => $classid,
+					'lessonid' => $lesson,
+					'userid' => $this->session->userdata('uid'),
+					'created' => date('Y-m-d'),
+					'content' => $this->input->post('content'),
+					'img' => $image['file_name'],
+					'doc' => $document['file_name']
+				);
+			$this->db->insert('userpost', $object);
+		}
+
+		if ($this->db->affected_rows()) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function getUpost()
+	{
+		$classid = $this->getClassData()->classid;
+		$lesson = $this->getLessonList();
+		if (count($lesson) > 0) {
+			return $this->db->where('userpost.classid',$classid)
+				 			->join('user','user.uid = userpost.userid')
+				 			->join('lesson','lesson.lessonid = userpost.lessonid')
+				 			->get('userpost')
+				 			->result();
+		} else {
+			return $this->db->where('userpost.classid',$classid)
+				 			->join('user','user.uid = userpost.userid')
+				 			->get('userpost')
+				 			->result();
+		}
+	}
 }
 /* End of file Class_model.php */
 /* Location: ./application/models/Class_model.php */

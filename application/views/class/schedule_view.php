@@ -5,11 +5,15 @@
     <div class="content" id="page">
         <!-- iki pelAJARAN -->
         <?php if($lessonCount > 0): ?>
-            <?php foreach($lessonList as $list): ?>
-            <button class="btn btn-info btn-fill yha" style="margin-bottom:3px" type="button" data-toggle="tooltip" title="<?php echo $list->teacher ?>">
-                <?php echo $list->lesson ?> <span class="badge">0</span>
-            </button>
-            <?php endforeach; ?>
+            <?php
+                foreach($lessonList as $list): 
+                ?>
+                    <button class="btn btn-info btn-fill yha" style="margin-bottom:3px" type="button" data-toggle="tooltip" title="<?php echo $list->teacher ?>">
+                        <?php echo $list->lesson ?> <span class="badge">0</span>
+                    </button>
+                <?php 
+                endforeach; 
+            ?>
         <?php else: ?>
             <p>Tidak ada pelajaran</p>
         <?php endif; ?>        

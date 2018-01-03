@@ -143,6 +143,8 @@ class Aclass extends CI_Controller {
 				$data['nextlesson'] = 'Tidak Ada';
 				$data['nextlessonTime'] = "adsf";
 			}
+			$data['detail'] = $this->Profile_model->getProfileDetail();
+			$data['upost'] = $this->Class_model->getUpost();
 
 			$this->load->view('class/home_view',$data);
 		}else{
@@ -163,6 +165,7 @@ class Aclass extends CI_Controller {
 				$data['classdata'] = $this->Class_model->getClassData();
 				$data['third_view'] = 'class/home_view';
 				$data['memberlist'] = $this->Class_model->memberList();
+				$data['upost'] = $this->Class_model->getUpost();
 			}else{
 				$data['primary_view'] = 'class/no_class_view';
 			}
@@ -243,7 +246,7 @@ class Aclass extends CI_Controller {
 				'mingguList'	=> $this->Class_model->getDayList('minggu'),
 				'mingguCount'	=> $this->Class_model->getDayCount('minggu'),
 				'lessonCount'	=> $this->Class_model->getLessonCount(),
-				'lessonList'	=> $this->Class_model->getLessonList()
+				'lessonList'	=> $this->Class_model->getLessonList(),
 			);
 		if($this->input->post('sempolcrispy')){
 			$this->load->view('class/schedule_view', $data);
@@ -327,7 +330,83 @@ class Aclass extends CI_Controller {
 
 	public function saveposting()
 	{
-		
+		// Image Upload
+		$configpict = array();
+		$configpict['upload_path'] = './assets/2.0/file/img/';
+		$configpict['allowed_types'] = 'gif|jpg|png';
+		$configpict['max_size'] = '100000';
+		$this->load->library('upload',$configpict, 'imageupload');
+		$this->imageupload->initialize($configpict);
+		$uploadimage = $this->imageupload->do_upload('postpict');
+
+		// Document Upload
+		$configdoc = array();
+		$configdoc['upload_path'] = './assets/2.0/file/doc/';
+		$configdoc['allowed_types'] = 'txt|doc|docx|ppt|pptx|xls|xlsx|pdf|zip|rar';
+		$configdoc['max_size'] = '300000';
+		$this->load->library('upload', $configdoc, 'documentupload');
+		$this->documentupload->initialize($configdoc);
+		$uploaddocument = $this->documentupload->do_upload('postfile');
+
+		if ($this->input->post('content') != NULL) {
+			if ($uploadimage) {
+				if ($uploaddocument) {
+					$imagedata = $this->imageupload->data();
+					$documentdata = $this->documentupload->data();
+					if ($this->Class_model->posting($imagedata,$documentdata) == TRUE) {
+						$this->session->set_flashdata('announce', 'Success to Upload');
+						redirect('aclass/home');
+					}
+				}else{
+					$documentdata = 'NULL';
+					$imagedata = $this->imageupload->data();
+					if ($this->Class_model->posting($imagedata,$documentdata) == TRUE) {
+						$this->session->set_flashdata('announce', 'Success to Upload');
+						redirect('aclass/home');
+					}
+				}
+			}elseif($uploaddocument){
+				$imagedata = 'NULL';
+				$documentdata = $this->documentupload->data();
+				if ($this->Class_model->posting($imagedata,$documentdata) == TRUE) {
+					$this->session->set_flashdata('announce', 'Success to Upload');
+					redirect('aclass/home');
+				}
+			}else{
+				$imagedata = 'NULL';
+				$documentdata = 'NULL';
+				if ($this->Class_model->posting($imagedata,$documentdata) == TRUE) {
+					$this->session->set_flashdata('announce', 'Success to Upload');
+					redirect('aclass/home');
+				}
+			}
+		} elseif($uploadimage) {
+			if ($uploaddocument) {
+				$imagedata = $this->imageupload->data();
+				$documentdata = $this->documentupload->data();
+				if ($this->Class_model->posting($imagedata,$documentdata) == TRUE) {
+					$this->session->set_flashdata('announce', 'Success to Upload');
+					redirect('aclass/home');
+				}
+			}else{
+				$documentdata = 'NULL';
+				$imagedata = $this->imageupload->data();
+				if ($this->Class_model->posting($imagedata,$documentdata) == TRUE) {
+					$this->session->set_flashdata('announce', 'Success to Upload');
+					redirect('aclass/home');
+				}
+			}
+		}elseif($uploaddocument){
+			$imagedata = 'NULL';
+			$documentdata = $this->documentupload->data();
+			if ($this->Class_model->posting($imagedata,$documentdata) == TRUE) {
+				$this->session->set_flashdata('announce', 'Success to Upload');
+				redirect('aclass/home');
+			}
+		}else{
+			$this->session->set_flashdata('announce', 'Please Input Something');
+			redirect('aclass/home');
+		}
 	}
 
 	public function setting(){

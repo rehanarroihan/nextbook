@@ -58,4 +58,81 @@
         </div>
     </div>
 </div>
+<?php
+    if (isset($upost)) {
+        foreach ($upost as $posting) {
+        ?>
+    <div class="card" style="margin-top:-10px">
+        <div style="margin: 2%;padding-top: 2%;padding-bottom: 2%">
+            <?php
+                if ($posting->oauth_provider == 'facebook') {
+                    ?>
+                    <img src="https://graph.facebook.com/<?php echo $posting->oauth_id;?>/picture" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle">
+                    <?php
+                }else{
+                    if ($posting->profilepict == '') {
+                        ?>
+                        <img src="<?php echo base_url() ?>assets/2.0/img/user/user.png" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle"/>
+                        <?php
+                    }else{
+                    ?>
+                        <img src="<?php echo base_url() ?>assets/2.0/img/user/<?php echo $posting->profilepict;?>" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle"/>
+                    <?php
+                    }
+                }
 
+                if (isset($posting->lesson)) {
+                ?>
+                    <span><b><?php echo $posting->dspname; ?> <i class="fa fa-hand-o-right fa-sm"></i></b> <?php echo $posting->lesson;?></span>
+                <?php
+                }else{
+                ?>
+                    <span><b><?php echo $posting->dspname; ?> <i class="fa fa-hand-o-right fa-sm"></i></b> <?php echo 'Other';?></span>
+                <?php
+                }
+            ?>
+            <hr>
+            <div style="margin-left: 3%">
+                <div class="row">
+                    <?php
+                    if ($posting->content != '') {
+                        ?>
+                        <div class="col-md-12" style="margin-bottom: 8%">
+                            <?php echo $posting->content; ?>
+                        </div>
+                    <?php
+                        }
+                        ?>
+                </div>
+                <div class="row">
+                    <?php
+                    if ($posting->img != 'N') {
+                        
+                        if ($posting->content != '') {
+                        ?>
+                            <hr>
+                        <?php
+                        }
+                        ?>
+                        <div class="col-md-6">
+                            <img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" style="width: 50%;height: 50%"/>
+                        </div>
+                        <?php
+                    }
+
+                    if ($posting->doc != 'N') {
+                    ?>
+                        <div class="col-md-6">
+                            <a href="blank"><i class="fa fa-download fa-sm"></i> <?php echo $posting->doc;?></a>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+        <?php
+        }
+    }
+?>
