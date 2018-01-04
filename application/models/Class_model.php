@@ -307,13 +307,15 @@ class Class_model extends CI_Model {
 		$lesson = $this->getLessonList();
 		if (count($lesson) > 0) {
 			return $this->db->where('userpost.classid',$classid)
+			->order_by('userpost.created', 'ASC')
 				 			->join('user','user.uid = userpost.userid')
-				 			->join('lesson','lesson.lessonid = userpost.lessonid')
+				 			->join('lesson','lesson.lessonid = userpost.lessonid', 'left')
 				 			->get('userpost')
 				 			->result();
 		} else {
 			return $this->db->where('userpost.classid',$classid)
-				 			->join('user','user.uid = userpost.userid')
+			->order_by('userpost.created', 'ASC')
+				 			->join('user','user.uid = userpost.userid', 'left')
 				 			->get('userpost')
 				 			->result();
 		}

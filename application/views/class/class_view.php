@@ -116,6 +116,7 @@
         $("#load").css('display','block');
         if(now == 'navhome'){
             $('#' + now).addClass("btn-fill");
+            window.history.pushState("", "", "<?php echo base_url(); ?>aclass/home");
             $.ajax({
                 url: url + "aclass/home",
                 type: "POST",
@@ -134,11 +135,11 @@
                 success: function(data){
                     $("#load").css('display','none');
                     $('#masok').html(data);
-                    window.history.pushState("", "", "<?php echo base_url(); ?>aclass/home");
                 }                
             })
         }else if(now == 'navsche'){
             $('#' + now).addClass("btn-fill");
+            window.history.pushState("", "", "<?php echo base_url(); ?>aclass/schedule");
             $.ajax({
                 url: url + "aclass/schedule",
                 type: "POST",
@@ -157,11 +158,11 @@
                 success: function(data){
                     $("#load").css('display','none');
                     $('#masok').html(data);
-                    window.history.pushState("", "", "<?php echo base_url(); ?>aclass/schedule");
                 }                
             })
         }else if(now == 'navmember'){
             $('#' + now).addClass("btn-fill");
+            window.history.pushState("", "", "<?php echo base_url(); ?>aclass/member");
             $.ajax({
                 url: url + "aclass/member",
                 type: "POST",
@@ -175,11 +176,11 @@
                 success: function(data){
                     $("#load").css('display','none');
                     $('#masok').html(data);
-                    window.history.pushState("", "", "<?php echo base_url(); ?>aclass/member");
                 }   
             })
         }else if(now == 'navadmin'){
             $('#' + now).addClass("btn-fill");
+            window.history.pushState("", "", "<?php echo base_url(); ?>aclass/setting");
             $.ajax({
                 url: url + "aclass/setting",
                 type: "POST",
@@ -198,7 +199,6 @@
                 success: function(data){
                     $("#load").css('display','none');
                     $('#masok').html(data);
-                    window.history.pushState("", "", "<?php echo base_url(); ?>aclass/setting");
                 }                
             })
         }

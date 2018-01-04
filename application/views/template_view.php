@@ -61,23 +61,15 @@
             <div class="user"> 
                 <div class="info">
                     <div class="photo">
-                        <?php
-                            if ($this->session->userdata('oauth_provider') == 'facebook') {
-                                ?>
-                                <img src="https://graph.facebook.com/<?php echo $this->session->userdata('oauth_id');?>/picture">
-                                <?php
-                            }else{
-                                if ($detail->profilepict == '') {
-                                    ?>
-                                    <img src="<?php echo base_url() ?>assets/2.0/img/user/user.png" />
-                                    <?php
-                                }else{
-                                ?>
-                                    <img src="<?php echo base_url() ?>assets/2.0/img/user/<?php echo $detail->profilepict;?>" />
-                                <?php
-                                }
-                            }
-                        ?>
+                        <?php if ($this->session->userdata('oauth_provider') == 'facebook'): ?>
+                            <img src="https://graph.facebook.com/<?php echo $this->session->userdata('oauth_id');?>/picture">
+                            <?php else: ?>
+                            <?php if ($detail->profilepict == ''): ?>
+                                <img src="<?php echo base_url() ?>assets/2.0/img/user/user.png" />
+                                <?php else: ?>
+                                <img src="<?php echo base_url() ?>assets/2.0/img/user/<?php echo $detail->profilepict;?>" />
+                            <?php endif; ?>
+                        <?php endif; ?>
                     </div>
 
                     <a data-toggle="collapse" href="#collapseExample" class="collapsed">
