@@ -275,7 +275,7 @@ class Class_model extends CI_Model {
 			$object = array(
 					'classid' => $classid,
 					'userid' => $this->session->userdata('uid'),
-					'created' => date('Y-m-d'),
+					'creat' => date('Y-m-d H:i'),
 					'content' => $this->input->post('content'),
 					'img' => $image['file_name'],
 					'doc' => $document['file_name']
@@ -286,7 +286,7 @@ class Class_model extends CI_Model {
 					'classid' => $classid,
 					'lessonid' => $lesson,
 					'userid' => $this->session->userdata('uid'),
-					'created' => date('Y-m-d'),
+					'creat' => date('Y-m-d H:i'),
 					'content' => $this->input->post('content'),
 					'img' => $image['file_name'],
 					'doc' => $document['file_name']
@@ -307,17 +307,36 @@ class Class_model extends CI_Model {
 		$lesson = $this->getLessonList();
 		if (count($lesson) > 0) {
 			return $this->db->where('userpost.classid',$classid)
-			->order_by('userpost.created', 'ASC')
+			->order_by('userpost.creat', 'DESC')
 				 			->join('user','user.uid = userpost.userid')
 				 			->join('lesson','lesson.lessonid = userpost.lessonid', 'left')
 				 			->get('userpost')
 				 			->result();
 		} else {
 			return $this->db->where('userpost.classid',$classid)
-			->order_by('userpost.created', 'ASC')
+			->order_by('userpost.creat', 'DESC')
 				 			->join('user','user.uid = userpost.userid', 'left')
 				 			->get('userpost')
 				 			->result();
+		}
+	}
+
+	public function comment()
+	{
+		$classid = $this->getClassData()->classid;
+		$object = array(
+				'postid' => $this->input->post('postid'),
+				'uid' => $this->session->userdata('uid'),
+				'classid' => $classid,
+				'createds' => date('Y-m-d H:i'),
+				'comment' => $this->input->post('gocomment')
+			);
+		$this->db->insert('comment', $object);
+
+		if ($this->db->affected_rows()) {
+			return TRUE;
+		} else {
+			return FALSE;
 		}
 	}
 }

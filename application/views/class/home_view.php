@@ -2,10 +2,10 @@
 <div class="card" style="margin-top:-10px;padding:10px;background:#B3E5FC">
     <div class="row" style="margin-bottom:-13px;margin-top:-5px ">
         <div class="col-md-6 text-center">
-            <p>Lesson Now <br> <?php echo $lesson;?></p>
+            <p><b>Lesson Now</b> <br> <?php echo $lesson;?></p>
         </div>
         <div class="col-md-6 text-center">
-            <p>Next Lesson <br> <?php echo $nextlesson;?> <?php echo $nextlessonTime ?><small class="pull-right"><?php //echo $nextlessonTime ?></small></p>   
+            <p><b>Next Lesson</b> <br> <?php echo $nextlesson;?> <?php echo $nextlessonTime ?><small class="pull-right"><?php //echo $nextlessonTime ?></small></p>   
         </div> 
     </div>
 </div>
@@ -36,8 +36,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Select File</label>
-                            <input type="file" class="dropify" name="postfile" data-allowed-file-extensions="png jpg gif jpeg"  data-max-file-size="200K"/>
+                            <label>Select Document</label>
+                            <input type="file" class="dropify" name="postfile" data-allowed-file-extensions="txt ppt pptx doc docx xlsx xls pdf zip rar"  data-max-file-size="500k"/>
                         </div>
                     </div>
                 </div><hr>
@@ -67,7 +67,7 @@
                 <?php else: ?>
                     <span><b><?php echo $posting->dspname; ?> <i class="fa fa-chevron-circle-right fa-sm"></i></b> <?php echo 'Other';?></span>
             <?php endif; ?>
-            <span class="pull-right" style="color:#BDBDBD;margin-top:7px;font-size:12px">Dikirim pada 7 Dec 2017, 17.00</span>
+            <span class="pull-right" style="color:#BDBDBD;margin-top:7px;font-size:12px">Dikirim pada <?php echo date('d M Y H:i',strtotime($posting->creat));?></span>
             <hr style="margin-top:10px" width="100%">
             <div style="margin-left: 3%;min-height:1px;">
                 <div class="row">
@@ -95,32 +95,43 @@
                 </div>
             </div>
         </div>
+        <?php
+            $comment = $this->db->where('comment.classid',$classdata->classid)
+                                ->where('postid',$posting->postid)
+                                ->order_by('createds','ASC')
+                                ->join('user','user.uid = comment.uid')
+                                ->get('comment')
+                                ->result();
+        ?>
         <div style="background:#E1F5FE;padding:9px;color:#0277BD">
-            <i class="fa fa-comment"></i> 7 Komentar
+            <i class="fa fa-comment"></i> <?php echo count($comment);?> Komentar
         </div>
         <div style="background:#F5F5F5;padding:9px">
-            <table width="100%">
-                <tr>
-                    <td width="5%">
-                        <?php if ($this->session->userdata('oauth_provider') == 'facebook'): ?>
-                            <img src="https://graph.facebook.com/<?php echo $this->session->userdata('oauth_id');?>/picture" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle">
-                            <?php else: ?>
-                            <?php if($detail->profilepict == ''): ?>
-                                <img src="<?php echo base_url() ?>assets/2.0/img/user/user.png" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle"/>
-                                <?php else:?>
-                                <img src="<?php echo base_url() ?>assets/2.0/img/user/<?php echo $detail->profilepict;?>" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle"/>
+            <?php foreach ($comment as $comm): ?>
+                <table width="100%">
+                    <tr>
+                        <td width="5%">
+                            <?php if ($comm->oauth_provider == 'facebook'): ?>
+                                <img src="https://graph.facebook.com/<?php echo $comm->oauth_id;?>/picture" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle">
+                                <?php else: ?>
+                                <?php if($comm->profilepict == ''): ?>
+                                    <img src="<?php echo base_url() ?>assets/2.0/img/user/user.png" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle"/>
+                                    <?php else:?>
+                                    <img src="<?php echo base_url() ?>assets/2.0/img/user/<?php echo $comm->profilepict;?>" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle"/>
+                                <?php endif; ?>
                             <?php endif; ?>
-                        <?php endif; ?>
-                    </td>
-                    <td width="65%" style="padding-top:4px">
-                        <p style="font-size:15px;"><b>Rehan Arroihan</b> iki komenku lur</p>
-                        <p style="margin-top:-11px;font-size:11px;color:#BDBDBD">17 Mei 2017, 14.30</p>
-                    </td>
-                </tr>
-            </table>
+                        </td>
+                        <td width="65%" style="padding-top:4px">
+                            <p style="font-size:15px;"><b><?php echo $comm->dspname;?></b> <?php echo $comm->comment;?></p>
+                            <p style="margin-top:-11px;font-size:11px;color:#BDBDBD"><?php echo date('d M Y, H:i', strtotime($comm->createds));?></p>
+                        </td>
+                    </tr>
+                </table>
+            <?php endforeach;?>
         </div>   
         <div style="background:#F5F5F5;padding:9px">
             <table width="100%">
+                <form method="post" action="<?php echo base_url();?>aclass/comment">
                 <tr>
                     <td width="5%">
                         <?php if ($this->session->userdata('oauth_provider') == 'facebook'): ?>
@@ -134,12 +145,14 @@
                         <?php endif; ?>
                     </td>
                     <td width="60%">
+                        <input type="hidden" name="postid" value="<?php echo $posting->postid;?>">
                         <input style="border-top-left-radius:20px;border-bottom-left-radius:20px;border-top-right-radius:20px;border-bottom-right-radius:20px;" type="text" name="gocomment" placeholder="Post comment as <?php echo $this->session->userdata('dspname'); ?>" class="form-control col-md-3">
                     </td>
                     <td width="4%" class="text-center">
-                        <a href="" class="btn btn-primary btn-fill btn-md btn-round"><i class="fa fa-arrow-circle-right"></i></a>
+                        <button type="submit" class="btn btn-primary btn-fill btn-md btn-round"><i class="fa fa-arrow-circle-right"></i></button>
                     </td>
                 </tr>
+                </form>
             </table>
         </div>    
     </div>

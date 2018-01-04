@@ -9,17 +9,16 @@
                 foreach($lessonList as $list): 
                 ?>
                     <button class="btn btn-info btn-fill yha" style="margin-bottom:3px" type="button" data-toggle="tooltip" title="<?php echo $list->teacher ?>">
-                        <?php echo $list->lesson ?> <span class="badge">0</span>
+                        <?php echo $list->lesson ?> <span class="badge"><?php echo $this->db->where('lessonid', $list->lessonid)->count_all_results('userpost'); ?></span>
                     </button>
+
                 <?php 
                 endforeach; 
             ?>
         <?php else: ?>
             <p>Tidak ada pelajaran</p>
         <?php endif; ?>        
-        <?php if($classdata->created_by == $this->session->userdata('uid')): ?>
         <button class="btn btn-warning btn-fill" type="button" id="addl"><i class="glyphicon glyphicon-plus"></i></button>
-        <?php endif; ?>
     </div>
 </div>
 

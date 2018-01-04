@@ -143,6 +143,7 @@ class Aclass extends CI_Controller {
 				$data['nextlesson'] = 'Tidak Ada';
 				$data['nextlessonTime'] = "";
 			}
+			$data['classdata'] = $this->Class_model->getClassData();
 			$data['detail'] = $this->Profile_model->getProfileDetail();
 			$data['upost'] = $this->Class_model->getUpost();
 
@@ -171,7 +172,6 @@ class Aclass extends CI_Controller {
 			}else{
 				$data['primary_view'] = 'class/no_class_view';
 			}
-
 			$data['interface'] = $this->Setting_model->get_interface();
 			$data['detail'] = $this->Profile_model->getProfileDetail();
 			$this->load->view('template_view', $data);
@@ -438,6 +438,17 @@ class Aclass extends CI_Controller {
 		//echo 'Jam sekarang : '.date("H:i").'<br>';
 		if ($date1 < $date3){
 		   echo 'here';
+		}
+	}
+
+	public function comment()
+	{
+		if ($this->Class_model->comment() == TRUE) {
+			$this->session->set_flashdata('announce', 'Your Comment Was Send');
+			redirect('aclass/home');
+		} else {
+			$this->session->set_flashdata('announce', 'Your Comment Cant Send');
+			redirect('aclass/home');
 		}
 	}
 }
