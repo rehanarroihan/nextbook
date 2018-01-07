@@ -258,7 +258,7 @@
 
 <div class="card" style="margin-top:-10px">
     <div class="header">
-        <span id="title">Ahad</span><button id="minggu" class="adds btn btn-sm btn-fill btn-warning pull-right"><i class="fa fa-plus"></i></button>
+        <span id="title">Minggu</span><button id="minggu" class="adds btn btn-sm btn-fill btn-warning pull-right"><i class="fa fa-plus"></i></button>
     </div>
     <div class="content" id="page">
         <?php if($mingguCount > 0): ?>
