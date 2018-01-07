@@ -107,12 +107,12 @@
                                 ->get('comment')
                                 ->result();
         ?>
-        <a onclick="hideFunction()" style="cursor: pointer">
+        <a onclick="hideFunction(<?php echo $posting->postid;?>)" style="cursor: pointer">
             <div style="background:#E1F5FE;padding:9px;color:#0277BD">
                 <i class="fa fa-comment"></i> <?php echo count($comment);?> Komentar
             </div>
         </a>
-        <div style="background:#F5F5F5;padding:9px" id="komen">
+        <div style="background:#F5F5F5;padding:9px" id="<?php echo $posting->postid;?>">
             <?php foreach ($comment as $comm): ?>
                 <table width="100%">
                     <tr>
@@ -162,6 +162,16 @@
             </table>
         </div>    
     </div>
+    <script type="text/javascript">
+        function hideFunction(id) {
+            var x = document.getElementById(id);
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
     <?php endforeach;endif; ?>
 <script src="<?php echo base_url() ?>assets/2.0/jquery.js"></script>
 <script src="<?php echo base_url() ?>assets/vendors/jquery/dist/jquery-ui.js"></script>
@@ -171,13 +181,4 @@
     $("#show").click(function(){
         $('#aso').css('display','block');
     });
-
-    function hideFunction() {
-        var x = document.getElementById("komen");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-        }
 </script>

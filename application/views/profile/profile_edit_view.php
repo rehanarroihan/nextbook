@@ -49,7 +49,7 @@
 
                             <div class="input-group" style="margin-bottom: 5%">
                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                <input id="pass" type="text" class="form-control" name="pass" placeholder="Password" value="<?php if($detail->password == ''){ echo 'N/A';}else{ echo $detail->password;}?>" <?php if($this->session->userdata('oauth_provider') == "facebook"){echo 'disabled';}?>>
+                                <input id="pass" type="password" class="form-control" name="pass" placeholder="Password" value="<?php if($detail->password == ''){ echo 'N/A';}else{ echo $detail->password;}?>" <?php if($this->session->userdata('oauth_provider') == "facebook"){echo 'disabled';}?>>
                             </div>
 
                             <div class="input-group" style="margin-bottom: 5%">

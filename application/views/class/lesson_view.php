@@ -143,10 +143,7 @@
 	    </div>
 	<?php else:?>
 		<div class="col-md-8">
-			<div style="text-align: center;margin-top:25px;margin-bottom:25px;pointer-events: none;">
-			    <img src="<?php echo base_url() ?>assets/img/noclass_web.png" class="visible-lg visible-md hidden-sm hidden-xs center-block" style="height:550px;pointer-events: none;width: 100%">
-			    <img src="<?php echo base_url() ?>assets/img/noclass_mobile.png" class="hidden-lg hidden-md visible-sm visible-xs center-block" style="height:550px;pointer-events: none;width: 100%">
-			</div>
+			<div class="alert alert-danger">Tidak Ada Post</div>
 		</div>
 	<?php endif;?>
     <div class="col-md-4">
