@@ -339,6 +339,26 @@ class Class_model extends CI_Model {
 			return FALSE;
 		}
 	}
+
+	public function getLessonPost($lessonid)
+	{
+		$classid = $this->getClassData()->classid;
+		return $this->db->where('userpost.classid',$classid)
+						->where('userpost.lessonid', $lessonid)
+						->join('user','user.uid = userpost.userid')
+						->order_by('userpost.creat','DESC')
+						->get('userpost')
+				 		->result();
+	}
+
+	public function getLesson($lessonid)
+	{
+		$classid = $this->getClassData()->classid;
+		return $this->db->where('classid',$classid)
+						->where('lessonid', $lessonid)
+						->get('lesson')
+						->row();
+	}
 }
 /* End of file Class_model.php */
 /* Location: ./application/models/Class_model.php */

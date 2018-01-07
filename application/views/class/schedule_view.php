@@ -8,9 +8,9 @@
             <?php
                 foreach($lessonList as $list): 
                 ?>
-                    <button class="btn btn-info btn-fill yha" style="margin-bottom:3px" type="button" data-toggle="tooltip" title="<?php echo $list->teacher ?>">
+                    <a href="<?php echo base_url();?>aclass/lesson/<?php echo $list->lessonid;?>/l-<?php echo rand(0,9).".".rand(11,99).".".chr(64+rand(0,26));?>" class="btn btn-info btn-fill yha" style="margin-bottom:3px" data-toggle="tooltip" title="<?php echo $list->teacher ?>">
                         <?php echo $list->lesson ?> <span class="badge"><?php echo $this->db->where('lessonid', $list->lessonid)->count_all_results('userpost'); ?></span>
-                    </button>
+                    </a>
 
                 <?php 
                 endforeach; 

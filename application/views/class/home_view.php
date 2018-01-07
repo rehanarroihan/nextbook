@@ -37,7 +37,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Select Document</label>
-                            <input type="file" class="dropify" name="postfile" data-allowed-file-extensions="txt ppt pptx doc docx xlsx xls pdf zip rar"  data-max-file-size="500k"/>
+                            <input type="file" class="dropify" name="postfile" data-allowed-file-extensions="txt ppt pptx doc docx xlsx xls pdf zip rar"  data-max-file-size="500m"/>
                         </div>
                     </div>
                 </div><hr>
@@ -83,13 +83,17 @@
                         <hr>
                         <?php endif; ?>
                         <div class="col-md-6">
-                            <img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" style="width: 50%;height: 50%"/>
+                            <a href="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" download>
+                                <img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" style="width: 50%;height: 50%"/>
+                            </a>
                         </div>
                     <?php endif; ?>
 
                     <?php if ($posting->doc != 'N'): ?>
                         <div class="col-md-6">
-                            <a href="blank"><i class="fa fa-download fa-sm"></i> <?php echo $posting->doc;?></a>
+                            <a href="<?php echo base_url() ?>assets/2.0/file/doc/<?php echo $posting->doc;?>" download style="color: black">
+                                <i class="fa fa-download fa-sm"></i> <?php echo $posting->doc;?>
+                            </a>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -103,10 +107,12 @@
                                 ->get('comment')
                                 ->result();
         ?>
-        <div style="background:#E1F5FE;padding:9px;color:#0277BD">
-            <i class="fa fa-comment"></i> <?php echo count($comment);?> Komentar
-        </div>
-        <div style="background:#F5F5F5;padding:9px">
+        <a onclick="hideFunction()" style="cursor: pointer">
+            <div style="background:#E1F5FE;padding:9px;color:#0277BD">
+                <i class="fa fa-comment"></i> <?php echo count($comment);?> Komentar
+            </div>
+        </a>
+        <div style="background:#F5F5F5;padding:9px" id="komen">
             <?php foreach ($comment as $comm): ?>
                 <table width="100%">
                     <tr>
@@ -146,7 +152,7 @@
                     </td>
                     <td width="60%">
                         <input type="hidden" name="postid" value="<?php echo $posting->postid;?>">
-                        <input style="border-top-left-radius:20px;border-bottom-left-radius:20px;border-top-right-radius:20px;border-bottom-right-radius:20px;" type="text" name="gocomment" placeholder="Post comment as <?php echo $this->session->userdata('dspname'); ?>" class="form-control col-md-3">
+                        <input style="border-top-left-radius:20px;border-bottom-left-radius:20px;border-top-right-radius:20px;border-bottom-right-radius:20px;" type="text" name="gocomment" placeholder="Post comment as <?php echo $this->session->userdata('dspname'); ?>" class="form-control col-md-3" required>
                     </td>
                     <td width="4%" class="text-center">
                         <button type="submit" class="btn btn-primary btn-fill btn-md btn-round"><i class="fa fa-arrow-circle-right"></i></button>
@@ -165,4 +171,13 @@
     $("#show").click(function(){
         $('#aso').css('display','block');
     });
+
+    function hideFunction() {
+        var x = document.getElementById("komen");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+        }
 </script>

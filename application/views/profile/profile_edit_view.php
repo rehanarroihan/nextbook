@@ -39,7 +39,7 @@
                         <div class="col-md-8">
                             <div class="input-group" style="margin-bottom: 5%">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                <input id="email" type="email" name="email" class="form-control" placeholder="Email" value="<?php echo $detail->email;?>" <?php if($this->session->userdata('oauth_provider') == 'facebook'){ echo 'disabled';}?>>
+                                <input id="email" type="email" name="email" class="form-control" placeholder="Email" value="<?php echo $detail->email;?>" <?php if($this->session->userdata('oauth_provider') == 'facebook'){ echo 'disabled';}?> readonly>
                             </div>
 
                             <div class="input-group" style="margin-bottom: 5%">

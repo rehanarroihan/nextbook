@@ -31,6 +31,21 @@ class Aclass extends CI_Controller {
 		redirect('aclass/home');
 	}
 
+	public function lesson()
+	{
+		$data['title'] = 'Lesson';
+		$data['primary_view'] = 'class/lesson_view';
+		$data['detail'] = $this->Profile_model->getProfileDetail();
+		$data['interface'] = $this->Setting_model->get_interface();
+		$lessonid = $this->uri->segment(3);
+		$data['postlesson'] = $this->Class_model->getLessonPost($lessonid);
+		$data['less'] = $this->Class_model->getLesson($lessonid);
+		$data['classdata'] = $this->Class_model->getClassData();
+		$data['third_view'] = 'class/home_view';
+		$data['memberlist'] = $this->Class_model->memberList();
+		$this->load->view('template_view', $data);
+	}
+
 	public function createclass(){
 		if($this->input->post('class')){
 			if($this->Class_model->insert()  == true){
