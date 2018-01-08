@@ -359,6 +359,34 @@ class Class_model extends CI_Model {
 						->get('lesson')
 						->row();
 	}
+
+	public function postdelete($postid)
+	{
+		$classid = $this->getClassData()->classid;
+		$this->db->where('classid',$classid)
+				 ->where('postid',$postid)
+				 ->delete('userpost');
+
+		if ($this->db->affected_rows()) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function lessondelete($lessonid)
+	{
+		$classid = $this->getClassData()->classid;
+		$this->db->where('classid',$classid)
+				 ->where('lessonid',$lessonid)
+				 ->delete('lesson');
+
+		if ($this->db->affected_rows()) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
 }
 /* End of file Class_model.php */
 /* Location: ./application/models/Class_model.php */

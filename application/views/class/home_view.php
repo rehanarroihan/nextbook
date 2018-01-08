@@ -63,10 +63,21 @@
             <?php endif; ?>
 
             <?php if (isset($posting->lesson)): ?>
-                    <span><b><?php echo $posting->dspname; ?> <i class="fa fa-chevron-circle-right fa-sm"></i></b> <?php echo $posting->lesson;?></span>
+                    <span>
+                        <b><?php echo $posting->dspname; ?> <i class="fa fa-chevron-circle-right fa-sm"></i></b>
+                        <a href="<?php echo base_url();?>aclass/lesson/<?php echo $posting->lessonid;?>/l-<?php echo rand(0,9).".".rand(11,99).".".chr(64+rand(0,26));?>" style="color: black">
+                            <?php echo $posting->lesson;?>
+                        </a>
+                    </span>
                 <?php else: ?>
-                    <span><b><?php echo $posting->dspname; ?> <i class="fa fa-chevron-circle-right fa-sm"></i></b> <?php echo 'Other';?></span>
+                    <span>
+                        <b><?php echo $posting->dspname; ?> <i class="fa fa-chevron-circle-right fa-sm"></i></b>
+                        <?php echo 'Other';?>
+                    </span>
             <?php endif; ?>
+            <?php if($posting->userid == $this->session->userdata('uid')):?>
+                <span class="pull-right"><a style="cursor: pointer" class="delete" postid="<?php echo $posting->postid ?>"><i class="fa fa-trash"></i></a></span>
+            <?php endif;?>
             <span class="pull-right" style="color:#BDBDBD;margin-top:7px;font-size:12px">Dikirim pada <?php echo date('d M Y H:i',strtotime($posting->creat));?></span>
             <hr style="margin-top:10px" width="100%">
             <div style="margin-left: 3%;min-height:1px;">
@@ -82,19 +93,27 @@
                         if ($posting->content != ''): ?>
                         <hr>
                         <?php endif; ?>
-                        <div class="col-md-6">
-                            <a href="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" download>
-                                <img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" style="width: 50%;height: 50%"/>
-                            </a>
-                        </div>
+                        <?php if ($posting->doc != 'N'): ?>
+                            <div class="col-md-6">
+                        <?php else:?>
+                            <div class="col-md-12">
+                        <?php endif;?>
+                                <a href="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" download>
+                                    <img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" style="width: 50%;height: 50%"/>
+                                </a>
+                            </div>
                     <?php endif; ?>
 
                     <?php if ($posting->doc != 'N'): ?>
-                        <div class="col-md-6">
-                            <a href="<?php echo base_url() ?>assets/2.0/file/doc/<?php echo $posting->doc;?>" download style="color: black">
-                                <i class="fa fa-download fa-sm"></i> <?php echo $posting->doc;?>
-                            </a>
-                        </div>
+                        <?php if ($posting->img != 'N'): ?>
+                            <div class="col-md-6">
+                        <?php else:?>
+                            <div class="col-md-12">
+                        <?php endif;?>
+                                <a href="<?php echo base_url() ?>assets/2.0/file/doc/<?php echo $posting->doc;?>" download style="color: black">
+                                    <i class="fa fa-download fa-sm"></i> <?php echo $posting->doc;?>
+                                </a>
+                            </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -181,4 +200,21 @@
     $("#show").click(function(){
         $('#aso').css('display','block');
     });
+
+    //Fungsi unenroll
+                $(".delete").click(function(){
+                    var postid = $(this).attr("postid");
+                    swal({
+                        title: "Are you sure want to delete your posting ?",
+                        text: "This action can't be undone",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Delete",
+                        closeOnConfirm: false
+                    },
+                    function() {
+                        window.location.href = url + "aclass/deletepost/" + postid;
+                    });
+                });
 </script>

@@ -471,6 +471,31 @@ class Aclass extends CI_Controller {
 			redirect('aclass/home');
 		}
 	}
+
+	public function deletepost()
+	{
+		$postid = $this->uri->segment(3);
+		if ($this->Class_model->postdelete($postid) == TRUE) {
+			$this->session->set_flashdata('announce', 'Your Posting Success To Delete');
+			redirect('aclass/home');
+		} else {
+			$this->session->set_flashdata('announce', 'Your Posting Failed To Delete');
+			redirect('aclass/home');
+		}
+	}
+
+	public function deletelesson()
+	{
+		$lessonid = $this->uri->segment(3);
+		$code = 'l-'.rand(0,9).".".rand(11,99).".".chr(64+rand(0,26));
+		if ($this->Class_model->lessondelete($lessonid) == TRUE) {
+			$this->session->set_flashdata('announce', 'Lesson Success To Delete');
+			redirect('aclass/schedule');
+		} else {
+			$this->session->set_flashdata('announce', 'Lesson Failed To Delete');
+			redirect('aclass/schedule');
+		}
+	}
 }
 /* End of file Aclass.php */
 /* Location: ./application/controllers/Aclass.php */

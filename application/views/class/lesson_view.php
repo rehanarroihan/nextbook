@@ -2,17 +2,20 @@
 	<div class="col-md-12">
 		<div class="card">
 			<div style="padding: 0.1%" class="pull-right">
-				<button type="button" class="btn-danger btn-xs btn-fill"><i class="fa fa-trash fa-lg"></i></button>
+				<button class="btn-danger btn-xs btn-fill delete" lessonid="<?php echo $less->lessonid;?>"><i class="fa fa-trash fa-lg"></i></button>
 			</div>
-			<div style="padding: 0.1%">
-				<h2 style=""><b><?php echo $less->lesson;?></b></h2>
+			<div style="padding: 0.1%;text-align: center;">
+				<h3><b><?php echo $less->lesson;?></b></h3>
 			</div>
 		</div>
 	</div>
 	<?php if(count($postlesson) > 0):?>
 	    <div class="col-md-8">
 	        <div class="card">
-	        	<div class="row" style="padding: 1%">
+                <div style="padding: 1%">
+                    <span style="color: grey;font-size: 13pt"><i class="fa fa-bookmark"></i><?php echo count($postlesson);?> Posting</span>
+                </div>
+                <div class="row" style="padding: 1%">
 	        	<?php $array = array('#ef5350', '#EC407A', '#AB47BC', '#7E57C2', '#5C6BC0', '#42A5F5', '#29B6F6', '#26C6DA', '#26A69A', '#66BB6A', '#9CCC65','#D4E157','#FFEE58','#FFCA28','#FFCA28','#FFA726','#FF7043','#8D6E63','#BDBDBD','#78909C');?>
 		        	<?php foreach ($postlesson as $post): ?>
 		        		<a href="#" data-toggle="modal" data-target="#<?php echo $post->postid;?>" style="color: black">
@@ -330,4 +333,20 @@
     function showload(){
         $("#load").css('visibility','visible');
     }
+
+    $(".delete").click(function(){
+        var lessonid = $(this).attr("lessonid");
+        swal({
+            title: "Are you sure want to delete this lesson ?",
+            text: "If you delete this lesson, all posting in this lesson will be delete too",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Delete",
+            closeOnConfirm: false
+        },
+        function() {
+            window.location.href = url + "aclass/deletelesson/" + lessonid;
+        });
+    });
 </script>
