@@ -209,7 +209,7 @@ class Class_model extends CI_Model {
 
 	public function getLessonNow()
 	{
-		$classid = $this->getClassData()->classid;
+		$classID = $this->getClassID();
 		$timenow = date('H:i');
 		$daynow = date('l');
 		$day = null;
@@ -228,8 +228,8 @@ class Class_model extends CI_Model {
 		} elseif ($daynow == 'Saturday') {
 			$day = 'sabtu';
 		}
-		return $this->db->where('schedule.classid',$classid)
-				 		->where('schedule.day',$day)
+		return $this->db->where('schedule.day',$day)
+				 		->where('schedule.classid',$classID)
 						->where('schedule.start <=',$timenow)
 				 		->where('schedule.end >',$timenow)
 				 		->join('lesson', 'lesson.lessonid = schedule.lessonid')
@@ -239,7 +239,7 @@ class Class_model extends CI_Model {
 
 	public function getNextLesson()
 	{
-		$classid = $this->getClassData()->classid;
+		$classID = $this->getClassID();
 		$timenow = date('H:i');
 		$daynow = date('l');
 		$day = null;
@@ -258,8 +258,8 @@ class Class_model extends CI_Model {
 		} elseif ($daynow == 'Saturday') {
 			$day = 'sabtu';
 		}
-		return $this->db->where('schedule.classid',$classid)
-						->where('schedule.day',$day)
+		return $this->db->where('schedule.day',$day)
+						->where('schedule.classid',$classID)
 						->where('schedule.start >=',$timenow)
 				 		->join('lesson', 'lesson.lessonid = schedule.lessonid')
 				 		->get('schedule')
