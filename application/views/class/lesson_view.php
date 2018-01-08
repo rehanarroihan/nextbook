@@ -1,8 +1,11 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="card">
+			<div style="padding: 0.1%" class="pull-right">
+				<button type="button" class="btn-danger btn-xs btn-fill"><i class="fa fa-trash fa-lg"></i></button>
+			</div>
 			<div style="padding: 0.1%">
-				<h2 style="text-align: center"><b><?php echo $less->lesson;?></b></h2>
+				<h2 style=""><b><?php echo $less->lesson;?></b></h2>
 			</div>
 		</div>
 	</div>
@@ -143,7 +146,7 @@
 	    </div>
 	<?php else:?>
 		<div class="col-md-8">
-			<div class="alert alert-danger">Tidak Ada Post</div>
+			<div class="alert alert-danger">Tidak Ada Posting Untuk Pelajaran Ini</div>
 		</div>
 	<?php endif;?>
     <div class="col-md-4">

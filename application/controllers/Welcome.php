@@ -9,7 +9,7 @@ class Welcome extends CI_Controller {
 
 	public function index(){
 		if($this->session->userdata('auth') == true){
-			redirect('home');
+			redirect('aclass');
 		}else{
 			redirect('auth');
 		}

@@ -165,6 +165,7 @@ class Aclass extends CI_Controller {
 			$data['classdata'] = $this->Class_model->getClassData();
 			$data['detail'] = $this->Profile_model->getProfileDetail();
 			$data['upost'] = $this->Class_model->getUpost();
+			$data['interface'] = $this->Setting_model->get_interface();
 
 			$this->load->view('class/home_view',$data);
 		}else{
