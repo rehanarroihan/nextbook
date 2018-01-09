@@ -119,7 +119,7 @@
                                                     <?php endif;?>
 								        			<div class="col-md-12">
 								        				<center>
-								        					<a href="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $post->img;?>" download>
+								        					<a style="outline: none" href="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $post->img;?>" download>
 								        						<img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $post->img;?>" style="width: 70%;height: 70%"/>
 								        					</a>
 								        				</center>
@@ -131,7 +131,7 @@
                                                     <?php endif;?>
 								        			<div class="col-md-12" style="margin-top: 7%;font-size: 15pt">
 								        				<center>
-								        					<a href="<?php echo base_url() ?>assets/2.0/file/doc/<?php echo $post->doc;?>" download style="color: black">
+								        					<a href="<?php echo base_url() ?>assets/2.0/file/doc/<?php echo $post->doc;?>" download style="color: black;outline: none">
 								        						<i class="fa fa-download fa-md"></i> <?php echo $post->doc;?>
 								        					</a>
 								        				</center>

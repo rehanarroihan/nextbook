@@ -65,7 +65,7 @@
                 <?php if (isset($posting->lesson)): ?>
                         <span>
                             <b><?php echo $posting->dspname; ?> <i class="fa fa-chevron-circle-right fa-sm"></i></b>
-                            <a href="<?php echo base_url();?>aclass/lesson/<?php echo $posting->lessonid;?>/l-<?php echo rand(0,9).".".rand(11,99).".".chr(64+rand(0,26));?>" style="color: black">
+                            <a href="<?php echo base_url();?>aclass/lesson/<?php echo $posting->lessonid;?>/l-<?php echo rand(0,9).".".rand(11,99).".".chr(64+rand(0,26));?>" style="color: black;outline: none">
                                 <?php echo $posting->lesson;?>
                             </a>
                         </span>
@@ -76,7 +76,7 @@
                         </span>
                 <?php endif; ?>
                 <?php if($posting->userid == $this->session->userdata('uid')):?>
-                    <span class="pull-right" style="padding-top: 0.4%"><a style="cursor: pointer;color: red;" class="delete" postid="<?php echo $posting->postid ?>"><i class="fa fa-trash"></i></a></span>
+                    <span class="pull-right" style="padding-top: 0.4%"><a style="cursor: pointer;color: red;outline: none" class="delete" postid="<?php echo $posting->postid ?>"><i class="fa fa-trash"></i></a></span>
                 <?php endif;?>
                 <span class="pull-right" style="color:#BDBDBD;margin-top:7px;font-size:12px">Dikirim pada <?php echo date('d M Y H:i',strtotime($posting->creat));?></span>
                 <hr style="margin-top:10px" width="100%">
@@ -98,7 +98,7 @@
                             <?php else:?>
                                 <div class="col-md-12">
                             <?php endif;?>
-                                    <a href="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" download>
+                                    <a style="outline: none" href="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" download>
                                         <img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" style="width: 50%;height: 50%"/>
                                     </a>
                                 </div>
@@ -110,7 +110,7 @@
                             <?php else:?>
                                 <div class="col-md-12">
                             <?php endif;?>
-                                    <a href="<?php echo base_url() ?>assets/2.0/file/doc/<?php echo $posting->doc;?>" download style="color: black">
+                                    <a href="<?php echo base_url() ?>assets/2.0/file/doc/<?php echo $posting->doc;?>" download style="color: black;outline: none">
                                         <i class="fa fa-download fa-sm"></i> <?php echo $posting->doc;?>
                                     </a>
                                 </div>
@@ -126,7 +126,7 @@
                                     ->get('comment')
                                     ->result();
             ?>
-            <a onclick="hideFunction(<?php echo $posting->postid;?>)" style="cursor: pointer">
+            <a onclick="hideFunction(<?php echo $posting->postid;?>)" style="cursor: pointer;outline: none">
                 <div style="background:#E1F5FE;padding:9px;color:#0277BD">
                     <i class="fa fa-comment"></i> <?php echo count($comment);?> Komentar
                 </div>
@@ -152,7 +152,7 @@
                             </td>
                             <td width="4%">
                             <?php if($comm->uid == $this->session->userdata('uid')): ?>
-                                <a commid="<?php echo $comm->commentid;?>" class="commdel" style="cursor: pointer;color: red"><i class="fa fa-trash pull-right fa-lg"></i></a>
+                                <a commid="<?php echo $comm->commentid;?>" class="commdel" style="cursor: pointer;color: red;outline: none"><i class="fa fa-trash pull-right fa-lg"></i></a>
                             <?php endif;?>
                             </td>
                         </tr>
