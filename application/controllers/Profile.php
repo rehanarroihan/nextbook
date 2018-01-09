@@ -20,6 +20,7 @@ class Profile extends CI_Controller {
 	}
 
 	public function edit(){
+		$data['title'] = 'Profiles';
 		$data['primary_view'] = 'profile/profile_edit_view';
 		$data['detail'] = $this->Profile_model->getProfileDetail();
 		$data['interface'] = $this->Setting_model->get_interface();

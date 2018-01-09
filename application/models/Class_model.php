@@ -307,14 +307,40 @@ class Class_model extends CI_Model {
 		$lesson = $this->getLessonList();
 		if (count($lesson) > 0) {
 			return $this->db->where('userpost.classid',$classid)
-			->order_by('userpost.creat', 'DESC')
+							->order_by('userpost.creat', 'DESC')
 				 			->join('user','user.uid = userpost.userid')
 				 			->join('lesson','lesson.lessonid = userpost.lessonid', 'left')
 				 			->get('userpost')
 				 			->result();
 		} else {
 			return $this->db->where('userpost.classid',$classid)
-			->order_by('userpost.creat', 'DESC')
+							->order_by('userpost.creat', 'DESC')
+				 			->join('user','user.uid = userpost.userid', 'left')
+				 			->get('userpost')
+				 			->result();
+		}
+	}
+
+	public function getUpostSearch($like)
+	{
+		$classid = $this->getClassData()->classid;
+		$lesson = $this->getLessonList();
+		if (count($lesson) > 0) {
+			return $this->db->where('userpost.classid',$classid)
+							->like('userpost.content',$like)
+							->or_like('userpost.doc', $this->input->get('search'))
+							->or_like('userpost.img', $this->input->get('search'))
+							->order_by('userpost.creat', 'DESC')
+				 			->join('user','user.uid = userpost.userid')
+				 			->join('lesson','lesson.lessonid = userpost.lessonid', 'left')
+				 			->get('userpost')
+				 			->result();
+		} else {
+			return $this->db->where('userpost.classid',$classid)
+							->like('userpost.content',$like)
+							->or_like('userpost.doc', $this->input->get('search'))
+							->or_like('userpost.img', $this->input->get('search'))
+							->order_by('userpost.creat', 'DESC')
 				 			->join('user','user.uid = userpost.userid', 'left')
 				 			->get('userpost')
 				 			->result();
@@ -351,6 +377,20 @@ class Class_model extends CI_Model {
 				 		->result();
 	}
 
+	public function getLessonPostSearch($lessonid)
+	{
+		$classid = $this->getClassData()->classid;
+		return $this->db->where('userpost.classid',$classid)
+						->where('userpost.lessonid', $lessonid)
+						->like('userpost.content', $this->input->get('search'))
+						->or_like('userpost.doc', $this->input->get('search'))
+						->or_like('userpost.img', $this->input->get('search'))
+						->join('user','user.uid = userpost.userid')
+						->order_by('userpost.creat','DESC')
+						->get('userpost')
+				 		->result();
+	}
+
 	public function getLesson($lessonid)
 	{
 		$classid = $this->getClassData()->classid;
@@ -380,6 +420,39 @@ class Class_model extends CI_Model {
 		$this->db->where('classid',$classid)
 				 ->where('lessonid',$lessonid)
 				 ->delete('lesson');
+
+		if ($this->db->affected_rows()) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function lessonedit()
+	{
+		$classid = $this->getClassData()->classid;
+		$object = array(
+				'lesson' => $this->input->post('lessonname'), 
+				'teacher' => $this->input->post('lessonteacher')
+			);
+
+		$this->db->where('classid',$classid)
+				 ->where('lessonid',$this->input->post('lessonid'))
+				 ->update('lesson', $object);
+
+		if ($this->db->affected_rows()) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function commdelete($commid)
+	{
+		$classid = $this->getClassData()->classid;
+		$this->db->where('classid',$classid)
+				 ->where('commentid',$commid)
+				 ->delete('comment');
 
 		if ($this->db->affected_rows()) {
 			return TRUE;

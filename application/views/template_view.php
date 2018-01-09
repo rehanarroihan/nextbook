@@ -52,7 +52,7 @@
 
             </a>
 
-            <a href="#" class="simple-text logo-normal">
+            <a href="<?php echo base_url();?>" class="simple-text logo-normal">
                 <img src="<?php echo base_url() ?>assets/img/logo1.png" style="width:120px">
             </a>
         </div>
@@ -144,7 +144,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
-                        <li class="dropdown">
+                        <!-- <li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-globe"></i>
                                     <b class="caret hidden-sm hidden-xs"></b>
@@ -162,15 +162,21 @@
                                 <li><a href="#">Notification 5</a></li>
                                 <li><a href="#">Another notification</a></li>
                               </ul>
-                        </li>
-                        <li>
-                           <form class="navbar-form navbar-left navbar-search-form" role="search">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                    <input type="text" value="" class="form-control" placeholder="Search user">
-                                </div>
-                            </form>
-                        </li>
+                        </li> -->
+                        <?php if (isset($allowsearch)): ?>
+                            <li>
+                            <?php if($allowsearch == 'class'): ?>
+                                <form class="navbar-form navbar-left navbar-search-form" role="search" action="<?php echo base_url();?>aclass/home" method="get">
+                            <?php elseif($allowsearch == 'lesson'): ?>
+                                <form class="navbar-form navbar-left navbar-search-form" role="search" action="<?php echo base_url();?>aclass/lesson/<?php echo $this->uri->segment(3);?>/<?php echo $this->uri->segment(4); ?>" method="get">
+                            <?php endif;?>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        <input type="text" value="<?php if(isset($bsearch)): echo $bsearch; endif;?>" class="form-control" placeholder="Search Post/Img/File Name" name="search">
+                                    </div>
+                                </form>
+                            </li>
+                        <?php endif;?>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">

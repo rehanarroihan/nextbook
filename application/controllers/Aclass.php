@@ -34,12 +34,20 @@ class Aclass extends CI_Controller {
 	public function lesson()
 	{
 		if($this->uri->segment(4) != ''){
+			$lessonid = $this->uri->segment(3);
+
+			if ($this->input->get('search') != null) {
+				$data['postlesson'] = $this->Class_model->getLessonPostSearch($lessonid);
+				$data['bsearch'] = $this->input->get('search');
+			} else {
+				$data['postlesson'] = $this->Class_model->getLessonPost($lessonid);
+			}
+			
+			$data['allowsearch'] = 'lesson';
 			$data['title'] = 'Lesson';
 			$data['primary_view'] = 'class/lesson_view';
 			$data['detail'] = $this->Profile_model->getProfileDetail();
 			$data['interface'] = $this->Setting_model->get_interface();
-			$lessonid = $this->uri->segment(3);
-			$data['postlesson'] = $this->Class_model->getLessonPost($lessonid);
 			$data['less'] = $this->Class_model->getLesson($lessonid);
 			$data['classdata'] = $this->Class_model->getClassData();
 			$data['third_view'] = 'class/home_view';
@@ -148,57 +156,57 @@ class Aclass extends CI_Controller {
 
 	//Dimensi lain
 	public function home(){
+		$data['allowsearch'] = 'class';
+
+		if (count($this->Class_model->getLessonNow()) > 0) {
+			$data['lesson'] = $this->Class_model->getLessonNow()->lesson;
+		}else{
+			$data['lesson'] = 'Tidak Ada';
+		}
+
+		if (count($this->Class_model->getNextLesson()) > 0) {
+			$data['nextlesson'] = $this->Class_model->getNextLesson()->lesson;
+			$data['nextlessonTime'] = $this->Class_model->getNextLesson()->start;
+		}else{
+			$data['nextlesson'] = 'Tidak Ada';
+			$data['nextlessonTime'] = "";
+		}
+
+		$data['interface'] = $this->Setting_model->get_interface();
+		$data['detail'] = $this->Profile_model->getProfileDetail();
+
 		if($this->input->post('fckisrael')){
-			if (count($this->Class_model->getLessonNow()) > 0) {
-				$data['lesson'] = $this->Class_model->getLessonNow()->lesson;
-			}else{
-				$data['lesson'] = 'Tidak Ada';
+			if ($this->input->get('search') != null) {
+				$data['upost'] = $this->Class_model->getUpostSearch($this->input->get('search'));
+				$data['bsearch'] = $this->input->get('search');
+			} else {
+				$data['upost'] = $this->Class_model->getUpost();
 			}
 
-			if (count($this->Class_model->getNextLesson()) > 0) {
-				$data['nextlesson'] = $this->Class_model->getNextLesson()->lesson;
-				$data['nextlessonTime'] = $this->Class_model->getNextLesson()->start;
-			}else{
-				$data['nextlesson'] = 'Tidak Ada';
-				$data['nextlessonTime'] = "";
-			}
 			$data['classdata'] = $this->Class_model->getClassData();
-			$data['detail'] = $this->Profile_model->getProfileDetail();
-			$data['upost'] = $this->Class_model->getUpost();
-			$data['interface'] = $this->Setting_model->get_interface();
-
 			$this->load->view('class/home_view',$data);
 		}else{
-			if (count($this->Class_model->getLessonNow()) > 0) {
-				$data['lesson'] = $this->Class_model->getLessonNow()->lesson;
-			}else{
-				$data['lesson'] = 'Tidak Ada';
-			}
-
-			if (count($this->Class_model->getNextLesson()) > 0) {
-				$data['nextlesson'] = $this->Class_model->getNextLesson()->lesson;
-				$data['nextlessonTime'] = $this->Class_model->getNextLesson()->start;
-			}else{
-				$data['nextlesson'] = 'Tidak Ada';
-				$data['nextlessonTime'] = "";
-			}
-
 			if($this->Class_model->isHave() == true){
+				if ($this->input->get('search') != null) {
+					$data['upost'] = $this->Class_model->getUpostSearch($this->input->get('search'));
+					$data['bsearch'] = $this->input->get('search');
+				} else {
+					$data['upost'] = $this->Class_model->getUpost();
+				}
+
 				$data['primary_view'] = 'class/class_view';
 				$data['classdata'] = $this->Class_model->getClassData();
 				$data['third_view'] = 'class/home_view';
 				$data['memberlist'] = $this->Class_model->memberList();
-				$data['upost'] = $this->Class_model->getUpost();
 			}else{
 				$data['primary_view'] = 'class/no_class_view';
 			}
-			$data['interface'] = $this->Setting_model->get_interface();
-			$data['detail'] = $this->Profile_model->getProfileDetail();
 			$this->load->view('template_view', $data);
 		}
 	}
 
 	public function member(){
+		$data['allowsearch'] = 'class';
 		if($this->input->post('estehplastikan')){
 			$data['memberlist'] = $this->Class_model->memberList();
 			$data['classdata'] = $this->Class_model->getClassData();
@@ -270,6 +278,7 @@ class Aclass extends CI_Controller {
 				'lessonCount'	=> $this->Class_model->getLessonCount(),
 				'lessonList'	=> $this->Class_model->getLessonList(),
 			);
+		$data['allowsearch'] = 'class';
 		if($this->input->post('sempolcrispy')){
 			$this->load->view('class/schedule_view', $data);
 		}else{
@@ -433,6 +442,7 @@ class Aclass extends CI_Controller {
 
 	public function setting(){
 		$data['classdata'] = $this->Class_model->getClassData();
+		$data['allowsearch'] = 'class';
 		if($this->input->post('sempolcrispy')){
 			$this->load->view('class/setting_view',$data);
 		}else{
@@ -487,13 +497,36 @@ class Aclass extends CI_Controller {
 	public function deletelesson()
 	{
 		$lessonid = $this->uri->segment(3);
-		$code = 'l-'.rand(0,9).".".rand(11,99).".".chr(64+rand(0,26));
 		if ($this->Class_model->lessondelete($lessonid) == TRUE) {
 			$this->session->set_flashdata('announce', 'Lesson Success To Delete');
 			redirect('aclass/schedule');
 		} else {
 			$this->session->set_flashdata('announce', 'Lesson Failed To Delete');
 			redirect('aclass/schedule');
+		}
+	}
+
+	public function editlesson()
+	{
+		$code = 'l-'.rand(0,9).".".rand(11,99).".".chr(64+rand(0,25));
+		if ($this->Class_model->lessonedit() == TRUE) {
+			$this->session->set_flashdata('announce', 'Lesson Success To Update');
+			redirect('aclass/lesson/'.$this->input->post('lessonid')."/".$code);
+		} else {
+			$this->session->set_flashdata('announce', 'Lesson Failed To Update');
+			redirect('aclass/lesson/'.$this->input->post('lessonid')."/".$code);
+		}
+	}
+
+	public function deletecomm()
+	{
+		$commid = $this->uri->segment(3);
+		if ($this->Class_model->commdelete($commid) == TRUE) {
+			$this->session->set_flashdata('announce', 'Your Comment Success To Delete');
+			redirect('aclass/home');
+		} else {
+			$this->session->set_flashdata('announce', 'Your Comment Failed To Delete');
+			redirect('aclass/home');
 		}
 	}
 }

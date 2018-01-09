@@ -2,7 +2,37 @@
 	<div class="col-md-12">
 		<div class="card">
 			<div style="padding: 0.1%" class="pull-right">
-				<button class="btn-danger btn-xs btn-fill delete" lessonid="<?php echo $less->lessonid;?>"><i class="fa fa-trash fa-lg"></i></button>
+				<button style="outline: none" class="btn-success btn-xs btn-fill" data-toggle="modal" data-target="#editlesson"><i class="fa fa-edit fa-lg"></i></button>
+
+                <div class="modal fade" id="editlesson" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4><b><i class="fa fa-edit"></i> Edit <?php echo $less->lesson;?></b></h4>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" action="<?php echo base_url();?>aclass/editlesson" id="formlessonedit">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <input type="hidden" name="lessonid" value="<?php echo $less->lessonid;?>">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Lesson Name</label>
+                                                <input type="text" name="lessonname" class="form-control" placeholder="Input Lesson Name" value="<?php echo $less->lesson;?>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-control-label">Teacher</label>
+                                                <input type="text" name="lessonteacher" class="form-control" placeholder="Input Teacher Lesson" value="<?php echo $less->teacher;?>">
+                                            </div>
+                                            <button type="submit" name="submitedit" class="btn btn-success btn-md btn-fill pull-right"><i class="fa fa-send fa-xs"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button style="outline: none" class="btn-danger btn-xs btn-fill delete" lessonid="<?php echo $less->lessonid;?>"><i class="fa fa-trash fa-lg"></i></button>
 			</div>
 			<div style="padding: 0.1%;text-align: center;">
 				<h3><b><?php echo $less->lesson;?></b></h3>
@@ -15,26 +45,28 @@
                 <div style="padding: 1%">
                     <span style="color: grey;font-size: 13pt"><i class="fa fa-bookmark"></i><?php echo count($postlesson);?> Posting</span>
                 </div>
-                <div class="row" style="padding: 1%">
+                <div class="row" style="padding: 1.8%">
 	        	<?php $array = array('#ef5350', '#EC407A', '#AB47BC', '#7E57C2', '#5C6BC0', '#42A5F5', '#29B6F6', '#26C6DA', '#26A69A', '#66BB6A', '#9CCC65','#D4E157','#FFEE58','#FFCA28','#FFCA28','#FFA726','#FF7043','#8D6E63','#BDBDBD','#78909C');?>
 		        	<?php foreach ($postlesson as $post): ?>
-		        		<a href="#" data-toggle="modal" data-target="#<?php echo $post->postid;?>" style="color: black">
+		        		<a href="#" data-toggle="modal" data-target="#<?php echo $post->postid;?>" style="color: black;outline: none;">
 				        	<div class="col-md-4">
-					        	<div class="card" style="background-color: <?php echo $array[rand(0, count($array) - 1)];?>;height: 175px">
+					        	<div class="card hover" style="background-color: <?php echo $array[rand(0, count($array) - 1)];?>;height: 175px">
 					        		<div class="row">
 					        			<?php if ($post->content != ''): ?>
-						        			<div class="col-md-12" style="text-align: center">
+						        			<div class="col-md-12" style="text-align: center;margin-top: 3%;margin-bottom: -5%">
 						        				<?php echo substr($post->content, 0, 20)." .....";?>
 						        			</div>
+                                        <?php else:?>
+                                            <div class="col-md-12" style="text-align: center;margin-top: 3%;margin-bottom: -5%">
+                                                <i class="fa fa-pencil"></i> No Content
+                                            </div>
 						        		<?php endif;?>
 					        		</div>
-	                    				<?php if ($post->content != ''): ?>
-	                    					<hr>
-	                    				<?php endif;?>
+	                    			<hr>
 					        		<div class="row" style="margin: 2%">
 					        			<?php if ($post->img != 'N'): ?>
-						        			<div class="col-md-6">
-						        				<img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $post->img;?>" style="width: 100%;height: 100%"/>
+						        			<div class="col-md-6" style="margin-top: 6%">
+						        				<center><img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $post->img;?>" style="width: 100%;height: 100%"/></center>
 						        			</div>
 						        		<?php else:?>
 						        			<div class="col-md-6" style="margin-top: 10%">
@@ -42,8 +74,8 @@
 						        			</div>
 						        		<?php endif;?>
 						        		<?php if ($post->doc != 'N'): ?>
-						        			<div class="col-md-6" style="margin-top: 7%">
-						        				<center><i class="fa fa-file fa-sm"></i> <?php echo substr($post->doc,0,10);?></center>
+						        			<div class="col-md-6" style="margin-top: 10%">
+						        				<center><i class="fa fa-file fa-sm"></i> <?php echo substr($post->doc,0,7)."...";?></center>
 						        			</div>
 						        		<?php else:?>
 						        			<div class="col-md-6" style="margin-top: 10%">
@@ -82,7 +114,9 @@
 								        			</div>
 								        		<?php endif;?>
 					    						<?php if ($post->img != 'N'): ?>
-					    							<hr>
+                                                    <?php if ($post->content != ''): ?>
+					    							    <hr>
+                                                    <?php endif;?>
 								        			<div class="col-md-12">
 								        				<center>
 								        					<a href="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $post->img;?>" download>
@@ -92,7 +126,9 @@
 								        			</div>
 								        		<?php endif;?>
 								        		<?php if ($post->doc != 'N'): ?>
-								        			<hr>
+                                                    <?php if ($post->img != 'N'): ?>
+								                        <hr>
+                                                    <?php endif;?>
 								        			<div class="col-md-12" style="margin-top: 7%;font-size: 15pt">
 								        				<center>
 								        					<a href="<?php echo base_url() ?>assets/2.0/file/doc/<?php echo $post->doc;?>" download style="color: black">
@@ -147,7 +183,11 @@
 		    	</div>
 	        </div>
 	    </div>
-	<?php else:?>
+	<?php elseif($this->input->get('search')):?>
+        <div class="col-md-8">
+            <div class="alert alert-danger">Tidak Ada Posting Yang Sesuai Pencarian</div>
+        </div>
+    <?php else:?>
 		<div class="col-md-8">
 			<div class="alert alert-danger">Tidak Ada Posting Untuk Pelajaran Ini</div>
 		</div>
@@ -196,6 +236,16 @@
         </div>
     </div>
 </div>
+<style type="text/css">
+    .hover:hover {
+        box-shadow: 5px 10px 8px #9E9E9E;
+    }
+
+    .hover:active {
+        box-shadow: 5px 5px 8px #757575;
+        transform: translateY(4px);
+    }
+</style>
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="<?php echo base_url() ?>assets/vendors/jquery/dist/jquery-ui.js"></script>
 <script type="text/javascript">
