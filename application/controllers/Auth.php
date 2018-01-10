@@ -177,7 +177,7 @@ class Auth extends CI_Controller {
 					        $mail->Body      = $this->load->view('auth/email_verification', $ml, true);
 					        $mail->IsHTML(true);
 					        $mail->addAddress($this->input->post('email'), $this->input->post('fullname'));
-							if($this->input->post('username')){//$mail->Send()
+							if($mail->Send()){
 								if($this->Auth_model->regVal() == true){
 									$bre = md5($this->input->post('email'));
 									redirect('auth/complete?mail='.$this->input->post('email').'&uname='.$this->input->post('username'));
