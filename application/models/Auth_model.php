@@ -151,19 +151,18 @@ class Auth_model extends CI_Model {
 							->where('password', $password)
 							->get('user');
 
-		$setting = $this->db->where('uid', $query->row()->uid)->get('setting');
-
-		if ($setting->num_rows() <= 0) {
-			$object = array(
-				'uid' => $query->row()->uid,
-				'color' => 'azure',
-				'image' => 'sidebar-5.jpg'
-					);
-            return $this->db->insert('setting', $object);
-		}
-		if($query->num_rows() > 0){
+		if ($query->num_rows() > 0) {
+			$setting = $this->db->where('uid', $query->row()->uid)->get('setting');
+			if ($setting->num_rows() <= 0) {
+				$object = array(
+					'uid' => $query->row()->uid,
+					'color' => 'azure',
+					'image' => 'sidebar-5.jpg'
+						);
+	            return $this->db->insert('setting', $object);
+			}
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}

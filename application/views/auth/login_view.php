@@ -72,7 +72,7 @@
         <div class="row" style="margin-top:-19px;padding-left:20px;padding-right:20px">
             <div class="col s12 m7 l6 offset-l3 offset-m3">
                 <div class="row">
-                    <!-- <a href="<?php echo $loginURL; ?>" class="btn waves-effect col s12 m12 l12 waves-light right red" type="button" name="action">Login with google account
+                    <!-- <a href="<?php //echo $loginURL; ?>" class="btn waves-effect col s12 m12 l12 waves-light right red" type="button" name="action">Login with google account
                         <i class="material-icons left">send</i>
                     </a> -->
                 </div>
