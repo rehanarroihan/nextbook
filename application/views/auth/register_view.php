@@ -50,6 +50,17 @@
                             </div>
                             <div class="row">
                                 <div class="input-field col s12" style="margin-top:-9px">
+                                    <i class="material-icons prefix">wc</i>
+                                    <select id="gender" name="gender">
+                                        <option value="" disabled selected>Select Your Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                    <label for="gender">Gender</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12" style="margin-top:-9px">
                                     <i class="material-icons prefix">account_circle</i>
                                     <input id="username" placeholder="Username" type="text" name="username" class="validate" required>
                                     <label for="password">Username</label>
@@ -62,7 +73,7 @@
                                     <label for="password">Email</label>
                                 </div>
                             </div>
-                            <div class="row" style="margin-top:-45px">
+                            <div class="row">
                             	<div class="input-field col s6">
 						        	<i class="material-icons prefix">lock</i>
                                     <input id="password" placeholder="Password" name="password" type="password" class="validate" required>
@@ -102,6 +113,11 @@
                 $('#texts').text('asyu kososng cok');
             }
         }
+
+         $(document).ready(function() {
+            $('select').material_select();
+          });
+
     </script>
 </body>
 

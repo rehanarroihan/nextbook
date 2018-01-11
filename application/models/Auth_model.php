@@ -204,7 +204,9 @@ class Auth_model extends CI_Model {
 			'profilepict' => "user.png",
 			'password'	=> $this->input->post('password'),
 			'last_login'	=> '',
-			'status'	=> 'unverified'
+			'status'	=> 'unverified',
+			'gender'	=> $this->input->post('gender'),
+			'created'	=> date('Y-m-d H:i:s')
 		);
 
 		$this->db->insert('user', $usinfo);
