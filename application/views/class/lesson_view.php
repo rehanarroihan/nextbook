@@ -65,22 +65,24 @@
 	                    			<hr>
 					        		<div class="row" style="margin: 2%">
 					        			<?php if ($post->img != 'N'): ?>
-						        			<div class="col-md-6" style="margin-top: 6%">
-						        				<center><img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $post->img;?>" style="width: 100%;height: 100%"/></center>
-						        			</div>
-						        		<?php else:?>
-						        			<div class="col-md-6" style="margin-top: 10%">
-						        				<center><i class="fa fa-file-image-o fa-sm"></i> No Image</center>
-						        			</div>
+                                            <?php if ($post->doc != 'N'): ?>
+    						        			<div class="col-md-6" style="margin-top: 6%">
+                                            <?php else:?>
+                                                <div class="col-md-12" style="margin-top: 6%">
+                                            <?php endif;?>
+    						        				<center><img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $post->img;?>" style="width: 100%;height: 100%"/></center>
+    						        			</div>
 						        		<?php endif;?>
 						        		<?php if ($post->doc != 'N'): ?>
-						        			<div class="col-md-6" style="margin-top: 10%">
-						        				<center><i class="fa fa-file fa-sm"></i> <?php echo substr($post->doc,0,7)."...";?></center>
-						        			</div>
-						        		<?php else:?>
-						        			<div class="col-md-6" style="margin-top: 10%">
-						        				<center><i class="fa fa-file-o fa-sm"></i> No File</center>
-						        			</div>
+                                            <?php if ($post->img != 'N'): ?>
+    						        			<div class="col-md-6" style="margin-top: 10%">
+                                                    <center><i class="fa fa-file fa-sm"></i> <?php echo substr($post->doc,0,7)."...";?></center>
+                                                </div>
+                                            <?php else:?>
+                                                <div class="col-md-12" style="margin-top: 10%">
+                                                    <center><i class="fa fa-file fa-sm"></i><?php echo substr($post->doc,0,19)."...";?></center>
+                                                </div>
+                                            <?php endif;?>
 					        			<?php endif;?>
 					        		</div>
 					        	</div>
@@ -119,7 +121,7 @@
                                                     <?php endif;?>
 								        			<div class="col-md-12">
 								        				<center>
-								        					<a style="outline: none" href="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $post->img;?>" download>
+								        					<a style="outline: none" href="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $post->img;?>" download data-toggle="tooltip" title="Klik to download" data-placement="top">
 								        						<img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $post->img;?>" style="width: 70%;height: 70%"/>
 								        					</a>
 								        				</center>
@@ -131,7 +133,7 @@
                                                     <?php endif;?>
 								        			<div class="col-md-12" style="margin-top: 7%;font-size: 15pt">
 								        				<center>
-								        					<a href="<?php echo base_url() ?>assets/2.0/file/doc/<?php echo $post->doc;?>" download style="color: black;outline: none">
+								        					<a href="<?php echo base_url() ?>assets/2.0/file/doc/<?php echo $post->doc;?>" download style="color: black;outline: none" data-toggle="tooltip" title="Klik to download" data-placement="top">
 								        						<i class="fa fa-download fa-md"></i> <?php echo $post->doc;?>
 								        					</a>
 								        				</center>
@@ -398,5 +400,9 @@
         function() {
             window.location.href = url + "aclass/deletelesson/" + lessonid;
         });
+    });
+
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip(); 
     });
 </script>

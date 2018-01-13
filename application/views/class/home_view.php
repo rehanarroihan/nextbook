@@ -98,9 +98,23 @@
                             <?php else:?>
                                 <div class="col-md-12">
                             <?php endif;?>
-                                    <a style="outline: none" href="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" download>
+                                    <a style="outline: none" href="#" data-toggle="modal" data-target="#<?php echo $posting->postid;?>">
                                         <img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" style="width: 50%;height: 50%"/>
                                     </a>
+                                </div>
+
+                                <div class="modal fade" id="<?php echo $posting->postid;?>" role="dialog">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <center><a class="btn btn-primary" style="outline: none" href="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" download><i class="fa fa-download"></i> Download</a></center>
+                                            </div>
+                                            <div class="modal-body">
+                                                <center><img src="<?php echo base_url() ?>assets/2.0/file/img/<?php echo $posting->img;?>" style="width: 85%;height: 85%"/></center>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                         <?php endif; ?>
 
@@ -110,7 +124,7 @@
                             <?php else:?>
                                 <div class="col-md-12">
                             <?php endif;?>
-                                    <a href="<?php echo base_url() ?>assets/2.0/file/doc/<?php echo $posting->doc;?>" download style="color: black;outline: none">
+                                    <a href="<?php echo base_url() ?>assets/2.0/file/doc/<?php echo $posting->doc;?>" download style="color: black;outline: none" data-toggle="tooltip" title="Klik to download" data-placement="top">
                                         <i class="fa fa-download fa-sm"></i> <?php echo $posting->doc;?>
                                     </a>
                                 </div>
@@ -237,5 +251,10 @@
         function() {
             window.location.href = url + "aclass/deletecomm/" + commid;
         });
+    });
+
+    
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip(); 
     });
 </script>
