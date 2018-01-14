@@ -200,7 +200,7 @@ class Aclass extends CI_Controller {
 
 				$data['primary_view'] = 'class/class_view';
 				$data['classdata'] = $this->Class_model->getClassData();
-				$data['third_view'] = 'class/home_view';
+				$data['third_view'] = 'home';
 				$data['memberlist'] = $this->Class_model->memberList();
 			}else{
 				$data['primary_view'] = 'class/no_class_view';
@@ -211,7 +211,7 @@ class Aclass extends CI_Controller {
 
 	public function member(){
 		$data['allowsearch'] = 'class';
-		if($this->input->post('estehplastikan')){
+		if($this->input->post('fckisrael')){
 			$data['memberlist'] = $this->Class_model->memberList();
 			$data['classdata'] = $this->Class_model->getClassData();
 			$this->load->view('class/member_view', $data);
@@ -219,7 +219,7 @@ class Aclass extends CI_Controller {
 			if($this->Class_model->isHave() == true){
 				$data['primary_view'] = 'class/class_view';
 				$data['classdata'] = $this->Class_model->getClassData();
-				$data['third_view'] = 'class/member_view';
+				$data['third_view'] = 'member';
 				$data['memberlist'] = $this->Class_model->memberList();
 			}else{
 				$data['primary_view'] = 'class/no_class_view';
@@ -283,12 +283,13 @@ class Aclass extends CI_Controller {
 				'lessonList'	=> $this->Class_model->getLessonList(),
 			);
 		$data['allowsearch'] = 'class';
-		if($this->input->post('sempolcrispy')){
+
+		if($this->input->post('fckisrael')){
 			$this->load->view('class/schedule_view', $data);
 		}else{
 			if($this->Class_model->isHave() == true){
 				$data['primary_view'] = 'class/class_view';
-				$data['third_view'] = 'class/schedule_view';
+				$data['third_view'] = 'schedule';
 				$data['classdata'] = $this->Class_model->getClassData();
 				$data['memberlist'] = $this->Class_model->memberList();
 			}else{
@@ -447,12 +448,12 @@ class Aclass extends CI_Controller {
 	public function setting(){
 		$data['classdata'] = $this->Class_model->getClassData();
 		$data['allowsearch'] = 'class';
-		if($this->input->post('sempolcrispy')){
+		if($this->input->post('fckisrael')){
 			$this->load->view('class/setting_view',$data);
 		}else{
 			if($this->Class_model->isHave() == true){
 				$data['primary_view'] = 'class/class_view';
-				$data['third_view'] = 'class/setting_view';
+				$data['third_view'] = 'setting';
 				$data['classdata'] = $this->Class_model->getClassData();
 			}else{
 				$data['primary_view'] = 'class/no_class_view';

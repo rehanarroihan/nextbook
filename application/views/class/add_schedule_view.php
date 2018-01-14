@@ -1,7 +1,3 @@
-<script src="<?php echo base_url() ?>assets/2.0/js/jquery.3.2.1.min.js" type="text/javascript"></script>
-<script type="text/javascript">
-
-</script>
 <form method="post" action="<?php echo base_url() ?>aclass/saveschedule">
 	<div class="content table-responsive table-full-width">
             <table class="table table-hover table-striped">

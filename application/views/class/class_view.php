@@ -7,7 +7,7 @@
                         <i class="fa fa-home"></i>
                     </span>Home
                 </button>
-                <button type="button" id="navsche" class="btn btn-info btn-wd classnav">
+                <button type="button" id="navschedule" class="btn btn-info btn-wd classnav">
                     <span class="btn-label">
                         <i class="fa fa-list-ul"></i>
                     </span>Schedule
@@ -27,13 +27,9 @@
             </div>
         </div>
 
-        <div id="masok"></div>
-
-        <?php if(!empty($third_view)): ?>
-            <div id="uem">
-            <?php $this->load->view($third_view)?>
-            </div>
-        <?php endif; ?>
+        <!-- <div id="masok"></div> -->
+        <div id="uem">
+        </div>
 
         <img src="<?php echo base_url() ?>assets/2.0/img/load2.gif" id="load" style="height:200px;opacity: 0.2;display:none" class="center-block">
     </div>
@@ -90,6 +86,34 @@
     //dfinisi url
     var url = "<?php echo base_url() ?>";
 
+    $(document).ready(function() {
+        //console.log("<?php echo isset($third_view) ? $third_view : 'home' ?>");
+        var cokkk = "<?php echo isset($third_view) ? $third_view : 'home' ?>";
+        console.log(cokkk);
+        $('#nav' + cokkk).addClass("btn-fill");
+        //window.history.pushState("", "", "<?php echo base_url(); ?>aclass/" + cokkk);
+        $.ajax({
+            url: url + "aclass/" + cokkk,
+            type: "POST",
+            cache: false,
+            data: "fckisrael="+"truuu",
+            timeout: 9000,
+            error: function(jqXHR, textStatus, errorThrown){
+                // if(textStatus==="timeout") {  
+                //     alert("Call has timed out"); 
+                // } else {
+                //     alert("Another error was returned");
+                // }
+                $("#load").css('display','none');
+                $('#uem').html(textStatus);
+            },
+            success: function(data){
+                $("#load").css('display','none');
+                $('#uem').html(data);
+            }                
+        })
+    });
+
     //Fungsi unenroll
     $(".unrl").click(function(){
         var classid = $(this).attr("id");
@@ -109,10 +133,11 @@
 
     //onClickListener navigasi kelas
     $(".classnav").click(function(){
+        console.log('onrefresh');
         <?php if($this->session->userdata('auth') == true): ?>
         var now = $(this).attr("id");
         noblu();
-        $("#masok").empty();
+        $("#uem").empty();
         $("#load").css('display','block');
         if(now == 'navhome'){
             $('#' + now).addClass("btn-fill");
@@ -130,21 +155,21 @@
                     //     alert("Another error was returned");
                     // }
                     $("#load").css('display','none');
-                    $('#masok').html(textStatus);
+                    $('#uem').html(textStatus);
                 },
                 success: function(data){
                     $("#load").css('display','none');
-                    $('#masok').html(data);
+                    $('#uem').html(data);
                 }                
             })
-        }else if(now == 'navsche'){
+        }else if(now == 'navschedule'){
             $('#' + now).addClass("btn-fill");
             window.history.pushState("", "", "<?php echo base_url(); ?>aclass/schedule");
             $.ajax({
                 url: url + "aclass/schedule",
                 type: "POST",
                 cache: false,
-                data: "sempolcrispy="+"truuu",
+                data: "fckisrael="+"truuu",
                 timeout: 9000,
                 error: function(jqXHR, textStatus, errorThrown){
                     // if(textStatus==="timeout") {  
@@ -153,11 +178,11 @@
                     //     alert("Another error was returned");
                     // }
                     $("#load").css('display','none');
-                    $('#masok').html(textStatus);
+                    $('#uem').html(textStatus);
                 },
                 success: function(data){
                     $("#load").css('display','none');
-                    $('#masok').html(data);
+                    $('#uem').html(data);
                 }                
             })
         }else if(now == 'navmember'){
@@ -167,15 +192,15 @@
                 url: url + "aclass/member",
                 type: "POST",
                 cache: false,
-                data: "estehplastikan="+"truuu",
+                data: "fckisrael="+"truuu",
                 timeout: 9000,
                 error: function(jqXHR, textStatus, errorThrown){
                     $("#load").css('display','none');
-                    $('#masok').html("An error occured, try again later");
+                    $('#uem').html("An error occured, try again later");
                 },
                 success: function(data){
                     $("#load").css('display','none');
-                    $('#masok').html(data);
+                    $('#uem').html(data);
                 }   
             })
         }else if(now == 'navadmin'){
@@ -185,7 +210,7 @@
                 url: url + "aclass/setting",
                 type: "POST",
                 cache: false,
-                data: "sempolcrispy="+"truuu",
+                data: "fckisrael="+"truuu",
                 timeout: 9000,
                 error: function(jqXHR, textStatus, errorThrown){
                     // if(textStatus==="timeout") {  
@@ -194,11 +219,11 @@
                     //     alert("Another error was returned");
                     // }
                     $("#load").css('display','none');
-                    $('#masok').html("An error occured, try again later");
+                    $('#uem').html("An error occured, try again later");
                 },
                 success: function(data){
                     $("#load").css('display','none');
-                    $('#masok').html(data);
+                    $('#uem').html(data);
                 }                
             })
         }
@@ -210,10 +235,10 @@
     //Ngilangi biru biru
     function noblu(){
         $("#navhome").removeClass("btn-fill");
-        $("#navsche").removeClass("btn-fill");
+        $("#navschedule").removeClass("btn-fill");
         $("#navmember").removeClass("btn-fill");
         $("#navadmin").removeClass("btn-fill");
-        $("#uem").css('display','none');
+        //$("#uem").css('display','none');
     }
 
     function showload(){

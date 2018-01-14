@@ -23,7 +23,7 @@
                 <?php endif; ?>
             <?php endif; ?>
                 <span><b><?php echo $this->session->userdata('dspname'); ?></b></span>
-            <form style="margin: 1.5%" method="post" id="post" action="<?php echo base_url();?>aclass/saveposting" enctype="multipart/form-data">
+            <form style="margin: 1.5%" method="post" action="<?php echo base_url();?>aclass/saveposting" enctype="multipart/form-data">
                 <div class="form-group">
                     <select class="form-control" name="lessonpick">
                         <?php foreach($lessonpick as $pick):?>
@@ -182,47 +182,45 @@
                 <?php endforeach;?>
             </div>   
             <div style="background:#F5F5F5;padding:9px">
-                <table width="100%">
-                    <form method="post" action="<?php echo base_url();?>aclass/comment">
-                    <tr>
-                        <td width="5%">
-                            <?php if ($this->session->userdata('oauth_provider') == 'facebook'): ?>
-                                <img src="https://graph.facebook.com/<?php echo $this->session->userdata('oauth_id');?>/picture" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle">
-                                <?php else: ?>
-                                <?php if($detail->profilepict == ''): ?>
-                                    <img src="<?php echo base_url() ?>assets/2.0/img/user/user.png" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle"/>
-                                    <?php else:?>
-                                    <img src="<?php echo base_url() ?>assets/2.0/img/user/<?php echo $detail->profilepict;?>" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle"/>
+                
+                <form method="post" action="<?php echo base_url();?>aclass/comment">
+                    <table width="100%">
+                        <tr>
+                            <td width="5%">
+                                <?php if ($this->session->userdata('oauth_provider') == 'facebook'): ?>
+                                    <img src="https://graph.facebook.com/<?php echo $this->session->userdata('oauth_id');?>/picture" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle">
+                                    <?php else: ?>
+                                    <?php if($detail->profilepict == ''): ?>
+                                        <img src="<?php echo base_url() ?>assets/2.0/img/user/user.png" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle"/>
+                                        <?php else:?>
+                                        <img src="<?php echo base_url() ?>assets/2.0/img/user/<?php echo $detail->profilepict;?>" style="width: 35px;height: 35px;margin-right: 2%" class="img-circle"/>
+                                    <?php endif; ?>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                        </td>
-                        <td width="60%">
-                            <input type="hidden" name="postid" value="<?php echo $posting->postid;?>">
-                            <input style="border-top-left-radius:20px;border-bottom-left-radius:20px;border-top-right-radius:20px;border-bottom-right-radius:20px;" type="text" name="gocomment" placeholder="Post comment as <?php echo $this->session->userdata('dspname'); ?>" class="form-control col-md-3" required>
-                        </td>
-                        <td width="4%" class="text-center">
-                            <button type="submit" class="btn btn-primary btn-fill btn-md btn-round"><i class="fa fa-arrow-circle-right"></i></button>
-                        </td>
-                    </tr>
-                    </form>
-                </table>
+                            </td>
+                            <td width="60%">
+                                <input type="hidden" name="postid" value="<?php echo $posting->postid;?>">
+                                <input style="border-top-left-radius:20px;border-bottom-left-radius:20px;border-top-right-radius:20px;border-bottom-right-radius:20px;" type="text" name="gocomment" placeholder="Post comment as <?php echo $this->session->userdata('dspname'); ?>" class="form-control col-md-3" required>
+                            </td>
+                            <td width="4%" class="text-center">
+                                <input type="submit" class="btn btn-primary btn-fill btn-md btn-round"><i class="fa fa-arrow-circle-right"></i></input>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>    
         </div>
-        <script type="text/javascript">
-            function hideFunction(id) {
-                var x = document.getElementById(id);
-                if (x.style.display === "none") {
-                    x.style.display = "block";
-                } else {
-                    x.style.display = "none";
-                }
-            }
-        </script>
 <?php endforeach;endif; ?>
-<script src="<?php echo base_url() ?>assets/2.0/jquery.js"></script>
-<script src="<?php echo base_url() ?>assets/vendors/jquery/dist/jquery-ui.js"></script>
 <script src="<?php echo base_url() ?>assets/2.0/js/dropify/js/dropify.min.js"></script>
 <script type="text/javascript">
+    function hideFunction(id) {
+        var x = document.getElementById(id);
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
     $('.dropify').dropify();
     $("#show").click(function(){
         $('#aso').css('display','block');
