@@ -269,30 +269,17 @@ class Class_model extends CI_Model {
 	public function posting($image,$document)
 	{
 		$classid = $this->getClassData()->classid;
-		$lesson = $this->getLessonNow()->lessonid;
 
-		if ($lesson == NULL) {
-			$object = array(
-					'classid' => $classid,
-					'userid' => $this->session->userdata('uid'),
-					'creat' => date('Y-m-d H:i'),
-					'content' => $this->input->post('content'),
-					'img' => $image['file_name'],
-					'doc' => $document['file_name']
-				);
-			$this->db->insert('userpost', $object);
-		} else {
-			$object = array(
-					'classid' => $classid,
-					'lessonid' => $lesson,
-					'userid' => $this->session->userdata('uid'),
-					'creat' => date('Y-m-d H:i'),
-					'content' => $this->input->post('content'),
-					'img' => $image['file_name'],
-					'doc' => $document['file_name']
-				);
-			$this->db->insert('userpost', $object);
-		}
+		$object = array(
+				'classid' => $classid,
+				'lessonid' => $this->input->post('lessonpick'),
+				'userid' => $this->session->userdata('uid'),
+				'creat' => date('Y-m-d H:i'),
+				'content' => $this->input->post('content'),
+				'img' => $image['file_name'],
+				'doc' => $document['file_name']
+			);
+		$this->db->insert('userpost', $object);
 
 		if ($this->db->affected_rows()) {
 			return TRUE;

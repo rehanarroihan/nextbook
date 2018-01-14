@@ -25,6 +25,14 @@
                 <span><b><?php echo $this->session->userdata('dspname'); ?></b></span>
             <form style="margin: 1.5%" method="post" id="post" action="<?php echo base_url();?>aclass/saveposting" enctype="multipart/form-data">
                 <div class="form-group">
+                    <select class="form-control" name="lessonpick">
+                        <?php foreach($lessonpick as $pick):?>
+                            <option value="<?php echo $pick->lessonid;?>" <?php if($pick->lessonid == $lessonnowid):?> selected<?php endif;?>><?php echo $pick->lesson;?></option>
+                        <?php endforeach;?>
+                            <option value="0" <?php if($lessonnowid == 0):?> selected <?php endif;?>>other</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <textarea class="form-control" rows="4" name="content" style="border: none" placeholder="Write a post..."></textarea>
                 </div>
                 <div class="row" id="aso" style="display: none">

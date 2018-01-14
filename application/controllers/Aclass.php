@@ -160,8 +160,10 @@ class Aclass extends CI_Controller {
 
 		if (count($this->Class_model->getLessonNow()) > 0) {
 			$data['lesson'] = $this->Class_model->getLessonNow()->lesson;
+			$data['lessonnowid'] = $this->Class_model->getLessonNow()->lessonid;
 		}else{
 			$data['lesson'] = 'Tidak Ada';
+			$data['lessonnowid'] = 0;
 		}
 
 		if (count($this->Class_model->getNextLesson()) > 0) {
@@ -171,6 +173,8 @@ class Aclass extends CI_Controller {
 			$data['nextlesson'] = 'Tidak Ada';
 			$data['nextlessonTime'] = "";
 		}
+
+		$data['lessonpick'] = $this->Class_model->getLessonList();
 
 		$data['interface'] = $this->Setting_model->get_interface();
 		$data['detail'] = $this->Profile_model->getProfileDetail();
