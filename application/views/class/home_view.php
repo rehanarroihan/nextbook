@@ -1,3 +1,4 @@
+<script src="<?php echo base_url() ?>assets/2.0/js/dropify/js/dropify.min.js"></script>
 <link rel="stylesheet" href="<?php echo base_url() ?>assets/2.0/js/dropify/css/dropify.min.css">
 <div class="card" style="margin-top:-10px;padding:10px;background:#B3E5FC">
     <div class="row" style="margin-bottom:-13px;margin-top:-5px ">
@@ -57,7 +58,7 @@
         </div>
     </div>
 </div>
-<?php if(isset($upost)): foreach ($upost as $posting): ?>
+<?php foreach ($upost as $posting): ?>
         <div class="card" style="margin-top:-10px">
             <div style="margin: 2%;padding-top: 2%;padding-bottom: 2%">
                 <?php if ($posting->oauth_provider == 'facebook'): ?>
@@ -202,15 +203,14 @@
                                 <input style="border-top-left-radius:20px;border-bottom-left-radius:20px;border-top-right-radius:20px;border-bottom-right-radius:20px;" type="text" name="gocomment" placeholder="Post comment as <?php echo $this->session->userdata('dspname'); ?>" class="form-control col-md-3" required>
                             </td>
                             <td width="4%" class="text-center">
-                                <input type="submit" class="btn btn-primary btn-fill btn-md btn-round"><i class="fa fa-arrow-circle-right"></i></input>
+                                <button type="submit" class="btn btn-primary btn-fill btn-md btn-round"><i class="fa fa-arrow-circle-right"></i></button>
                             </td>
                         </tr>
                     </table>
                 </form>
             </div>    
         </div>
-<?php endforeach;endif; ?>
-<script src="<?php echo base_url() ?>assets/2.0/js/dropify/js/dropify.min.js"></script>
+<?php endforeach;?>
 <script type="text/javascript">
     function hideFunction(id) {
         var x = document.getElementById(id);

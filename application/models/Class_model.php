@@ -290,7 +290,7 @@ class Class_model extends CI_Model {
 
 	public function getUpost()
 	{
-		$classid = $this->getClassData()->classid;
+		$classid = $this->getClassID();
 		$lesson = $this->getLessonList();
 		if (count($lesson) > 0) {
 			return $this->db->where('userpost.classid',$classid)
@@ -310,13 +310,13 @@ class Class_model extends CI_Model {
 
 	public function getUpostSearch($like)
 	{
-		$classid = $this->getClassData()->classid;
+		$classid = $this->getClassID();
 		$lesson = $this->getLessonList();
 		if (count($lesson) > 0) {
 			return $this->db->where('userpost.classid',$classid)
 							->like('userpost.content',$like)
-							->or_like('userpost.doc', $this->input->get('search'))
-							->or_like('userpost.img', $this->input->get('search'))
+							->or_like('userpost.doc', $like)
+							->or_like('userpost.img', $like)
 							->order_by('userpost.creat', 'DESC')
 				 			->join('user','user.uid = userpost.userid')
 				 			->join('lesson','lesson.lessonid = userpost.lessonid', 'left')
@@ -325,8 +325,8 @@ class Class_model extends CI_Model {
 		} else {
 			return $this->db->where('userpost.classid',$classid)
 							->like('userpost.content',$like)
-							->or_like('userpost.doc', $this->input->get('search'))
-							->or_like('userpost.img', $this->input->get('search'))
+							->or_like('userpost.doc', $like)
+							->or_like('userpost.img', $like)
 							->order_by('userpost.creat', 'DESC')
 				 			->join('user','user.uid = userpost.userid', 'left')
 				 			->get('userpost')
@@ -355,7 +355,7 @@ class Class_model extends CI_Model {
 
 	public function getLessonPost($lessonid)
 	{
-		$classid = $this->getClassData()->classid;
+		$classid = $this->getClassID();
 		return $this->db->where('userpost.classid',$classid)
 						->where('userpost.lessonid', $lessonid)
 						->join('user','user.uid = userpost.userid')
@@ -364,14 +364,12 @@ class Class_model extends CI_Model {
 				 		->result();
 	}
 
-	public function getLessonPostSearch($lessonid)
+	public function getLessonPostSearch($lessonid,$search)
 	{
-		$classid = $this->getClassData()->classid;
-		return $this->db->where('userpost.classid',$classid)
-						->where('userpost.lessonid', $lessonid)
-						->like('userpost.content', $this->input->get('search'))
-						->or_like('userpost.doc', $this->input->get('search'))
-						->or_like('userpost.img', $this->input->get('search'))
+		$classid = $this->getClassID();
+		return $this->db->where('userpost.lessonid', $lessonid)
+						->where('userpost.classid',$classid)
+						->like('userpost.content', $search)
 						->join('user','user.uid = userpost.userid')
 						->order_by('userpost.creat','DESC')
 						->get('userpost')

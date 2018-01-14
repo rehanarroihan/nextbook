@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-md-8">
         <div class="card">
@@ -18,7 +19,7 @@
                     </span>Member
                 </button>
                 <?php if($classdata->created_by == $this->session->userdata('uid')): ?>
-                <button type="button" id="navadmin" class="btn btn-info btn-wd classnav">
+                <button type="button" id="navsetting" class="btn btn-info btn-wd classnav">
                     <span class="btn-label">
                         <i class="fa fa-cog"></i>
                     </span>Group Setting
@@ -27,8 +28,8 @@
             </div>
         </div>
 
-        <!-- <div id="masok"></div> -->
         <div id="uem">
+               
         </div>
 
         <img src="<?php echo base_url() ?>assets/2.0/img/load2.gif" id="load" style="height:200px;opacity: 0.2;display:none" class="center-block">
@@ -78,8 +79,6 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="<?php echo base_url() ?>assets/vendors/jquery/dist/jquery-ui.js"></script>
 <script type="text/javascript">
         //Class view main
 
@@ -87,16 +86,27 @@
     var url = "<?php echo base_url() ?>";
 
     $(document).ready(function() {
-        //console.log("<?php echo isset($third_view) ? $third_view : 'home' ?>");
+        console.log('<?php echo isset($third_view) ? $third_view : 'home' ?>');
         var cokkk = "<?php echo isset($third_view) ? $third_view : 'home' ?>";
+        var search =  "<?php echo isset($bsearch) ? $bsearch : '' ?>"
+        var value = {
+            'fckisrael': 'truuu',
+            'search': search
+        };
+
+        var ntod = $(this).serialize() + "&" + $.param(value);
+        console.log(value);
+    //var cokkk = "<?php //echo $this->load->view($third_view);?>";
+    //console.log(cokkk);
+    //$('#uem').html("<?php //print_r($this->load->view($third_view)); ?>");
         console.log(cokkk);
         $('#nav' + cokkk).addClass("btn-fill");
-        //window.history.pushState("", "", "<?php echo base_url(); ?>aclass/" + cokkk);
+        //window.history.pushState("", "", "<?php //echo base_url(); ?>aclass/" + cokkk);
         $.ajax({
             url: url + "aclass/" + cokkk,
             type: "POST",
-            cache: false,
-            data: "fckisrael="+"truuu",
+            cache : false,
+            data : "fckisrael=truuu" + "&search=" + search,
             timeout: 9000,
             error: function(jqXHR, textStatus, errorThrown){
                 // if(textStatus==="timeout") {  
@@ -133,11 +143,11 @@
 
     //onClickListener navigasi kelas
     $(".classnav").click(function(){
-        console.log('onrefresh');
+        console.log('<?php echo $third_view ?>');
         <?php if($this->session->userdata('auth') == true): ?>
         var now = $(this).attr("id");
+        var container = "uem";
         noblu();
-        $("#uem").empty();
         $("#load").css('display','block');
         if(now == 'navhome'){
             $('#' + now).addClass("btn-fill");
@@ -155,11 +165,11 @@
                     //     alert("Another error was returned");
                     // }
                     $("#load").css('display','none');
-                    $('#uem').html(textStatus);
+                    $('#'+container).html(textStatus);
                 },
                 success: function(data){
                     $("#load").css('display','none');
-                    $('#uem').html(data);
+                    $('#'+container).html(data);
                 }                
             })
         }else if(now == 'navschedule'){
@@ -178,11 +188,11 @@
                     //     alert("Another error was returned");
                     // }
                     $("#load").css('display','none');
-                    $('#uem').html(textStatus);
+                    $('#'+container).html(textStatus);
                 },
                 success: function(data){
                     $("#load").css('display','none');
-                    $('#uem').html(data);
+                    $('#'+container).html(data);
                 }                
             })
         }else if(now == 'navmember'){
@@ -196,14 +206,14 @@
                 timeout: 9000,
                 error: function(jqXHR, textStatus, errorThrown){
                     $("#load").css('display','none');
-                    $('#uem').html("An error occured, try again later");
+                    $('#'+container).html("An error occured, try again later");
                 },
                 success: function(data){
                     $("#load").css('display','none');
-                    $('#uem').html(data);
+                    $('#'+container).html(data);
                 }   
             })
-        }else if(now == 'navadmin'){
+        }else if(now == 'navsetting'){
             $('#' + now).addClass("btn-fill");
             window.history.pushState("", "", "<?php echo base_url(); ?>aclass/setting");
             $.ajax({
@@ -219,11 +229,11 @@
                     //     alert("Another error was returned");
                     // }
                     $("#load").css('display','none');
-                    $('#uem').html("An error occured, try again later");
+                    $('#'+container).html("An error occured, try again later");
                 },
                 success: function(data){
                     $("#load").css('display','none');
-                    $('#uem').html(data);
+                    $('#'+container).html(data);
                 }                
             })
         }
@@ -237,7 +247,7 @@
         $("#navhome").removeClass("btn-fill");
         $("#navschedule").removeClass("btn-fill");
         $("#navmember").removeClass("btn-fill");
-        $("#navadmin").removeClass("btn-fill");
+        $("#navsetting").removeClass("btn-fill");
         //$("#uem").css('display','none');
     }
 

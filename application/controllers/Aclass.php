@@ -37,7 +37,8 @@ class Aclass extends CI_Controller {
 			$lessonid = $this->uri->segment(3);
 
 			if ($this->input->get('search') != null) {
-				$data['postlesson'] = $this->Class_model->getLessonPostSearch($lessonid);
+				$search = $this->input->get('search');
+				$data['postlesson'] = $this->Class_model->getLessonPostSearch($lessonid,$search);
 				$data['bsearch'] = $this->input->get('search');
 			} else {
 				$data['postlesson'] = $this->Class_model->getLessonPost($lessonid);
@@ -156,8 +157,6 @@ class Aclass extends CI_Controller {
 
 	//Dimensi lain
 	public function home(){
-		$data['allowsearch'] = 'class';
-
 		if (count($this->Class_model->getLessonNow()) > 0) {
 			$data['lesson'] = $this->Class_model->getLessonNow()->lesson;
 			$data['lessonnowid'] = $this->Class_model->getLessonNow()->lessonid;
@@ -179,29 +178,27 @@ class Aclass extends CI_Controller {
 		$data['interface'] = $this->Setting_model->get_interface();
 		$data['detail'] = $this->Profile_model->getProfileDetail();
 
+		// $value = $this->input->post('fckisrael');
+
+		// print_r($value);
+
 		if($this->input->post('fckisrael')){
-			if ($this->input->get('search') != null) {
-				$data['upost'] = $this->Class_model->getUpostSearch($this->input->get('search'));
-				$data['bsearch'] = $this->input->get('search');
+			if ($this->input->post('search') != null) {
+				$data['upost'] = $this->Class_model->getUpostSearch($this->input->post('search'));
+				//print_r($this->input->post('search'));
 			} else {
 				$data['upost'] = $this->Class_model->getUpost();
 			}
-
 			$data['classdata'] = $this->Class_model->getClassData();
 			$this->load->view('class/home_view',$data);
 		}else{
 			if($this->Class_model->isHave() == true){
-				if ($this->input->get('search') != null) {
-					$data['upost'] = $this->Class_model->getUpostSearch($this->input->get('search'));
-					$data['bsearch'] = $this->input->get('search');
-				} else {
-					$data['upost'] = $this->Class_model->getUpost();
-				}
-
+				$data['bsearch'] = $this->input->get('search');
 				$data['primary_view'] = 'class/class_view';
 				$data['classdata'] = $this->Class_model->getClassData();
 				$data['third_view'] = 'home';
 				$data['memberlist'] = $this->Class_model->memberList();
+				$data['allowsearch'] = 'class';
 			}else{
 				$data['primary_view'] = 'class/no_class_view';
 			}

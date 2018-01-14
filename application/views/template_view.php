@@ -44,6 +44,10 @@
 </head>
 <body>
 
+<!--   Core JS Files   -->
+<script src="<?php echo base_url() ?>assets/2.0/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url() ?>assets/2.0/js/bootstrap.min.js" type="text/javascript"></script>
+
 <div class="wrapper">
     <div class="sidebar" data-color="<?php echo $interface->color;?>" data-image="<?php echo base_url() ?>assets/2.0/img/<?php echo $interface->image;?>">
     <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
@@ -220,9 +224,7 @@
 
 </body>
 
-    <!--   Core JS Files   -->
-    <script src="<?php echo base_url() ?>assets/2.0/js/jquery.3.2.1.min.js" type="text/javascript"></script>
-    <script src="<?php echo base_url() ?>assets/2.0/js/bootstrap.min.js" type="text/javascript"></script>
+    
 
     <script type="text/javascript" src="<?php echo base_url() ?>assets/2.0/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/2.0/js/locales/bootstrap-datetimepicker.id.js" charset="UTF-8"></script>
