@@ -51,7 +51,7 @@
                     </div>
                 </div><hr>
                 <div class="form-group" style="margin-bottom:-15px;margin-top: -15px">
-                    <div class="btn btn-success btn-fill btn-sm" id="show"><i class="fa fa-plus"></i> Add Photo/File</div>
+                    <div class="btn btn-success btn-fill btn-sm" id="show"><i class="fa fa-plus" onclick="myFunction()"></i> Add Photo/File</div>
                     <input type="submit" value="Post" name="posting" class="btn btn-primary btn-fill pull-right btn-sm">
                 </div>
             </form>
@@ -212,18 +212,24 @@
         </div>
 <?php endforeach;?>
 <script type="text/javascript">
-    function hideFunction(id) {
-        var x = document.getElementById(id);
+    // function myFunction() {
+    //     var x = document.getElementById("aso");
+    //     if (x.style.display === "none") {
+    //         x.style.display = "block";
+    //     } else {
+    //         x.style.display = "none";
+    //     }
+    // }
+
+
+    $('.dropify').dropify();
+    $("#show").click(function(){
+        var x = document.getElementById("aso");
         if (x.style.display === "none") {
             x.style.display = "block";
         } else {
             x.style.display = "none";
         }
-    }
-
-    $('.dropify').dropify();
-    $("#show").click(function(){
-        $('#aso').css('display','block');
     });
 
     //Fungsi unenroll

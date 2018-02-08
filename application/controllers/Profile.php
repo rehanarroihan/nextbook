@@ -88,6 +88,10 @@ class Profile extends CI_Controller {
 		}
 	}
 
+	public function test(){
+		echo $_SERVER['DOCUMENT_ROOT'];
+	}
+
 }
 
 /* End of file Profile.php */
