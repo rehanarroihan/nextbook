@@ -72,12 +72,12 @@
         <div class="row" style="margin-top:-19px;padding-left:20px;padding-right:20px">
             <div class="col s12 m7 l6 offset-l3 offset-m3">
                 <div class="row">
-                    <!-- <a href="<?php //echo $loginURL; ?>" class="btn waves-effect col s12 m12 l12 waves-light right red" type="button" name="action">Login with google account
+                    <a onclick="gLogin()" class="btn waves-effect col s12 m12 l12 waves-light right red" type="button" name="action">Login with google account
                         <i class="material-icons left">send</i>
-                    </a> -->
+                    </a>
                 </div>
                 <div class="row" style="margin-top:-14px">
-                    <a href="<?php echo $authUrl?>" class="btn waves-effect col s12 m12 l12 waves-light right blue darken-3" name="action">Login with facebook account
+                    <a onclick="fbLogin()" class="btn waves-effect col s12 m12 l12 waves-light right blue darken-3" name="action">Login with facebook account
                         <i class="material-icons left">send</i>
                     </a>
                 </div>
@@ -156,6 +156,58 @@
             });
             event.preventDefault();
         }
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+    <script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCh4Am7ChAvDq4zeTW62T-DRoB782-0l6I",
+        authDomain: "nextbook-db721.firebaseapp.com",
+        databaseURL: "https://nextbook-db721.firebaseio.com",
+        projectId: "nextbook-db721",
+        storageBucket: "nextbook-db721.appspot.com",
+        messagingSenderId: "729292691619"
+    };
+    firebase.initializeApp(config);
+
+    function fbLogin(){
+        var provider = new firebase.auth.FacebookAuthProvider();
+        provider.addScope('email');
+        firebase.auth().useDeviceLanguage();
+        provider.setCustomParameters({
+            'display': 'popup'
+        });
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+            var token = result.credential.accessToken;
+            var user = result.user;
+            console_log(user);
+        }).catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            var email = error.email;
+            var credential = error.credential;
+        });
+    }
+
+    function gLogin(){
+        var provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+        firebase.auth().useDeviceLanguage();
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+            var token = result.credential.accessToken;
+            var user = result.user;
+            console.log(user);
+        }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+        });
+    }
     </script>
 </body>
 
